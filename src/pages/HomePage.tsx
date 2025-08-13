@@ -1,0 +1,616 @@
+import {
+  ArrowRight,
+  Users,
+  TrendingUp,
+  Shield,
+  Target,
+  MapPin,
+  Phone,
+  Mail,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Instagram,
+  Send,
+} from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import dubaiCityscape from "../assets/business-banner@2x.jpg";
+import dubaiCityscapeRed from "../assets/lookingforsupportimage.jpg";
+import agricultureImage from "../assets/agric.jpg";
+import realEstate from "../assets/real-estate-1536x990.jpg";
+import hospitalFacilities from "../assets/hospital-facilities-1367x2048.jpg";
+import logo from "../assets/logo.png";
+import Navigation from "@/components/Navigation";
+import { Link } from "react-router";
+const HomePage = () => {
+  const [emailSubscription, setEmailSubscription] = useState("");
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle newsletter subscription
+    console.log("Newsletter subscription:", emailSubscription);
+    setEmailSubscription("");
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Navigation */}
+      <Navigation />
+
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url(${dubaiCityscape})`,
+          }}
+        >
+          <div className="absolute inset-0 bg-black/40"></div>
+        </div>
+
+        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+            Finance Teque
+            <br />
+            Investment Growth.
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto opacity-90">
+            We're focused on investing in growing companies in the technology
+            and consumer sectors, delivering attractive outcomes in our favored
+            segments.
+          </p>
+          <div className="flex gap-4 items-center justify-center">
+            <Link to={"/about"}>
+              <Button
+                size="lg"
+                className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white px-8 py-4 text-lg"
+              >
+                Learn More
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to={"/plans"}>
+              <Button
+                size="lg"
+                className="cursor-pointer bg-transparent border border-white hover:bg-black text-white px-8 py-4 text-lg"
+              >
+                View Plans
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Story Section */}
+      <section id="about" className="py-20 bg-brand-primary text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold mb-6">Our story</h2>
+            </div>
+            <div className="space-y-6">
+              <p className="text-2xl opacity-95">
+                Finance Teque Investment Growth invests primarily in equities
+                and as such seeks to provide superior long-term protection
+                against inflation to investors with a high-risk appetite. The
+                high risk of equities is lowered by also investing in fixed
+                income securities, which provide a fairly predictable income
+                stream and easy access to your money.
+              </p>
+              <Link to={"/contact"}>
+                <Button
+                  variant="outline"
+                  className="cursor-pointer border-white text-brand-primary hover:bg-black/50 hover:text-white mt-6"
+                >
+                  Contact Us
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio Section */}
+      <section id="portfolio" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="lg:relative lg:w-[500px] lg:h-[400px] w-full grid gap-4">
+              {/* Real Estate Image (Top Left) */}
+              <img
+                src={realEstate}
+                alt="Global investment opportunities"
+                className="lg:absolute top-[30px] left-0 lg:w-[200px]  lg:h-[120px]   object-cover rounded-lg shadow-2xl w-full h-[200px] md:h-[250px]"
+              />
+              {/* Hospital Facilities Image (Top Right) */}
+              <div className="grid grid-cols-2 gap-4">
+                <img
+                  src={hospitalFacilities}
+                  alt="Innovation in finance"
+                  className="lg:absolute top-0 right-[20px] lg:w-[200px]  lg:h-[250px]   object-cover rounded-lg shadow-2xl h-[250px] w-full"
+                />
+                {/* Agriculture Image (Bottom Left, overlapping) */}
+                <img
+                  src={agricultureImage}
+                  alt="Sustainable investments"
+                  className="lg:absolute left-[100px]  top-[160px] lg:w-[200px]  lg:h-[300px]  object-cover rounded-lg shadow-2xl h-[250px] w-full"
+                />
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wide">
+                Competitive Returns
+              </h3>
+              <h2 className="text-3xl font-bold mb-6 text-brand-dark">
+                The Fund aims to provide competitive returns comparable to
+                conventional investments with a stronger growth profile.
+              </h2>
+
+              <div className="space-y-4 mb-8">
+                <div>
+                  <h4 className="font-semibold mb-2">Investment Outlook</h4>
+                  <p className="text-muted-foreground">
+                    Suitable for investing towards long term goals such as
+                    housing and education.
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold mb-2">Inclusive</h4>
+                  <p className="text-muted-foreground">
+                    The Fund is certified annually for Shari'ah compliance and
+                    is excellent for investors with faith-based or ethical
+                    preferences.
+                  </p>
+                </div>
+              </div>
+              <Link to={"/plans"}>
+                <Button className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white">
+                  View Investment Plans
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Key Milestones & Achievements Section */}
+      <section
+        id="achievements"
+        className="py-16 sm:py-20 bg-gray-900 text-white"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 leading-tight">
+                Finance Teque focuses on investing in growing companies at their
+                earliest operational stage.
+              </h2>
+
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+                <Link to={"/team"}>
+                  <Button className="cursor-pointer w-full sm:w-auto bg-brand-primary hover:bg-brand-primary-dark text-white px-6 sm:px-8">
+                    Meet Our Team
+                  </Button>
+                </Link>
+                <Link to={"/about"}>
+                  <Button
+                    variant="outline"
+                    className="cursor-pointer w-full sm:w-auto border-white text-gray-900 hover:bg-transparent hover:text-white px-6 sm:px-8"
+                  >
+                    Learn More
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Achievement Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            <Card className="bg-gray-800 border-gray-700 hover:bg-gray-750 transition-colors duration-200">
+              <CardContent className="p-4 sm:p-6 text-center">
+                <div className="mb-4 sm:mb-6">
+                  <Users className="h-10 w-10 sm:h-12 sm:w-12 text-brand-secondary mx-auto" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-white">
+                  Expert Team
+                </h3>
+                <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                  Seasoned professionals with decades of investment experience
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gray-800 border-gray-700 hover:bg-gray-750 transition-colors duration-200">
+              <CardContent className="p-4 sm:p-6 text-center">
+                <div className="mb-4 sm:mb-6">
+                  <TrendingUp className="h-10 w-10 sm:h-12 sm:w-12 text-brand-secondary mx-auto" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-white">
+                  Growth Investment
+                </h3>
+                <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                  Strategic investments in high-growth technology companies
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gray-800 border-gray-700 hover:bg-gray-750 transition-colors duration-200">
+              <CardContent className="p-4 sm:p-6 text-center">
+                <div className="mb-4 sm:mb-6">
+                  <Shield className="h-10 w-10 sm:h-12 sm:w-12 text-brand-secondary mx-auto" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-white">
+                  Risk Management
+                </h3>
+                <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                  Comprehensive risk assessment and portfolio diversification
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gray-800 border-gray-700 hover:bg-gray-750 transition-colors duration-200">
+              <CardContent className="p-4 sm:p-6 text-center">
+                <div className="mb-4 sm:mb-6">
+                  <Target className="h-10 w-10 sm:h-12 sm:w-12 text-brand-secondary mx-auto" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-white">
+                  Strategic Focus
+                </h3>
+                <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                  Targeted investments in emerging technology sectors
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Ethics Section */}
+      <section className="py-16 bg-gray-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-4 text-brand-dark">
+            Finance Teque Ethical Investment is an open-ended mutual fund
+            suitable for investors
+          </h2>
+          <p className="text-muted-foreground text-lg mb-6">
+            Our commitment to ethical investing ensures that your portfolio
+            aligns with your values while delivering strong returns.
+          </p>
+          <div className="flex flex-col md:flex-row gap-4 justify-center">
+            <Link to={"/plans"}>
+              <Button className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white">
+                Explore Ethical Investment Plan
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to={"/shariah"}>
+              <Button
+                variant="outline"
+                className="cursor-pointer border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white"
+              >
+                Shari'ah Compliance
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 relative overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${dubaiCityscapeRed})`,
+          }}
+        >
+          <div className="absolute inset-0 bg-black/50"></div>
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+          <div className="mb-8">
+            <div className="w-24 h-24 bg-brand-primary rounded-full mx-auto mb-6 flex items-center justify-center">
+              <Users className="h-12 w-12 text-white" />
+            </div>
+          </div>
+
+          <h2 className="text-4xl font-bold mb-6">Looking for a support?</h2>
+          <p className="text-xl mb-8 opacity-90">
+            Looking for collaboration? Send an
+            <br />
+            email and describe your project.
+          </p>
+          <Link to={"/contact"}>
+            <Button
+              size="lg"
+              className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white px-8 py-4"
+            >
+              Contact Us
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+        </div>
+      </section>
+
+      {/* Enhanced Footer */}
+      <footer className="bg-gray-900 text-white">
+        {/* Newsletter Section */}
+        <div className="bg-brand-primary py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <div className="text-center md:text-left mb-6 md:mb-0">
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  Stay Updated
+                </h3>
+                <p className="text-white/90">
+                  Get the latest investment insights and market updates
+                  delivered to your inbox.
+                </p>
+              </div>
+              <form
+                onSubmit={handleNewsletterSubmit}
+                className="flex flex-col md:flex-row gap-3 w-full md:w-auto"
+              >
+                <Input
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={emailSubscription}
+                  onChange={(e) => setEmailSubscription(e.target.value)}
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60 min-w-80"
+                  required
+                />
+                <Button
+                  type="submit"
+                  className="cursor-pointer bg-white text-brand-primary hover:bg-gray-100 flex-shrink-0"
+                >
+                  <Send className="h-4 w-4 mr-2" />
+                  Subscribe
+                </Button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Footer Content */}
+        <div className="py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+              {/* Company Info */}
+              <div className="lg:col-span-2">
+                <div className="flex items-center space-x-3 mb-6">
+                  <img
+                    src={logo}
+                    alt="Finance Teque Logo"
+                    className="h-12 w-auto"
+                  />
+                  <h3 className="font-bold text-xl">Finance Teque</h3>
+                </div>
+                <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                  Investment growth through strategic technology partnerships
+                  and innovative financial solutions. We specialize in ethical
+                  investing that aligns with your values while delivering
+                  competitive returns.
+                </p>
+
+                {/* Contact Information */}
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center space-x-3">
+                    <MapPin className="h-4 w-4 text-brand-primary flex-shrink-0" />
+                    <span className="text-gray-400 text-sm">
+                      Fatima Plaza, Second Floor, Murtala Muhammad Way, Kano,
+                      Nigeria
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <Phone className="h-4 w-4 text-brand-primary flex-shrink-0" />
+                    <span className="text-gray-400 text-sm">
+                      (+234) 9165717392
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <Mail className="h-4 w-4 text-brand-primary flex-shrink-0" />
+                    <span className="text-gray-400 text-sm">
+                      info@financeteque.com
+                    </span>
+                  </div>
+                </div>
+
+                {/* Social Media Links */}
+                <div className="flex space-x-4">
+                  <a
+                    href="#"
+                    className="w-10 h-10 bg-gray-800 hover:bg-brand-primary rounded-full flex items-center justify-center transition-colors"
+                  >
+                    <Linkedin className="h-5 w-5" />
+                  </a>
+                  <a
+                    href="#"
+                    className="w-10 h-10 bg-gray-800 hover:bg-brand-primary rounded-full flex items-center justify-center transition-colors"
+                  >
+                    <Facebook className="h-5 w-5" />
+                  </a>
+                  <a
+                    href="#"
+                    className="w-10 h-10 bg-gray-800 hover:bg-brand-primary rounded-full flex items-center justify-center transition-colors"
+                  >
+                    <Twitter className="h-5 w-5" />
+                  </a>
+                  <a
+                    href="#"
+                    className="w-10 h-10 bg-gray-800 hover:bg-brand-primary rounded-full flex items-center justify-center transition-colors"
+                  >
+                    <Instagram className="h-5 w-5" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Company Links */}
+              <div>
+                <h4 className="font-semibold mb-4 text-brand-primary">
+                  Company
+                </h4>
+                <ul className="space-y-3 text-sm text-gray-400">
+                  <li>
+                    <Link to={"/about"}>
+                      <button className="cursor-pointer hover:text-white transition-colors text-left">
+                        About Us
+                      </button>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={"/team"}>
+                      <button className="cursor-pointer hover:text-white transition-colors text-left">
+                        Our Team
+                      </button>
+                    </Link>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Careers
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      News & Updates
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Awards
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Investment Services */}
+              <div>
+                <h4 className="font-semibold mb-4 text-brand-primary">
+                  Investment Services
+                </h4>
+                <ul className="space-y-3 text-sm text-gray-400">
+                  <li>
+                    <Link
+                    to={"/plans"}>
+                    <button
+                      className="hover:text-white transition-colors text-left"
+                    >
+                      Investment Plans
+                    </button>
+
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                    to={"/shariah"}> 
+                    <button
+                      className="hover:text-white transition-colors text-left"
+                    >
+                      Shari'ah Compliance
+                    </button>
+                    </Link>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Portfolio Management
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Financial Advisory
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Risk Assessment
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Resources & Support */}
+              <div>
+                <h4 className="font-semibold mb-4 text-brand-primary">
+                  Resources & Support
+                </h4>
+                <ul className="space-y-3 text-sm text-gray-400">
+                  <li>
+                    <Link
+                    to={"/contact"}>
+
+                    <button
+                      className="hover:text-white transition-colors text-left"
+                    >
+                      Contact Us
+                    </button>
+
+                    </Link>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Help Center
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Investment Guides
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Market Reports
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      FAQ
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Privacy Policy
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Terms of Service
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="border-t border-gray-800 py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <div className="text-center md:text-left mb-4 md:mb-0">
+                <p className="text-gray-400 text-sm">
+                  &copy; {new Date().getFullYear()} Finance Teque Investment Growth. All rights
+                  reserved.
+                </p>
+                <p className="text-gray-500 text-xs mt-1">
+                  Licensed and regulated financial services provider
+                </p>
+              </div>
+              <div className="flex items-center space-x-6 text-xs text-gray-500">
+                <span>SEC Registered</span>
+                <span>•</span>
+                <span>SIPC Protected</span>
+                <span>•</span>
+                <span>ISO 27001 Certified</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default HomePage;
