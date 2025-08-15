@@ -13,6 +13,9 @@ import {
 } from "lucide-react";
 import dubaiCityscape from "../assets/business-banner@2x.jpg";
 import Navigation from "@/components/Navigation";
+import { Link } from "react-router";
+import ModalButton from "@/components/ModalButton";
+import { Toaster } from "sonner";
 export function InvestmentPlansPage() {
   const investmentPlans = [
     {
@@ -115,7 +118,7 @@ export function InvestmentPlansPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation  */}
-      <Navigation/>
+      <Navigation />
       {/* Banner Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div
@@ -242,7 +245,7 @@ export function InvestmentPlansPage() {
       </section>
 
       {/* Comparison Section */}
-      <section className="py-20 bg-gray-50">
+      <section id="comparison" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6 text-brand-dark">
@@ -254,8 +257,8 @@ export function InvestmentPlansPage() {
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full bg-white rounded-lg shadow-lg overflow-hidden">
+          <div className="overflow-x-auto shadow-sm">
+            <table className="w-full bg-white rounded-lg shadow-lg overflow-hidden ">
               <thead className="bg-brand-primary text-white">
                 <tr>
                   <th className="px-6 py-4 text-left font-semibold">
@@ -419,23 +422,33 @@ export function InvestmentPlansPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-white text-brand-primary hover:bg-gray-100 px-8 py-4"
-            >
-              Schedule a Consultation
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+           <ModalButton
+           text="Schedule a Consultation"
+           />
             <Button
               size="lg"
               variant="outline"
               className="border-white text-brand-primary hover:bg-transparent hover:text-white px-8 py-4"
+              onClick={() => {
+                const comparisonSection = document.getElementById("comparison");
+                if (comparisonSection) {
+                  comparisonSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }
+              }}
             >
               Compare All Plans
             </Button>
           </div>
         </div>
       </section>
+  <Toaster
+        className="text-base"
+        position="top-right"
+        duration={3000}
+      />
     </div>
   );
 }

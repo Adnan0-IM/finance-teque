@@ -36,6 +36,7 @@ const Navigation = () => {
             <div className="hidden md:flex items-center space-x-8">
               {navLinks.map((link) => (
                 <NavLink
+                  key={link.title}
                   to={link.path}
                   className={({ isActive }) =>
                     `transition-colors ${
@@ -104,15 +105,14 @@ const Navigation = () => {
               <div className="flex-1 px-6 py-8">
                 <nav className=" flex flex-col space-y-2">
                   <NavLink
-                  to={"/"}
-                  
-                      className={({ isActive }) =>
-                        `w-full text-left px-4 py-3 rounded-lg text-lg transition-colors ${
-                          isActive
-                            ? "text-brand-primary bg-brand-light font-medium"
-                            : "text-foreground hover:bg-gray-50"
-                        }`
-                      }
+                    to={"/"}
+                    className={({ isActive }) =>
+                      `w-full text-left px-4 py-3 rounded-lg text-lg transition-colors ${
+                        isActive
+                          ? "text-brand-primary bg-brand-light font-medium"
+                          : "text-foreground hover:bg-gray-50"
+                      }`
+                    }
                   >
                     Home
                   </NavLink>

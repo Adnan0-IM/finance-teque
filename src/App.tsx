@@ -5,7 +5,7 @@ import { InvestmentPlansPage } from "./pages/InvestmentPlansPage";
 import { ShariahCompliancePage } from "./pages/ShariahCompliancePage";
 import { ContactPage } from "./pages/ContactPage";
 import { TeamPage } from "./pages/TeamPage";
-
+import Navigation from "./components/Navigation";
 export default function App() {
   return (
     <Router>
@@ -23,7 +23,10 @@ export default function App() {
 }
 
 const NotFoundPage = () => {
-  return <div className="min-h-screen flex items-center justify-center">
-    <h1 className="text-4xl font-bold">404 - Not Found</h1>
-  </div>;
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <Navigation />
+      <h1 className="text-4xl font-bold">404 - Not Found</h1>
+    </div>
+  );
 };

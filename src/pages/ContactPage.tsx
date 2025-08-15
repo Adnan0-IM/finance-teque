@@ -19,6 +19,8 @@ import {
 import dubaiCityscape from "../assets/business-banner@2x.jpg";
 
 import Navigation from "@/components/Navigation";
+import ModalButton from "@/components/ModalButton";
+import { Toaster } from "@/components/ui/sonner";
 export function ContactPage() {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -53,7 +55,7 @@ export function ContactPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation  */}
-      <Navigation/>
+      <Navigation />
       {/* Header Section */}
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div
@@ -75,7 +77,7 @@ export function ContactPage() {
       </section>
 
       {/* Contact Content Section */}
-      <section className="py-20 bg-white">
+      <section id="contact" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Contact Form */}
@@ -407,17 +409,20 @@ export function ContactPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-white text-primary hover:bg-gray-100 px-8 py-4"
-            >
-              Schedule Consultation
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <ModalButton text="Schedule a Consultation" />
             <Button
               size="lg"
               variant="outline"
               className="border-white text-primary hover:bg-transparent hover:text-white px-8 py-4"
+              onClick={() => {
+                const contactSection = document.getElementById("contact");
+                if (contactSection) {
+                  contactSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }
+              }}
             >
               Call Us Now
               <Phone className="ml-2 h-5 w-5" />
@@ -425,6 +430,11 @@ export function ContactPage() {
           </div>
         </div>
       </section>
+      <Toaster
+        className="text-base"
+        position="top-right"
+        duration={3000}
+      />
     </div>
   );
 }

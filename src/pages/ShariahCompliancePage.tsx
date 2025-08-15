@@ -21,6 +21,8 @@ import {
 } from "lucide-react";
 import dubaiCityscape from "../assets/business-banner@2x.jpg";
 import Navigation from "@/components/Navigation";
+import ModalButton from "@/components/ModalButton";
+import { Toaster } from "sonner";
 export function ShariahCompliancePage() {
   const complianceFeatures = [
     {
@@ -106,10 +108,21 @@ export function ShariahCompliancePage() {
     },
   ];
 
+  const handleDownload = () => {
+    // Replace with your actual brochure file path
+    const shariahGuide = "/investing-in-alignment-with-shariah-values.pdf";
+    const link = document.createElement("a");
+    link.href = shariahGuide;
+    link.download = "FinanceTeque-Shariah-Guide.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation  */}
-      <Navigation/>
+      <Navigation />
       {/* Banner Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div
@@ -552,17 +565,12 @@ export function ShariahCompliancePage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-white text-primary hover:bg-gray-100 px-8 py-4"
-            >
-              Schedule Consultation
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <ModalButton text="Schedule a Consultation" />
             <Button
               size="lg"
               variant="outline"
               className="border-white text-primary hover:bg-transparent hover:text-white px-8 py-4"
+              onClick={handleDownload}
             >
               Download Shari'ah Guide
             </Button>
@@ -576,6 +584,7 @@ export function ShariahCompliancePage() {
           </div>
         </div>
       </section>
+      <Toaster className="text-base" position="top-right" duration={3000} />
     </div>
   );
 }

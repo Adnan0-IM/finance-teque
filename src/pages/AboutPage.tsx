@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import {
@@ -15,8 +16,21 @@ import dubaiCityscapeRed from "../assets/lookingforsupportimage.jpg";
 import agricultureImage from "../assets/agric.jpg";
 import Navigation from "@/components/Navigation";
 import { Link } from "react-router";
+import { Toaster } from "@/components/ui/sonner";
+import ModalButton from "@/components/ModalButton";
 
 export function AboutPage() {
+  const handleDownload = () => {
+    // Replace with your actual brochure file path
+    const brochureUrl = "/brochure.pdf";
+    const link = document.createElement("a");
+    link.href = brochureUrl;
+    link.download = "FinanceTeque-Brochure.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -426,23 +440,28 @@ export function AboutPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
+            <ModalButton
               className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark px-8 py-4 text-white"
-            >
-              Schedule a Consultation
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+              text="Schedule a Consultation"
+            />
             <Button
               size="lg"
               variant="outline"
               className="cursor-pointer border-white text-gray-900 hover:bg-transparent hover:text-white px-8 py-4"
+              onClick={handleDownload}
             >
               Download Our Brochure
             </Button>
           </div>
         </div>
       </section>
+      <Toaster
+        className="text-base "
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
     </div>
   );
 }

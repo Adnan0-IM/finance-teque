@@ -12,6 +12,8 @@ import {
 import { ImageWithFallback } from "../components/ImageWithFallback";
 import dubaiCityscape from "../assets/business-banner@2x.jpg";
 import Navigation from "@/components/Navigation";
+import ModalButton from "@/components/ModalButton";
+import { Toaster } from "sonner";
 export function TeamPage() {
   const teamMembers = [
     {
@@ -349,15 +351,13 @@ export function TeamPage() {
             discover how we can help achieve your financial goals.
           </p>
 
-          <Button
-            size="lg"
+          <ModalButton
             className="cursor-pointer bg-primary hover:bg-primary/70 border px-8 py-4 text-primary-foreground"
-          >
-            Schedule a Consultation
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+            text="Schedule a Consultation"
+          />
         </div>
       </section>
+      <Toaster className="text-base" position="top-right" duration={3000} />
     </div>
   );
 }
