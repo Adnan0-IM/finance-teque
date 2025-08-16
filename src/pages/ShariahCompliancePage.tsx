@@ -23,7 +23,14 @@ import dubaiCityscape from "../assets/business-banner@2x.jpg";
 import Navigation from "@/components/Navigation";
 import ModalButton from "@/components/ModalButton";
 import { Toaster } from "sonner";
+import { useState } from "react";
+import { ShariahInvestmentModal } from "@/components/ShariahInvestmentModal";
+
 export function ShariahCompliancePage() {
+  const [selectedInvestment, setSelectedInvestment] = useState<
+    "growth" | "balanced" | "income" | null
+  >(null);
+
   const complianceFeatures = [
     {
       icon: Shield,
@@ -473,7 +480,10 @@ export function ShariahCompliancePage() {
                   <span className="font-medium">Min. Investment</span>
                   <span className="font-bold">$5,000</span>
                 </div>
-                <Button className="w-full cursor-pointer bg-primary hover:bg-primary-dark text-primary-foreground mt-6">
+                <Button
+                  className="w-full cursor-pointer bg-primary hover:bg-primary-dark text-primary-foreground mt-6"
+                  onClick={() => setSelectedInvestment("growth")}
+                >
                   Learn More
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -508,7 +518,10 @@ export function ShariahCompliancePage() {
                   <span className="font-medium">Min. Investment</span>
                   <span className="font-bold">$3,000</span>
                 </div>
-                <Button className="w-full cursor-pointer bg-primary hover:bg-primary-dark text-primary-foreground mt-6">
+                <Button
+                  className="w-full cursor-pointer bg-primary hover:bg-primary-dark text-primary-foreground mt-6"
+                  onClick={() => setSelectedInvestment("balanced")}
+                >
                   Learn More
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -543,7 +556,10 @@ export function ShariahCompliancePage() {
                   <span className="font-medium">Min. Investment</span>
                   <span className="font-bold">$2,000</span>
                 </div>
-                <Button className="w-full cursor-pointer bg-primary hover:bg-primary-dark text-primary-foreground mt-6">
+                <Button
+                  className="w-full cursor-pointer bg-primary hover:bg-primary-dark text-primary-foreground mt-6"
+                  onClick={() => setSelectedInvestment("income")}
+                >
                   Learn More
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -585,6 +601,11 @@ export function ShariahCompliancePage() {
         </div>
       </section>
       <Toaster className="text-base" position="top-right" duration={3000} />
+      <ShariahInvestmentModal
+        isOpen={selectedInvestment !== null}
+        onClose={() => setSelectedInvestment(null)}
+        investmentType={selectedInvestment}
+      />
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import {
@@ -22,7 +21,7 @@ import ModalButton from "@/components/ModalButton";
 export function AboutPage() {
   const handleDownload = () => {
     // Replace with your actual brochure file path
-    const brochureUrl = "/brochure.pdf";
+    const brochureUrl = "/finance-teque-brochure.pdf";
     const link = document.createElement("a");
     link.href = brochureUrl;
     link.download = "FinanceTeque-Brochure.pdf";

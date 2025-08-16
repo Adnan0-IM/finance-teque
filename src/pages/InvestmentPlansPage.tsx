@@ -1,109 +1,14 @@
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
-import {
-  ArrowRight,
-  TrendingUp,
-  Banknote,
-  Shield,
-  Heart,
-  BarChart3,
-  Star,
-  Info,
-} from "lucide-react";
+import { ArrowRight, BarChart3, Star, Info } from "lucide-react";
 import dubaiCityscape from "../assets/business-banner@2x.jpg";
 import Navigation from "@/components/Navigation";
-import { Link } from "react-router";
 import ModalButton from "@/components/ModalButton";
 import { Toaster } from "sonner";
-export function InvestmentPlansPage() {
-  const investmentPlans = [
-    {
-      id: "growth",
-      title: "Growth Investment",
-      icon: TrendingUp,
-      description:
-        "Maximize your wealth potential with our aggressive growth strategy focused on high-performing equity markets and emerging technologies.",
-      longDescription:
-        "Our Growth Investment plan is designed for investors seeking maximum capital appreciation over the long term. We focus on equity investments in high-growth companies, particularly in technology, healthcare, and emerging markets. This plan is ideal for investors with a long investment horizon who can tolerate significant market volatility.",
-      expectedReturn: "15-22% annually",
-      riskLevel: "High",
-      riskColor: "destructive",
-      minimumInvestment: "$10,000",
-      features: [
-        "Equity-focused portfolio (80-95%)",
-        "Technology and innovation sector exposure",
-        "Emerging markets opportunities",
-        "Active portfolio management",
-        "Quarterly performance reviews",
-      ],
-      suitableFor: "Aggressive investors with 7+ year investment horizon",
-    },
-    {
-      id: "money-market",
-      title: "Money Market Investment",
-      icon: Banknote,
-      description:
-        "Secure short-term returns with high liquidity through carefully selected money market instruments and government securities.",
-      longDescription:
-        "Our Money Market Investment plan offers stability and liquidity for investors who need quick access to their funds while earning competitive returns. We invest in high-quality, short-term debt securities including treasury bills, commercial paper, and certificates of deposit.",
-      expectedReturn: "4-6% annually",
-      riskLevel: "Low",
-      riskColor: "default",
-      minimumInvestment: "$1,000",
-      features: [
-        "High liquidity and flexibility",
-        "Government and corporate bonds",
-        "Short-term debt securities",
-        "Capital preservation focus",
-        "Monthly dividend distributions",
-      ],
-      suitableFor: "Conservative investors seeking liquidity and safety",
-    },
-    {
-      id: "stability",
-      title: "Stability Investment",
-      icon: Shield,
-      description:
-        "Balanced approach combining growth potential with capital protection through diversified fixed income and stable equity investments.",
-      longDescription:
-        "Our Stability Investment plan strikes the perfect balance between growth and security. We combine stable dividend-paying stocks with high-grade bonds and fixed income securities to provide steady returns with moderate risk.",
-      expectedReturn: "8-12% annually",
-      riskLevel: "Moderate",
-      riskColor: "secondary",
-      minimumInvestment: "$5,000",
-      features: [
-        "Balanced portfolio (60% equity, 40% bonds)",
-        "Dividend-focused equity selection",
-        "Investment-grade fixed income",
-        "Regular rebalancing",
-        "Bi-annual performance reports",
-      ],
-      suitableFor: "Moderate investors with 3-5 year investment horizon",
-    },
-    {
-      id: "ethical",
-      title: "Ethical Investment",
-      icon: Heart,
-      description:
-        "Invest with purpose through ESG-compliant companies that align with your values while delivering competitive returns.",
-      longDescription:
-        "Our Ethical Investment plan allows you to grow your wealth while supporting companies that prioritize environmental sustainability, social responsibility, and good governance. We apply rigorous ESG screening to ensure your investments align with your values.",
-      expectedReturn: "10-16% annually",
-      riskLevel: "Moderate-High",
-      riskColor: "default",
-      minimumInvestment: "$7,500",
-      features: [
-        "ESG-compliant investment screening",
-        "Sustainable and renewable energy focus",
-        "Social impact measurement",
-        "Environmental responsibility criteria",
-        "Annual impact reporting",
-      ],
-      suitableFor: "Values-driven investors seeking social impact",
-    },
-  ];
+import { investmentPlans } from "../data/investmentPlans";
 
+export function InvestmentPlansPage() {
   const getRiskBadgeVariant = (riskColor: string) => {
     switch (riskColor) {
       case "destructive":
@@ -152,9 +57,9 @@ export function InvestmentPlansPage() {
               Tailored Investment Plans for Every Investor
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              From conservative money market investments to aggressive growth
-              strategies, we offer comprehensive solutions that align with your
-              financial objectives and risk tolerance.
+              From conservative equity finance investments to aggressive venture
+              capital strategies, we offer comprehensive solutions that align
+              with your financial objectives and risk tolerance.
             </p>
           </div>
 
@@ -232,6 +137,9 @@ export function InvestmentPlansPage() {
                       <Button
                         variant="outline"
                         className="flex-1 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white"
+                        onClick={() =>
+                          (window.location.href = `/plans/${plan.id}`)
+                        }
                       >
                         Learn More
                       </Button>
@@ -265,16 +173,16 @@ export function InvestmentPlansPage() {
                     Features
                   </th>
                   <th className="px-6 py-4 text-center font-semibold">
-                    Growth
+                    Venture Capital
                   </th>
                   <th className="px-6 py-4 text-center font-semibold">
-                    Money Market
+                    Equity Finance
                   </th>
                   <th className="px-6 py-4 text-center font-semibold">
-                    Stability
+                    Nano Business
                   </th>
                   <th className="px-6 py-4 text-center font-semibold">
-                    Ethical
+                    Ethical/Development
                   </th>
                 </tr>
               </thead>
@@ -422,9 +330,7 @@ export function InvestmentPlansPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-           <ModalButton
-           text="Schedule a Consultation"
-           />
+            <ModalButton text="Schedule a Consultation" />
             <Button
               size="lg"
               variant="outline"
@@ -444,11 +350,7 @@ export function InvestmentPlansPage() {
           </div>
         </div>
       </section>
-  <Toaster
-        className="text-base"
-        position="top-right"
-        duration={3000}
-      />
+      <Toaster className="text-base" position="top-right" duration={3000} />
     </div>
   );
 }

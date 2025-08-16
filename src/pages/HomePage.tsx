@@ -401,20 +401,30 @@ const HomePage = () => {
                   <div className="flex items-center space-x-3">
                     <MapPin className="h-4 w-4 text-brand-primary flex-shrink-0" />
                     <span className="text-gray-400 text-sm">
-                      Fatima Plaza, Second Floor, Murtala Muhammad Way, Kano,
-                      Nigeria
+                      18B. Fatima Plaza, Second Floor, Murtala Muhammad Way,
+                      Kano, Nigeria
                     </span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Phone className="h-4 w-4 text-brand-primary flex-shrink-0" />
                     <span className="text-gray-400 text-sm">
-                      (+234) 9165717392
+                      <a
+                        href="tel:+2349165717392"
+                        className="hover:text-primary transition-colors"
+                      >
+                        (+234) 9165717392
+                      </a>
                     </span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Mail className="h-4 w-4 text-brand-primary flex-shrink-0" />
                     <span className="text-gray-400 text-sm">
-                      info@financeteque.com
+                      <a
+                        href="mailto:info@financeteque.com"
+                        className="hover:text-primary transition-colors"
+                      >
+                        info@financetequecv.com
+                      </a>
                     </span>
                   </div>
                 </div>
@@ -493,24 +503,17 @@ const HomePage = () => {
                 </h4>
                 <ul className="space-y-3 text-sm text-gray-400">
                   <li>
-                    <Link
-                    to={"/plans"}>
-                    <button
-                      className="hover:text-white transition-colors text-left"
-                    >
-                      Investment Plans
-                    </button>
-
+                    <Link to={"/plans"}>
+                      <button className="hover:text-white transition-colors text-left">
+                        Investment Plans
+                      </button>
                     </Link>
                   </li>
                   <li>
-                    <Link
-                    to={"/shariah"}> 
-                    <button
-                      className="hover:text-white transition-colors text-left"
-                    >
-                      Shari'ah Compliance
-                    </button>
+                    <Link to={"/shariah"}>
+                      <button className="hover:text-white transition-colors text-left">
+                        Shari'ah Compliance
+                      </button>
                     </Link>
                   </li>
                   <li>
@@ -538,15 +541,10 @@ const HomePage = () => {
                 </h4>
                 <ul className="space-y-3 text-sm text-gray-400">
                   <li>
-                    <Link
-                    to={"/contact"}>
-
-                    <button
-                      className="hover:text-white transition-colors text-left"
-                    >
-                      Contact Us
-                    </button>
-
+                    <Link to={"/contact"}>
+                      <button className="hover:text-white transition-colors text-left">
+                        Contact Us
+                      </button>
                     </Link>
                   </li>
                   <li>
@@ -591,8 +589,8 @@ const HomePage = () => {
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div className="text-center md:text-left mb-4 md:mb-0">
                 <p className="text-gray-400 text-sm">
-                  &copy; {new Date().getFullYear()} Finance Teque Investment Growth. All rights
-                  reserved.
+                  &copy; {new Date().getFullYear()} Finance Teque Investment
+                  Growth. All rights reserved.
                 </p>
                 <p className="text-gray-500 text-xs mt-1">
                   Licensed and regulated financial services provider

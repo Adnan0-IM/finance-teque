@@ -4,6 +4,8 @@ import logo from "../assets/logo.png";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { NavLink } from "react-router";
+import { useAuth } from "../contexts/AuthContext";
+import InvestorRegistrationButton from "./InvestorRegistrationButton";
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navLinks = [
@@ -13,6 +15,7 @@ const Navigation = () => {
     { title: "Contact", path: "/contact" },
     { title: "Team", path: "/team" },
   ];
+  const { user, logout } = useAuth();
   return (
     <>
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-border">
@@ -51,10 +54,23 @@ const Navigation = () => {
               ))}
             </div>
 
-            {/* Desktop Get Started Button */}
-            <Button className="hidden md:inline-flex bg-brand-primary hover:bg-brand-primary-dark text-white cursor-pointer">
-              Get Started
-            </Button>
+            {user ? (
+              <div className=" items-center gap-4 hidden md:flex">
+                <span className="text-sm text-muted-foreground">
+                  Hello, {user.name}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={logout}
+                  className="hover:text-gray-900 hover:bg-gray-100 bg-gray-900 text-white transition-colors"
+                >
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <InvestorRegistrationButton className="hidden md:inline-flex" />
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -134,14 +150,23 @@ const Navigation = () => {
               </div>
 
               {/* Mobile Get Started Button */}
-              <div className="p-6 border-t border-border">
-                <Button
-                  className="w-full cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Get Started
-                </Button>
-              </div>
+              {user ? (
+              
+                <div className="p-6 border-t border-border">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={logout}
+                    className="w-full text-base  hover:bg-gray-300 hover:text-gray-900 bg-gray-900 text-white transition-colors"
+                  >
+                    Logout
+                  </Button>
+                  </div>
+              ) : (
+                <div className="p-6 border-t border-border">
+                  <InvestorRegistrationButton className="w-full cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white" />
+                </div>
+              )}
             </div>
           </div>
         </div>

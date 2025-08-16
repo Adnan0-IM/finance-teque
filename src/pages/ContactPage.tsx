@@ -5,7 +5,6 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Textarea } from "../components/ui/textarea";
 import {
-  ArrowRight,
   MapPin,
   Phone,
   Mail,
@@ -179,7 +178,7 @@ export function ContactPage() {
                     <div>
                       <h4 className="font-semibold mb-1">Office Address</h4>
                       <p className="text-muted-foreground text-sm leading-relaxed">
-                        Fatima Plaza, Second Floor
+                        18B. Fatima Plaza, Second Floor
                         <br />
                         Murtala Muhammad Way
                         <br />
@@ -216,7 +215,7 @@ export function ContactPage() {
                           href="mailto:info@financeteque.com"
                           className="hover:text-primary transition-colors"
                         >
-                          info@financeteque.com
+                          info@financetequecv.com
                         </a>
                       </p>
                     </div>
@@ -430,11 +429,7 @@ export function ContactPage() {
           </div>
         </div>
       </section>
-      <Toaster
-        className="text-base"
-        position="top-right"
-        duration={3000}
-      />
+      <Toaster className="text-base" position="top-right" duration={3000} />
     </div>
   );
 }
