@@ -11,6 +11,8 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { InvestorVerificationPage } from "./pages/InvestorVerificationPage";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
+import RouteToTop from "./components/RouteToTop";
+import { InvestorDashboardPage } from "./pages/InvestorDashboardPage";
 
 // Protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -31,6 +33,7 @@ export default function App() {
     <AuthProvider>
 
     <Router>
+        <RouteToTop />
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<HomePage />} />
@@ -45,6 +48,7 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
         {/* Protected routes */}
         <Route path="/investor-verification" element={<ProtectedRoute><InvestorVerificationPage /></ProtectedRoute>} />
+        <Route path="/dashboard" element={<ProtectedRoute><InvestorDashboardPage /></ProtectedRoute>} />
       </Routes>
     </Router>
 

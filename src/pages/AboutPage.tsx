@@ -94,9 +94,9 @@ export function AboutPage() {
                 </p>
               </div>
 
-              <Link to={"/about/history"}>
+              <Link to={{ pathname: "/plans", hash: "#process" }}>
                 <Button className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white mt-8">
-                  Learn More About Our History
+                  Learn More About Our Process
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>

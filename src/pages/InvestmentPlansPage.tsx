@@ -8,6 +8,8 @@ import ModalButton from "@/components/ModalButton";
 import { Toaster } from "sonner";
 import { investmentPlans } from "../data/investmentPlans";
 import InvestorRegistrationButton from "@/components/InvestorRegistrationButton";
+import { useLocation } from "react-router";
+import { useEffect } from "react";
 
 export function InvestmentPlansPage() {
   const getRiskBadgeVariant = (riskColor: string) => {
@@ -20,7 +22,16 @@ export function InvestmentPlansPage() {
         return "default";
     }
   };
-
+  const location = useLocation();
+  useEffect(() => {
+    const hash = location.hash;
+    if (hash) {
+      const element = document.getElementById(hash.replace("#", ""));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation  */}
@@ -236,7 +247,7 @@ export function InvestmentPlansPage() {
       </section>
 
       {/* Investment Process Section */}
-      <section className="py-20 bg-white">
+      <section id="process" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6 text-brand-dark">

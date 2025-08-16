@@ -134,6 +134,7 @@ const Navigation = () => {
                   </NavLink>
                   {navLinks.map((link) => (
                     <NavLink
+                      key={link.title}
                       to={link.path}
                       className={({ isActive }) =>
                         `w-full text-left px-4 py-3 rounded-lg text-lg transition-colors ${
