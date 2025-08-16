@@ -1,7 +1,7 @@
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
-import { ArrowRight, BarChart3, Star, Info } from "lucide-react";
+import { BarChart3, Star, Info } from "lucide-react";
 import dubaiCityscape from "../assets/business-banner@2x.jpg";
 import Navigation from "@/components/Navigation";
 import ModalButton from "@/components/ModalButton";
