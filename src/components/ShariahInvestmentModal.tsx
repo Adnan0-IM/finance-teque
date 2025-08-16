@@ -39,7 +39,7 @@ const investmentDetails = {
       "Long-term capital appreciation through halal equity investments focused on emerging sectors and growth companies.",
     expectedReturn: "12-18% annually",
     riskLevel: "Moderate-High",
-    minInvestment: "$5,000",
+    minInvestment: "₦5,000",
     recommendedTerm: "7+ years",
     zakat: "Eligible for annual Zakat calculation",
     assetAllocation: [
@@ -72,7 +72,7 @@ const investmentDetails = {
       "Balanced approach with Sukuk and halal equities designed to provide moderate growth with reduced volatility.",
     expectedReturn: "8-12% annually",
     riskLevel: "Moderate",
-    minInvestment: "$3,000",
+    minInvestment: "₦3,000",
     recommendedTerm: "3-5 years",
     zakat: "Eligible for annual Zakat calculation",
     assetAllocation: [
@@ -105,7 +105,7 @@ const investmentDetails = {
       "Stable income through Sukuk and dividend-paying halal stocks with a focus on capital preservation and regular distributions.",
     expectedReturn: "6-10% annually",
     riskLevel: "Low-Moderate",
-    minInvestment: "$2,000",
+    minInvestment: "₦2,000",
     recommendedTerm: "1-3 years",
     zakat: "Eligible for annual Zakat calculation",
     assetAllocation: [
@@ -153,7 +153,7 @@ export function ShariahInvestmentModal({
             </div>
             <DialogTitle className="text-2xl">{details.title}</DialogTitle>
           </div>
-          <DialogDescription>{details.description}</DialogDescription>
+          <DialogDescription >{details.description}</DialogDescription>
         </DialogHeader>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
@@ -206,7 +206,7 @@ export function ShariahInvestmentModal({
                       <div
                         className="h-full bg-green-600 rounded-full"
                         style={{
-                          width: `${
+                          width: `₦{
                             parseInt(
                               asset.percentage.split("-")[1] || asset.percentage
                             ) || 0
@@ -297,13 +297,6 @@ export function ShariahInvestmentModal({
           >
             Close
           </Button>
-          {/* <Button
-            variant="outline"
-            className="flex-1 sm:flex-none border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Download Prospectus
-          </Button> */}
           <ModalButton
             text="Schedule Consultation"
             className="flex-1 sm:flex-none border"

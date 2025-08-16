@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
-import Navigation from "@/components/Navigation";
 import { ArrowRight } from "lucide-react";
 
 const loginSchema = z.object({
@@ -31,10 +30,10 @@ export function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Get return URL from query parameters
-//   const searchParams = new URLSearchParams(location.search);
-//   const returnTo = searchParams.get("returnTo") || "/dashboard";
+  //   const searchParams = new URLSearchParams(location.search);
+  //   const returnTo = searchParams.get("returnTo") || "/dashboard";
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -52,58 +51,73 @@ export function LoginPage() {
       navigate("/investor-verification");
     } catch (error) {
       toast.error("Login failed. Please check your credentials.");
-      console.log(error)
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      <div className="flex min-h-[calc(100vh-64px)] items-center justify-center">
-        <div className="mx-auto max-w-md w-full p-6 space-y-6 shadow-md">
+    <div className="min-h-screen bg-gray-50">
+      {/* <Navigation /> */}
+
+      <div className="flex min-h-[calc(100vh-64px)] items-center justify-center py-18">
+        <div className="mx-auto max-w-md w-full p-6 sm:p-8 space-y-6 bg-white rounded-xl shadow-lg border border-gray-100">
           <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold">Welcome back</h1>
+            <h1 className="text-3xl font-bold text-brand-primary">
+              Welcome back
+            </h1>
             <p className="text-muted-foreground">
               Enter your credentials to access your account
             </p>
           </div>
-          
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-base font-semibold text-gray-700">
+                      Email
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="name@example.com" {...field} />
+                      <Input
+                        placeholder="name@example.com"
+                        className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs text-destructive" />
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-base font-semibold text-gray-700">
+                      Password
+                    </FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="••••••••"
+                        className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs text-destructive" />
                   </FormItem>
                 )}
               />
-              
-              <Button 
-                type="submit" 
-                className="w-full bg-brand-primary hover:bg-brand-primary-dark" 
+
+              <Button
+                type="submit"
+                className="w-full h-11 bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 transition-all duration-200"
                 disabled={isLoading}
               >
                 {isLoading ? "Logging in..." : "Login"}
@@ -111,19 +125,22 @@ export function LoginPage() {
               </Button>
             </form>
           </Form>
-          
+
           <div className="text-center text-sm">
             <p className="text-muted-foreground">
               Don't have an account?{" "}
-              <Link 
-                to={`/register${location.search}`} 
-                className="text-brand-primary hover:underline"
+              <Link
+                to={`/register${location.search}`}
+                className="text-brand-primary font-medium hover:underline"
               >
                 Register
               </Link>
             </p>
             <p className="mt-2">
-              <Link to="/forgot-password" className="text-brand-primary hover:underline">
+              <Link
+                to="/forgot-password"
+                className="text-brand-primary font-medium hover:underline"
+              >
                 Forgot your password?
               </Link>
             </p>

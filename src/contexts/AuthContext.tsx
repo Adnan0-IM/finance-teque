@@ -56,13 +56,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email,
         name: email.split("@")[0],
         isVerified: false,
+        password: password.length
       };
 
       // Save to localStorage (in a real app, you'd use secure cookies or tokens)
       localStorage.setItem("finance_teque_user", JSON.stringify(mockUser));
       setUser(mockUser);
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Login faile:", error);
       throw new Error("Invalid email or password");
     } finally {
       setLoading(false);
@@ -79,6 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email,
         name,
         isVerified: false,
+        password: password.length
       };
 
       // Save to localStorage (in a real app, you'd use secure cookies or tokens)

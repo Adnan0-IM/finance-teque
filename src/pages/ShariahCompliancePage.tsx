@@ -478,7 +478,7 @@ export function ShariahCompliancePage() {
                 </div>
                 <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                   <span className="font-medium">Min. Investment</span>
-                  <span className="font-bold">$5,000</span>
+                  <span className="font-bold">₦5,000</span>
                 </div>
                 <Button
                   className="w-full cursor-pointer bg-primary hover:bg-primary-dark text-primary-foreground mt-6"
@@ -516,7 +516,7 @@ export function ShariahCompliancePage() {
                 </div>
                 <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                   <span className="font-medium">Min. Investment</span>
-                  <span className="font-bold">$3,000</span>
+                  <span className="font-bold">₦3,000</span>
                 </div>
                 <Button
                   className="w-full cursor-pointer bg-primary hover:bg-primary-dark text-primary-foreground mt-6"
@@ -554,7 +554,7 @@ export function ShariahCompliancePage() {
                 </div>
                 <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                   <span className="font-medium">Min. Investment</span>
-                  <span className="font-bold">$2,000</span>
+                  <span className="font-bold">₦2,000</span>
                 </div>
                 <Button
                   className="w-full cursor-pointer bg-primary hover:bg-primary-dark text-primary-foreground mt-6"
@@ -581,7 +581,7 @@ export function ShariahCompliancePage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <ModalButton text="Schedule a Consultation" />
+            <ModalButton className="w-full" text="Schedule a Consultation" />
             <Button
               size="lg"
               variant="outline"

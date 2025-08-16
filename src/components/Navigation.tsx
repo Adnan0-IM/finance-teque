@@ -12,8 +12,8 @@ const Navigation = () => {
     { title: "About", path: "/about" },
     { title: "Investment Plans", path: "/plans" },
     { title: "Shari'ah Compliance", path: "/shariah" },
-    { title: "Contact", path: "/contact" },
     { title: "Team", path: "/team" },
+    { title: "Contact", path: "/contact" },
   ];
   const { user, logout } = useAuth();
   return (
@@ -36,7 +36,7 @@ const Navigation = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center md:space-x-4 lg:space-x-8">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.title}

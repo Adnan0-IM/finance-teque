@@ -27,7 +27,7 @@ export const investmentPlans: InvestmentPlan[] = [
     expectedReturn: "15-22% annually",
     riskLevel: "High",
     riskColor: "destructive",
-    minimumInvestment: "$10,000",
+    minimumInvestment: "₦10,000",
     features: [
       "Equity-focused portfolio (80-95%)",
       "Technology and innovation sector exposure",
@@ -48,7 +48,7 @@ export const investmentPlans: InvestmentPlan[] = [
     expectedReturn: "4-6% annually",
     riskLevel: "Low",
     riskColor: "default",
-    minimumInvestment: "$1,000",
+    minimumInvestment: "₦1,000",
     features: [
       "High liquidity and flexibility",
       "Government and corporate bonds",
@@ -69,7 +69,7 @@ export const investmentPlans: InvestmentPlan[] = [
     expectedReturn: "8-12% annually",
     riskLevel: "Moderate",
     riskColor: "secondary",
-    minimumInvestment: "$5,000",
+    minimumInvestment: "₦5,000",
     features: [
       "Balanced portfolio (60% equity, 40% bonds)",
       "Dividend-focused equity selection",
@@ -90,7 +90,7 @@ export const investmentPlans: InvestmentPlan[] = [
     expectedReturn: "10-16% annually",
     riskLevel: "Moderate-High",
     riskColor: "default",
-    minimumInvestment: "$7,500",
+    minimumInvestment: "₦7,500",
     features: [
       "ESG-compliant investment screening",
       "Sustainable and renewable energy focus",

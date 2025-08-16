@@ -7,6 +7,7 @@ import Navigation from "@/components/Navigation";
 import ModalButton from "@/components/ModalButton";
 import { Toaster } from "sonner";
 import { investmentPlans } from "../data/investmentPlans";
+import InvestorRegistrationButton from "@/components/InvestorRegistrationButton";
 
 export function InvestmentPlansPage() {
   const getRiskBadgeVariant = (riskColor: string) => {
@@ -130,10 +131,7 @@ export function InvestmentPlansPage() {
                     </div>
 
                     <div className="flex gap-3 pt-4">
-                      <Button className="flex-1 bg-brand-primary hover:bg-brand-primary-dark text-white">
-                        Get Started
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
+                      <InvestorRegistrationButton className="flex-1" />
                       <Button
                         variant="outline"
                         className="flex-1 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white"
@@ -208,13 +206,14 @@ export function InvestmentPlansPage() {
                   <td className="px-6 py-4 text-center">
                     <Badge variant="default">Moderate-High</Badge>
                   </td>
+                  ₦
                 </tr>
                 <tr className="border-b border-gray-200">
                   <td className="px-6 py-4 font-medium">Minimum Investment</td>
-                  <td className="px-6 py-4 text-center">$10,000</td>
-                  <td className="px-6 py-4 text-center">$1,000</td>
-                  <td className="px-6 py-4 text-center">$5,000</td>
-                  <td className="px-6 py-4 text-center">$7,500</td>
+                  <td className="px-6 py-4 text-center">₦10,000</td>
+                  <td className="px-6 py-4 text-center">₦1,000</td>
+                  <td className="px-6 py-4 text-center">₦5,000</td>
+                  <td className="px-6 py-4 text-center">₦7,500</td>
                 </tr>
                 <tr className="border-b border-gray-200 bg-gray-50">
                   <td className="px-6 py-4 font-medium">Liquidity</td>

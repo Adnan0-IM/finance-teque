@@ -17,7 +17,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/contexts/AuthContext";
-import Navigation from "@/components/Navigation";
 import { ArrowRight } from "lucide-react";
 
 const registerSchema = z
@@ -59,8 +58,8 @@ export function RegisterPage() {
   const location = useLocation();
 
   // Get return URL from query parameters
-//   const searchParams = new URLSearchParams(location.search);
-//   const returnTo = searchParams.get("returnTo") || "/dashboard";
+  //   const searchParams = new URLSearchParams(location.search);
+  //   const returnTo = searchParams.get("returnTo") || "/dashboard";
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -88,13 +87,15 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
+    <div className="min-h-screen bg-gray-50">
+      {/* <Navigation /> */}
 
       <div className="flex min-h-[calc(100vh-64px)] items-center justify-center py-12">
-        <div className="mx-auto max-w-md w-full p-6 space-y-6 shadow-md">
+        <div className="mx-auto max-w-md w-full p-6 sm:p-8 space-y-6 bg-white rounded-xl shadow-lg border border-gray-100">
           <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold">Create an account</h1>
+            <h1 className="text-3xl font-bold text-brand-primary">
+              Create an account
+            </h1>
             <p className="text-muted-foreground">
               Enter your information to get started with Finance Teque
             </p>
@@ -106,12 +107,18 @@ export function RegisterPage() {
                 control={form.control}
                 name="name"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-base font-semibold text-gray-700">
+                      Full Name
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="John Doe" {...field} />
+                      <Input
+                        placeholder="John Doe"
+                        className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs text-destructive" />
                   </FormItem>
                 )}
               />
@@ -119,12 +126,18 @@ export function RegisterPage() {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-base font-semibold text-gray-700">
+                      Email
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="name@example.com" {...field} />
+                      <Input
+                        placeholder="name@example.com"
+                        className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs text-destructive" />
                   </FormItem>
                 )}
               />
@@ -132,12 +145,18 @@ export function RegisterPage() {
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-base font-semibold text-gray-700">
+                      Phone Number
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="+234 704 123 4567" {...field} />
+                      <Input
+                        placeholder="+234 704 123 4567"
+                        className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs text-destructive" />
                   </FormItem>
                 )}
               />
@@ -145,16 +164,19 @@ export function RegisterPage() {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-base font-semibold text-gray-700">
+                      Password
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         placeholder="••••••••"
+                        className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs text-destructive" />
                   </FormItem>
                 )}
               />
@@ -162,16 +184,19 @@ export function RegisterPage() {
                 control={form.control}
                 name="confirmPassword"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-base font-semibold text-gray-700">
+                      Confirm Password
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         placeholder="••••••••"
+                        className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs text-destructive" />
                   </FormItem>
                 )}
               />
@@ -179,11 +204,12 @@ export function RegisterPage() {
                 control={form.control}
                 name="acceptTerms"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 mt-4">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
                         onCheckedChange={field.onChange}
+                        className="border-gray-300 data-[state=checked]:bg-brand-primary data-[state=checked]:border-brand-primary"
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
@@ -191,19 +217,19 @@ export function RegisterPage() {
                         I accept the{" "}
                         <Link
                           to="/terms"
-                          className="text-brand-primary hover:underline"
+                          className="text-brand-primary font-medium hover:underline"
                         >
                           terms and conditions
                         </Link>
                       </FormLabel>
-                      <FormMessage />
+                      <FormMessage className="text-xs text-destructive" />
                     </div>
                   </FormItem>
                 )}
               />
               <Button
                 type="submit"
-                className="w-full bg-brand-primary hover:bg-brand-primary-dark"
+                className="w-full h-11 bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 transition-all duration-200 mt-4"
                 disabled={isLoading}
               >
                 {isLoading ? "Creating account..." : "Register"}
@@ -217,7 +243,7 @@ export function RegisterPage() {
               Already have an account?{" "}
               <Link
                 to={`/login${location.search}`}
-                className="text-brand-primary hover:underline"
+                className="text-brand-primary font-medium hover:underline"
               >
                 Login
               </Link>

@@ -14,6 +14,7 @@ import dubaiCityscape from "../assets/business-banner@2x.jpg";
 import Navigation from "@/components/Navigation";
 import ModalButton from "@/components/ModalButton";
 import { Toaster } from "sonner";
+import { Link } from "react-router";
 export function TeamPage() {
   const teamMembers = [
     {
@@ -298,20 +299,16 @@ export function TeamPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-primary hover:bg-primary/70 px-8 py-4 text-primary-foreground"
-            >
-              View Careers
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="px-8 py-4 border-primary text-primary hover:bg-primary hover:text-white"
-            >
-              Learn About Our Culture
-            </Button>
+            <Link className="w-full" to={"/about"}>
+              <Button
+                size="lg"
+                variant="outline"
+                className="px-8 py-4 border-primary text-primary hover:bg-primary hover:text-white"
+              >
+                Learn About Our Culture
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </div>
 
           <div className="mt-12 p-6 bg-gray-50 rounded-lg">

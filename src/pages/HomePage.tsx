@@ -192,12 +192,12 @@ const HomePage = () => {
               </h2>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-                <Link to={"/team"}>
+                <Link className="w-full sm:w-fit" to={"/team"}>
                   <Button className="cursor-pointer w-full sm:w-auto bg-brand-primary hover:bg-brand-primary-dark text-white px-6 sm:px-8">
                     Meet Our Team
                   </Button>
                 </Link>
-                <Link to={"/about"}>
+                <Link className="w-full sm:w-fit" to={"/about"}>
                   <Button
                     variant="outline"
                     className="cursor-pointer w-full sm:w-auto border-white text-gray-900 hover:bg-transparent hover:text-white px-6 sm:px-8"

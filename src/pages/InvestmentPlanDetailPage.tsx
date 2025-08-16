@@ -2,20 +2,11 @@ import { useParams, useNavigate } from "react-router";
 import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   ArrowLeft,
   Users,
-  DollarSign,
-  Calendar,
-  Info,
-  Eye,
-  ChevronRight,
-  CheckCircle,
   Download,
-  AlertTriangle,
 } from "lucide-react";
 import ModalButton from "@/components/ModalButton";
 import { Toaster } from "sonner";
@@ -49,68 +40,68 @@ export default function InvestmentPlanDetailPage() {
   const IconComponent = activePlan.icon;
 
   // Sample historical performance data
-  const historicalPerformance = {
-    vci: [
-      { year: "2024", return: "19.8%" },
-      { year: "2023", return: "16.2%" },
-      { year: "2022", return: "-7.4%" },
-      { year: "2021", return: "24.6%" },
-      { year: "2020", return: "18.9%" },
-    ],
-    efi: [
-      { year: "2024", return: "5.8%" },
-      { year: "2023", return: "4.9%" },
-      { year: "2022", return: "4.2%" },
-      { year: "2021", return: "3.7%" },
-      { year: "2020", return: "4.1%" },
-    ],
-    nbi: [
-      { year: "2024", return: "11.3%" },
-      { year: "2023", return: "9.7%" },
-      { year: "2022", return: "2.6%" },
-      { year: "2021", return: "14.2%" },
-      { year: "2020", return: "10.8%" },
-    ],
-    edi: [
-      { year: "2024", return: "15.6%" },
-      { year: "2023", return: "12.8%" },
-      { year: "2022", return: "-3.2%" },
-      { year: "2021", return: "18.9%" },
-      { year: "2020", return: "14.2%" },
-    ],
-  };
+  // const historicalPerformance = {
+  //   vci: [
+  //     { year: "2024", return: "19.8%" },
+  //     { year: "2023", return: "16.2%" },
+  //     { year: "2022", return: "-7.4%" },
+  //     { year: "2021", return: "24.6%" },
+  //     { year: "2020", return: "18.9%" },
+  //   ],
+  //   efi: [
+  //     { year: "2024", return: "5.8%" },
+  //     { year: "2023", return: "4.9%" },
+  //     { year: "2022", return: "4.2%" },
+  //     { year: "2021", return: "3.7%" },
+  //     { year: "2020", return: "4.1%" },
+  //   ],
+  //   nbi: [
+  //     { year: "2024", return: "11.3%" },
+  //     { year: "2023", return: "9.7%" },
+  //     { year: "2022", return: "2.6%" },
+  //     { year: "2021", return: "14.2%" },
+  //     { year: "2020", return: "10.8%" },
+  //   ],
+  //   edi: [
+  //     { year: "2024", return: "15.6%" },
+  //     { year: "2023", return: "12.8%" },
+  //     { year: "2022", return: "-3.2%" },
+  //     { year: "2021", return: "18.9%" },
+  //     { year: "2020", return: "14.2%" },
+  //   ],
+  // };
 
   // Sample asset allocation data
-  const assetAllocation = {
-    vci: [
-      { category: "Technology Equities", percentage: "35%" },
-      { category: "Healthcare Equities", percentage: "25%" },
-      { category: "Financial Equities", percentage: "20%" },
-      { category: "Emerging Markets", percentage: "15%" },
-      { category: "Cash & Equivalents", percentage: "5%" },
-    ],
-    efi: [
-      { category: "Government Treasury Bills", percentage: "40%" },
-      { category: "Certificates of Deposit", percentage: "25%" },
-      { category: "Commercial Paper", percentage: "20%" },
-      { category: "Short-term Corporate Bonds", percentage: "10%" },
-      { category: "Cash", percentage: "5%" },
-    ],
-    nbi: [
-      { category: "Dividend Stocks", percentage: "40%" },
-      { category: "Corporate Bonds", percentage: "30%" },
-      { category: "Government Securities", percentage: "15%" },
-      { category: "REITs", percentage: "10%" },
-      { category: "Cash & Equivalents", percentage: "5%" },
-    ],
-    edi: [
-      { category: "Sustainable Tech", percentage: "30%" },
-      { category: "Renewable Energy", percentage: "25%" },
-      { category: "Healthcare & Wellness", percentage: "20%" },
-      { category: "Sustainable Consumer Goods", percentage: "15%" },
-      { category: "Green Bonds", percentage: "10%" },
-    ],
-  };
+  // const assetAllocation = {
+  //   vci: [
+  //     { category: "Technology Equities", percentage: "35%" },
+  //     { category: "Healthcare Equities", percentage: "25%" },
+  //     { category: "Financial Equities", percentage: "20%" },
+  //     { category: "Emerging Markets", percentage: "15%" },
+  //     { category: "Cash & Equivalents", percentage: "5%" },
+  //   ],
+  //   efi: [
+  //     { category: "Government Treasury Bills", percentage: "40%" },
+  //     { category: "Certificates of Deposit", percentage: "25%" },
+  //     { category: "Commercial Paper", percentage: "20%" },
+  //     { category: "Short-term Corporate Bonds", percentage: "10%" },
+  //     { category: "Cash", percentage: "5%" },
+  //   ],
+  //   nbi: [
+  //     { category: "Dividend Stocks", percentage: "40%" },
+  //     { category: "Corporate Bonds", percentage: "30%" },
+  //     { category: "Government Securities", percentage: "15%" },
+  //     { category: "REITs", percentage: "10%" },
+  //     { category: "Cash & Equivalents", percentage: "5%" },
+  //   ],
+  //   edi: [
+  //     { category: "Sustainable Tech", percentage: "30%" },
+  //     { category: "Renewable Energy", percentage: "25%" },
+  //     { category: "Healthcare & Wellness", percentage: "20%" },
+  //     { category: "Sustainable Consumer Goods", percentage: "15%" },
+  //     { category: "Green Bonds", percentage: "10%" },
+  //   ],
+  // };
 
   // Fee structure
   const feeStructure = {
@@ -119,178 +110,178 @@ export default function InvestmentPlanDetailPage() {
       performance: "20% on returns above benchmark",
       entry: "1.5%",
       exit: "1.0% (waived after 3 years)",
-      minimum: "$10,000",
+      minimum: "₦10,000",
     },
     efi: {
       management: "0.5% annually",
       performance: "None",
       entry: "0%",
       exit: "0%",
-      minimum: "$1,000",
+      minimum: "₦1,000",
     },
     nbi: {
       management: "1.25% annually",
       performance: "10% on returns above benchmark",
       entry: "1.0%",
       exit: "0.5% (waived after 2 years)",
-      minimum: "$5,000",
+      minimum: "₦5,000",
     },
     edi: {
       management: "1.5% annually",
       performance: "15% on returns above benchmark",
       entry: "1.25%",
       exit: "0.75% (waived after 3 years)",
-      minimum: "$7,500",
+      minimum: "₦7,500",
     },
   };
 
   // Top holdings (sample companies for each investment type)
-  const topHoldings = {
-    vci: [
-      "Nvidia Corporation (Tech)",
-      "ASML Holding (Semiconductors)",
-      "Eli Lilly (Healthcare)",
-      "Microsoft (Technology)",
-      "Alphabet (Technology)",
-      "Amazon (E-commerce)",
-      "Tesla (Electric Vehicles)",
-      "UnitedHealth Group (Healthcare)",
-      "LVMH (Luxury Goods)",
-      "Samsung Electronics (Technology)",
-    ],
-    efi: [
-      "US Treasury Bills (Government)",
-      "JP Morgan Cash Instruments (Banking)",
-      "Bank of America CD (Banking)",
-      "HSBC Money Market (Banking)",
-      "Citigroup Commercial Paper (Banking)",
-      "Federal Home Loan Bank Notes (Government)",
-      "Federal Farm Credit Bank (Government)",
-      "Goldman Sachs Group (Banking)",
-      "Toyota Motor Credit Corp (Auto)",
-      "Barclays Negotiable CDs (Banking)",
-    ],
-    nbi: [
-      "Johnson & Johnson (Healthcare)",
-      "Procter & Gamble (Consumer Goods)",
-      "Coca-Cola Company (Beverages)",
-      "Verizon Communications (Telecom)",
-      "Nestle (Consumer Goods)",
-      "McDonald's Corporation (Restaurants)",
-      "PepsiCo Inc. (Food & Beverage)",
-      "IBM (Technology)",
-      "Unilever (Consumer Goods)",
-      "AT&T Inc. (Telecommunications)",
-    ],
-    edi: [
-      "NextEra Energy (Renewable Energy)",
-      "Tesla (Electric Vehicles)",
-      "Beyond Meat (Sustainable Food)",
-      "Vestas Wind Systems (Wind Energy)",
-      "First Solar (Solar Energy)",
-      "Orsted (Renewable Energy)",
-      "Linde plc (Clean Technologies)",
-      "Waste Management (Recycling)",
-      "Autodesk (Sustainable Software)",
-      "Ecolab (Water Solutions)",
-    ],
-  };
+  // const topHoldings = {
+  //   vci: [
+  //     "Nvidia Corporation (Tech)",
+  //     "ASML Holding (Semiconductors)",
+  //     "Eli Lilly (Healthcare)",
+  //     "Microsoft (Technology)",
+  //     "Alphabet (Technology)",
+  //     "Amazon (E-commerce)",
+  //     "Tesla (Electric Vehicles)",
+  //     "UnitedHealth Group (Healthcare)",
+  //     "LVMH (Luxury Goods)",
+  //     "Samsung Electronics (Technology)",
+  //   ],
+  //   efi: [
+  //     "US Treasury Bills (Government)",
+  //     "JP Morgan Cash Instruments (Banking)",
+  //     "Bank of America CD (Banking)",
+  //     "HSBC Money Market (Banking)",
+  //     "Citigroup Commercial Paper (Banking)",
+  //     "Federal Home Loan Bank Notes (Government)",
+  //     "Federal Farm Credit Bank (Government)",
+  //     "Goldman Sachs Group (Banking)",
+  //     "Toyota Motor Credit Corp (Auto)",
+  //     "Barclays Negotiable CDs (Banking)",
+  //   ],
+  //   nbi: [
+  //     "Johnson & Johnson (Healthcare)",
+  //     "Procter & Gamble (Consumer Goods)",
+  //     "Coca-Cola Company (Beverages)",
+  //     "Verizon Communications (Telecom)",
+  //     "Nestle (Consumer Goods)",
+  //     "McDonald's Corporation (Restaurants)",
+  //     "PepsiCo Inc. (Food & Beverage)",
+  //     "IBM (Technology)",
+  //     "Unilever (Consumer Goods)",
+  //     "AT&T Inc. (Telecommunications)",
+  //   ],
+  //   edi: [
+  //     "NextEra Energy (Renewable Energy)",
+  //     "Tesla (Electric Vehicles)",
+  //     "Beyond Meat (Sustainable Food)",
+  //     "Vestas Wind Systems (Wind Energy)",
+  //     "First Solar (Solar Energy)",
+  //     "Orsted (Renewable Energy)",
+  //     "Linde plc (Clean Technologies)",
+  //     "Waste Management (Recycling)",
+  //     "Autodesk (Sustainable Software)",
+  //     "Ecolab (Water Solutions)",
+  //   ],
+  // };
 
   // Investment strategy extended descriptions
-  const investmentStrategy = {
-    vci: {
-      approach:
-        "Our Venture Capital Investment plan employs an aggressive capital appreciation strategy that seeks to maximize returns through concentrated exposure to high-growth sectors and companies. We utilize both fundamental and technical analysis to identify companies with disruptive potential, market leadership, and strong earnings growth trajectories.",
-      selectionCriteria: [
-        "Companies with consistent revenue growth exceeding 15% annually",
-        "Market leaders with strong competitive advantages",
-        "Disruptive business models with scaling potential",
-        "Strong management teams with proven execution abilities",
-        "Favorable industry trends and expanding market opportunities",
-      ],
-      riskManagement:
-        "We manage risk through position sizing, sector diversification, and active monitoring of market conditions. While this strategy experiences higher volatility, our disciplined approach to entry and exit points helps mitigate downside risk while maximizing growth potential.",
-      rebalancing:
-        "Quarterly portfolio rebalancing ensures alignment with market conditions and growth opportunities, with tactical adjustments made as needed based on market developments.",
-    },
-    efi: {
-      approach:
-        "Our Equity Finance Investment plan focuses on capital preservation and liquidity while generating modest but stable returns. We invest exclusively in high-quality, short-term debt instruments from governments, financial institutions, and top-rated corporations.",
-      selectionCriteria: [
-        "Securities with maturities under 13 months",
-        "Minimum credit ratings of A-1/P-1/F1",
-        "Diversification across issuers and maturity dates",
-        "Liquidity assessment for all instruments",
-        "Yield optimization within risk parameters",
-      ],
-      riskManagement:
-        "Risk is managed through strict credit quality standards, maturity limits, and issuer concentration limits. We continuously monitor market conditions and credit quality to ensure portfolio safety.",
-      rebalancing:
-        "Daily liquidity assessments and weekly portfolio reviews ensure optimal yield while maintaining capital preservation objectives.",
-    },
-    nbi: {
-      approach:
-        "Our Nano Business Investment plan balances growth and income through a diversified portfolio of dividend-paying equities and fixed-income securities. We seek companies with stable earnings, strong balance sheets, and consistent dividend histories, complemented by investment-grade bonds.",
-      selectionCriteria: [
-        "Equities with 5+ years of dividend growth",
-        "Companies with low debt-to-equity ratios",
-        "Investment-grade bonds (BBB- or higher)",
-        "Sector diversification for reduced volatility",
-        "Attractive risk-adjusted return potential",
-      ],
-      riskManagement:
-        "We manage risk through asset allocation, sector diversification, and quality screening. Our balanced approach provides downside protection during market volatility while capturing upside potential.",
-      rebalancing:
-        "Quarterly strategic rebalancing maintains target allocations, with tactical adjustments based on economic conditions and market valuations.",
-    },
-    edi: {
-      approach:
-        "Our Ethical/Development Investment plan combines financial returns with positive social and environmental impact. We apply comprehensive ESG (Environmental, Social, Governance) screening to identify companies contributing to sustainability while excluding those with negative impacts.",
-      selectionCriteria: [
-        "Top quartile ESG ratings from recognized agencies",
-        "Climate change mitigation contributors",
-        "Strong workplace practices and diversity",
-        "Transparent governance and ethical business practices",
-        "Innovative solutions to sustainability challenges",
-      ],
-      riskManagement:
-        "Beyond traditional financial risk management, we assess sustainability risks and opportunities that may impact long-term performance, ensuring both financial returns and positive impact.",
-      rebalancing:
-        "Quarterly financial rebalancing is complemented by semi-annual ESG reassessment to ensure continued alignment with ethical criteria and impact objectives.",
-    },
-  };
+  // const investmentStrategy = {
+  //   vci: {
+  //     approach:
+  //       "Our Venture Capital Investment plan employs an aggressive capital appreciation strategy that seeks to maximize returns through concentrated exposure to high-growth sectors and companies. We utilize both fundamental and technical analysis to identify companies with disruptive potential, market leadership, and strong earnings growth trajectories.",
+  //     selectionCriteria: [
+  //       "Companies with consistent revenue growth exceeding 15% annually",
+  //       "Market leaders with strong competitive advantages",
+  //       "Disruptive business models with scaling potential",
+  //       "Strong management teams with proven execution abilities",
+  //       "Favorable industry trends and expanding market opportunities",
+  //     ],
+  //     riskManagement:
+  //       "We manage risk through position sizing, sector diversification, and active monitoring of market conditions. While this strategy experiences higher volatility, our disciplined approach to entry and exit points helps mitigate downside risk while maximizing growth potential.",
+  //     rebalancing:
+  //       "Quarterly portfolio rebalancing ensures alignment with market conditions and growth opportunities, with tactical adjustments made as needed based on market developments.",
+  //   },
+  //   efi: {
+  //     approach:
+  //       "Our Equity Finance Investment plan focuses on capital preservation and liquidity while generating modest but stable returns. We invest exclusively in high-quality, short-term debt instruments from governments, financial institutions, and top-rated corporations.",
+  //     selectionCriteria: [
+  //       "Securities with maturities under 13 months",
+  //       "Minimum credit ratings of A-1/P-1/F1",
+  //       "Diversification across issuers and maturity dates",
+  //       "Liquidity assessment for all instruments",
+  //       "Yield optimization within risk parameters",
+  //     ],
+  //     riskManagement:
+  //       "Risk is managed through strict credit quality standards, maturity limits, and issuer concentration limits. We continuously monitor market conditions and credit quality to ensure portfolio safety.",
+  //     rebalancing:
+  //       "Daily liquidity assessments and weekly portfolio reviews ensure optimal yield while maintaining capital preservation objectives.",
+  //   },
+  //   nbi: {
+  //     approach:
+  //       "Our Nano Business Investment plan balances growth and income through a diversified portfolio of dividend-paying equities and fixed-income securities. We seek companies with stable earnings, strong balance sheets, and consistent dividend histories, complemented by investment-grade bonds.",
+  //     selectionCriteria: [
+  //       "Equities with 5+ years of dividend growth",
+  //       "Companies with low debt-to-equity ratios",
+  //       "Investment-grade bonds (BBB- or higher)",
+  //       "Sector diversification for reduced volatility",
+  //       "Attractive risk-adjusted return potential",
+  //     ],
+  //     riskManagement:
+  //       "We manage risk through asset allocation, sector diversification, and quality screening. Our balanced approach provides downside protection during market volatility while capturing upside potential.",
+  //     rebalancing:
+  //       "Quarterly strategic rebalancing maintains target allocations, with tactical adjustments based on economic conditions and market valuations.",
+  //   },
+  //   edi: {
+  //     approach:
+  //       "Our Ethical/Development Investment plan combines financial returns with positive social and environmental impact. We apply comprehensive ESG (Environmental, Social, Governance) screening to identify companies contributing to sustainability while excluding those with negative impacts.",
+  //     selectionCriteria: [
+  //       "Top quartile ESG ratings from recognized agencies",
+  //       "Climate change mitigation contributors",
+  //       "Strong workplace practices and diversity",
+  //       "Transparent governance and ethical business practices",
+  //       "Innovative solutions to sustainability challenges",
+  //     ],
+  //     riskManagement:
+  //       "Beyond traditional financial risk management, we assess sustainability risks and opportunities that may impact long-term performance, ensuring both financial returns and positive impact.",
+  //     rebalancing:
+  //       "Quarterly financial rebalancing is complemented by semi-annual ESG reassessment to ensure continued alignment with ethical criteria and impact objectives.",
+  //   },
+  // };
 
   // Plan-specific benefits
-  const benefits = {
-    vci: [
-      "Access to high-growth private equity opportunities (for investments over $50,000)",
-      "Quarterly strategy calls with portfolio managers",
-      "Early access to IPO allocations",
-      "Advanced tax optimization strategies",
-      "Annual personal portfolio review with senior investment team",
-    ],
-    efi: [
-      "Daily liquidity with no withdrawal penalties",
-      "Online sweep account integration",
-      "Automatic reinvestment options",
-      "Corporate cash management solutions",
-      "Check-writing privileges (for accounts over $25,000)",
-    ],
-    nbi: [
-      "Income distribution options (monthly, quarterly, or annual)",
-      "Tax-efficient dividend harvesting",
-      "Retirement income planning tools",
-      "Portfolio stress testing against market scenarios",
-      "Annual financial planning session",
-    ],
-    edi: [
-      "Annual impact report detailing ESG metrics",
-      "Shareholder advocacy participation",
-      "Community investment allocations",
-      "Sustainable investing educational resources",
-      "Carbon footprint assessment of your portfolio",
-    ],
-  };
+  // const benefits = {
+  //   vci: [
+  //     "Access to high-growth private equity opportunities (for investments over $50,000)",
+  //     "Quarterly strategy calls with portfolio managers",
+  //     "Early access to IPO allocations",
+  //     "Advanced tax optimization strategies",
+  //     "Annual personal portfolio review with senior investment team",
+  //   ],
+  //   efi: [
+  //     "Daily liquidity with no withdrawal penalties",
+  //     "Online sweep account integration",
+  //     "Automatic reinvestment options",
+  //     "Corporate cash management solutions",
+  //     "Check-writing privileges (for accounts over $25,000)",
+  //   ],
+  //   nbi: [
+  //     "Income distribution options (monthly, quarterly, or annual)",
+  //     "Tax-efficient dividend harvesting",
+  //     "Retirement income planning tools",
+  //     "Portfolio stress testing against market scenarios",
+  //     "Annual financial planning session",
+  //   ],
+  //   edi: [
+  //     "Annual impact report detailing ESG metrics",
+  //     "Shareholder advocacy participation",
+  //     "Community investment allocations",
+  //     "Sustainable investing educational resources",
+  //     "Carbon footprint assessment of your portfolio",
+  //   ],
+  // };
 
   return (
     <div className="min-h-screen bg-background">

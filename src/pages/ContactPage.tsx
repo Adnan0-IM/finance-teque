@@ -312,7 +312,7 @@ export function ContactPage() {
               ></iframe>
             </div>
             <div className="p-6 bg-white">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-4 sm:flex-row items-center justify-between">
                 <div>
                   <h3 className="font-bold text-lg text-primary">
                     Finance Teque Investment Growth
@@ -323,7 +323,7 @@ export function ContactPage() {
                 </div>
                 <Button
                   variant="outline"
-                  className="flex items-center space-x-2 border-primary text-primary hover:bg-primary hover:text-white"
+                  className="flex  w-full sm:w-fit items-center space-x-2 border-primary text-primary hover:bg-primary hover:text-white"
                 >
                   <MapPin className="h-4 w-4" />
                   <span>Get Directions</span>
@@ -408,7 +408,7 @@ export function ContactPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <ModalButton text="Schedule a Consultation" />
+            <ModalButton className="w-full" text="Schedule a Consultation" />
             <Button
               size="lg"
               variant="outline"

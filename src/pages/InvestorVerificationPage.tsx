@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import type { Control, FieldPath } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +12,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Navigation from "@/components/Navigation";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import {
@@ -23,14 +23,13 @@ import {
   FileText,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import {  useNavigate } from "react-router";
-
+import { useNavigate } from "react-router";
 
 // Create a custom FormField wrapper component to ensure consistent spacing
 interface StableFormFieldProps {
   label: string;
-  name: string;
-  control: any;
+  name: FieldPath<z.infer<typeof formSchema>>;
+  control: Control<z.infer<typeof formSchema>, unknown>;
   placeholder?: string;
   type?: string;
   required?: boolean;
@@ -76,7 +75,7 @@ const StableFormField: React.FC<StableFormFieldProps> = ({
                     const file = e.target.files?.[0];
                     onChange(file || null);
                   }}
-                  className={`text-xs sm:text-sm ${className}`}
+                  className={`text-xs sm:text-sm bg-gray-50 focus:bg-white ${className}`}
                   {...fieldProps}
                 />
               </div>
@@ -84,7 +83,7 @@ const StableFormField: React.FC<StableFormFieldProps> = ({
               <Input
                 placeholder={placeholder}
                 type={type}
-                className={`h-[2.35rem] sm:h-[2.5rem] ${className}`}
+                className={`h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition ${className}`}
                 onChange={onChange}
                 value={value || ""}
                 {...fieldProps}
@@ -306,324 +305,337 @@ export function InvestorVerificationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
+    <div className="min-h-screen bg-gray-50">
+      {/* <Navigation /> */}
 
-      <div className="max-w-4xl mx-auto px-4 py-18 sm:py-20 shadow-md">
-        <div className="mb-6 sm:mb-8 text-center">
-          <h1 className="text-2xl sm:text-3xl font-bold">
-            Investor Verification
-          </h1>
-          <p className="text-sm sm:text-base text-muted-foreground mt-2">
-            Please complete all details to verify your account and start
-            investing
-          </p>
-        </div>
-
-        {/* Progress Steps - Hidden on very small screens, simplified on small screens */}
-        <div className="mb-6 sm:mb-8">
-          {/* Mobile step indicator */}
-          <div className="block sm:hidden text-center mb-4">
-            <p className="text-sm font-medium">
-              Step {currentStep + 1} of {steps.length}:{" "}
-              {steps[currentStep].name}
+      <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 sm:p-8">
+          <div className="mb-6 sm:mb-8 text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold text-brand-primary">
+              Investor Verification
+            </h1>
+            <p className="text-sm sm:text-base text-muted-foreground mt-2">
+              Please complete all details to verify your account and start
+              investing
             </p>
           </div>
 
-          {/* Progress bar - always visible */}
-          <div className="relative h-1 bg-gray-200 w-full mb-2">
-            <div
-              className="absolute top-0 left-0 h-1 bg-brand-primary transition-all duration-300"
-              style={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
-            ></div>
+          {/* Progress Steps - Hidden on very small screens, simplified on small screens */}
+          <div className="mb-6 sm:mb-8">
+            {/* Mobile step indicator */}
+            <div className="block sm:hidden text-center mb-4">
+              <p className="text-sm font-medium">
+                Step {currentStep + 1} of {steps.length}:{" "}
+                {steps[currentStep].name}
+              </p>
+            </div>
+
+            {/* Progress bar - always visible */}
+            <div className="relative h-2 bg-gray-200 rounded-full w-full mb-3">
+              <div
+                className="absolute top-0 left-0 h-2 bg-brand-primary rounded-full transition-all duration-500 ease-in-out"
+                style={{
+                  width: `${(currentStep / (steps.length - 1)) * 100}%`,
+                }}
+              ></div>
+            </div>
+
+            {/* Desktop/tablet step indicators */}
+            <div className="hidden sm:flex justify-between">
+              {steps.map((step, index) => {
+                const StepIcon = step.icon;
+                return (
+                  <div key={step.id} className="flex flex-col items-center">
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        index < currentStep
+                          ? "bg-brand-primary text-white shadow-md"
+                          : index === currentStep
+                          ? "bg-brand-primary text-white ring-4 ring-brand-primary/20 shadow-md"
+                          : "bg-gray-200 text-gray-500"
+                      }`}
+                    >
+                      <StepIcon size={20} />
+                    </div>
+                    <span
+                      className={`text-sm mt-2 font-medium ${
+                        index <= currentStep
+                          ? "text-brand-primary"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {step.name}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Desktop/tablet step indicators */}
-          <div className="hidden sm:flex justify-between">
-            {steps.map((step, index) => {
-              const StepIcon = step.icon;
-              return (
-                <div key={step.id} className="flex flex-col items-center">
-                  <div
-                    className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${
-                      index <= currentStep
-                        ? "bg-brand-primary text-white"
-                        : "bg-gray-200 text-gray-500"
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* Step 1: Bio Data */}
+              {currentStep === 0 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg sm:text-xl font-semibold">
+                    Personal Information
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-4">
+                    <StableFormField
+                      label="First Name"
+                      name="firstName"
+                      control={form.control}
+                      placeholder="John"
+                    />
+
+                    <StableFormField
+                      label="Surname"
+                      name="surname"
+                      control={form.control}
+                      placeholder="Doe"
+                    />
+
+                    <StableFormField
+                      label="Phone Number"
+                      name="phoneNumber"
+                      control={form.control}
+                      placeholder="+2348000000000 or 08000000000"
+                      type="tel"
+                    />
+
+                    <StableFormField
+                      label="Email Address"
+                      name="email"
+                      control={form.control}
+                      placeholder="name@example.com"
+                      type="email"
+                    />
+
+                    <StableFormField
+                      label="Date of Birth"
+                      name="dateOfBirth"
+                      control={form.control}
+                      type="date"
+                    />
+
+                    <StableFormField
+                      label="Local Government"
+                      name="localGovernment"
+                      control={form.control}
+                      placeholder="Ikeja"
+                    />
+
+                    <StableFormField
+                      label="State of Residence"
+                      name="stateOfResidence"
+                      control={form.control}
+                      placeholder="Lagos"
+                    />
+
+                    <StableFormField
+                      label="NIN Number"
+                      name="ninNumber"
+                      control={form.control}
+                      placeholder="12345678901"
+                    />
+                  </div>
+
+                  <StableFormField
+                    label="Residential Address"
+                    name="residentialAddress"
+                    control={form.control}
+                    placeholder="123 Main Street, Ikeja, Lagos"
+                  />
+                </div>
+              )}
+
+              {/* Step 2: Next of Kin */}
+              {currentStep === 1 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg sm:text-xl font-semibold">
+                    Next of Kin Details
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
+                    <StableFormField
+                      label="Full Name"
+                      name="kinFullName"
+                      control={form.control}
+                      placeholder="Jane Doe"
+                    />
+
+                    <StableFormField
+                      label="Phone Number"
+                      name="kinPhoneNumber"
+                      control={form.control}
+                      placeholder="+2348000000000 or 08000000000"
+                      type="tel"
+                    />
+
+                    <StableFormField
+                      label="Email Address"
+                      name="kinEmail"
+                      control={form.control}
+                      placeholder="name@example.com"
+                      type="email"
+                    />
+
+                    <StableFormField
+                      label="Relationship"
+                      name="kinRelationship"
+                      control={form.control}
+                      placeholder="Spouse / Sibling / Parent"
+                    />
+                  </div>
+
+                  <StableFormField
+                    label="Residential Address"
+                    name="kinResidentialAddress"
+                    control={form.control}
+                    placeholder="123 Main Street, Ikeja, Lagos"
+                  />
+                </div>
+              )}
+
+              {/* Step 3: Account Details */}
+              {currentStep === 2 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg sm:text-xl font-semibold">
+                    Bank Account Information
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
+                    <StableFormField
+                      label="Account Name"
+                      name="accountName"
+                      control={form.control}
+                      placeholder="John Doe"
+                    />
+
+                    <StableFormField
+                      label="Account Number"
+                      name="accountNumber"
+                      control={form.control}
+                      placeholder="0123456789"
+                    />
+
+                    <StableFormField
+                      label="Bank Name"
+                      name="bankName"
+                      control={form.control}
+                      placeholder="First Bank of Nigeria"
+                    />
+
+                    <StableFormField
+                      label="Account Type"
+                      name="accountType"
+                      control={form.control}
+                      placeholder="Savings / Current"
+                    />
+
+                    <StableFormField
+                      label="BVN Number"
+                      name="bvnNumber"
+                      control={form.control}
+                      placeholder="12345678901"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4: KYC Documents */}
+              {currentStep === 3 && (
+                <div className="space-y-4">
+                  <h2 className="text-lg sm:text-xl font-semibold">
+                    Required Documents
+                  </h2>
+                  <p className="text-xs sm:text-sm text-muted-foreground mb-4">
+                    Please upload clear images or PDF files of the following
+                    documents:
+                  </p>
+
+                  <div className="space-y-4 sm:space-y-6">
+                    <div className="border rounded-lg p-3 sm:p-4">
+                      <StableFormField
+                        label="1. Means of Identification"
+                        name="identificationDocument"
+                        control={form.control}
+                        description="National ID, Voter's Card, or International Passport"
+                        isFileInput={true}
+                        accept=".jpg,.jpeg,.png,.pdf"
+                      />
+                    </div>
+
+                    <div className="border rounded-lg p-3 sm:p-4">
+                      <StableFormField
+                        label="2. Passport Photograph"
+                        name="passportPhoto"
+                        control={form.control}
+                        description="Recent, with clear background"
+                        isFileInput={true}
+                        accept=".jpg,.jpeg,.png"
+                      />
+                    </div>
+
+                    <div className="border rounded-lg p-3 sm:p-4">
+                      <StableFormField
+                        label="3. Utility Bill"
+                        name="utilityBill"
+                        control={form.control}
+                        description="Not older than 3 months"
+                        isFileInput={true}
+                        accept=".jpg,.jpeg,.png,.pdf"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 p-3 sm:p-4 bg-blue-50 rounded-lg">
+                    <p className="text-xs sm:text-sm text-blue-700">
+                      <strong>Note:</strong> All documents must be clear, valid,
+                      and unaltered. Verification process typically takes 1-2
+                      business days.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between pt-4">
+                {currentStep > 0 && (
+                  <Button
+                    type="button"
+                    onClick={prevStep}
+                    variant="outline"
+                    className="w-full sm:w-auto order-2 sm:order-1 border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-brand-primary/30"
+                  >
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Previous
+                  </Button>
+                )}
+
+                {currentStep < steps.length - 1 ? (
+                  <Button
+                    type="button"
+                    onClick={nextStep}
+                    className={`w-full sm:w-auto bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 ${
+                      currentStep > 0
+                        ? "order-1 sm:order-2 sm:ml-auto"
+                        : "order-1"
                     }`}
                   >
-                    <StepIcon size={16} className="sm:size-20" />
-                  </div>
-                  <span className="text-xs sm:text-sm mt-1 sm:mt-2">
-                    {step.name}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+                    Next
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    className="w-full sm:w-auto order-1 sm:order-2 sm:ml-auto bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50"
+                  >
+                    Submit Verification
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+            </form>
+          </Form>
         </div>
-
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Step 1: Bio Data */}
-            {currentStep === 0 && (
-              <div className="space-y-4">
-                <h2 className="text-lg sm:text-xl font-semibold">
-                  Personal Information
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-4">
-                  <StableFormField
-                    label="First Name"
-                    name="firstName"
-                    control={form.control}
-                    placeholder="John"
-                  />
-
-                  <StableFormField
-                    label="Surname"
-                    name="surname"
-                    control={form.control}
-                    placeholder="Doe"
-                  />
-
-                  <StableFormField
-                    label="Phone Number"
-                    name="phoneNumber"
-                    control={form.control}
-                    placeholder="+2348000000000 or 08000000000"
-                    type="tel"
-                  />
-
-                  <StableFormField
-                    label="Email Address"
-                    name="email"
-                    control={form.control}
-                    placeholder="name@example.com"
-                    type="email"
-                  />
-
-                  <StableFormField
-                    label="Date of Birth"
-                    name="dateOfBirth"
-                    control={form.control}
-                    type="date"
-                  />
-
-                  <StableFormField
-                    label="Local Government"
-                    name="localGovernment"
-                    control={form.control}
-                    placeholder="Ikeja"
-                  />
-
-                  <StableFormField
-                    label="State of Residence"
-                    name="stateOfResidence"
-                    control={form.control}
-                    placeholder="Lagos"
-                  />
-
-                  <StableFormField
-                    label="NIN Number"
-                    name="ninNumber"
-                    control={form.control}
-                    placeholder="12345678901"
-                  />
-                </div>
-
-                <StableFormField
-                  label="Residential Address"
-                  name="residentialAddress"
-                  control={form.control}
-                  placeholder="123 Main Street, Ikeja, Lagos"
-                />
-              </div>
-            )}
-
-            {/* Step 2: Next of Kin */}
-            {currentStep === 1 && (
-              <div className="space-y-4">
-                <h2 className="text-lg sm:text-xl font-semibold">
-                  Next of Kin Details
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
-                  <StableFormField
-                    label="Full Name"
-                    name="kinFullName"
-                    control={form.control}
-                    placeholder="Jane Doe"
-                  />
-
-                  <StableFormField
-                    label="Phone Number"
-                    name="kinPhoneNumber"
-                    control={form.control}
-                    placeholder="+2348000000000 or 08000000000"
-                    type="tel"
-                  />
-
-                  <StableFormField
-                    label="Email Address"
-                    name="kinEmail"
-                    control={form.control}
-                    placeholder="name@example.com"
-                    type="email"
-                  />
-
-                  <StableFormField
-                    label="Relationship"
-                    name="kinRelationship"
-                    control={form.control}
-                    placeholder="Spouse / Sibling / Parent"
-                  />
-                </div>
-
-                <StableFormField
-                  label="Residential Address"
-                  name="kinResidentialAddress"
-                  control={form.control}
-                  placeholder="123 Main Street, Ikeja, Lagos"
-                />
-              </div>
-            )}
-
-            {/* Step 3: Account Details */}
-            {currentStep === 2 && (
-              <div className="space-y-4">
-                <h2 className="text-lg sm:text-xl font-semibold">
-                  Bank Account Information
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
-                  <StableFormField
-                    label="Account Name"
-                    name="accountName"
-                    control={form.control}
-                    placeholder="John Doe"
-                  />
-
-                  <StableFormField
-                    label="Account Number"
-                    name="accountNumber"
-                    control={form.control}
-                    placeholder="0123456789"
-                  />
-
-                  <StableFormField
-                    label="Bank Name"
-                    name="bankName"
-                    control={form.control}
-                    placeholder="First Bank of Nigeria"
-                  />
-
-                  <StableFormField
-                    label="Account Type"
-                    name="accountType"
-                    control={form.control}
-                    placeholder="Savings / Current"
-                  />
-
-                  <StableFormField
-                    label="BVN Number"
-                    name="bvnNumber"
-                    control={form.control}
-                    placeholder="12345678901"
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Step 4: KYC Documents */}
-            {currentStep === 3 && (
-              <div className="space-y-4">
-                <h2 className="text-lg sm:text-xl font-semibold">
-                  Required Documents
-                </h2>
-                <p className="text-xs sm:text-sm text-muted-foreground mb-4">
-                  Please upload clear images or PDF files of the following
-                  documents:
-                </p>
-
-                <div className="space-y-4 sm:space-y-6">
-                  <div className="border rounded-lg p-3 sm:p-4">
-                    <StableFormField
-                      label="1. Means of Identification"
-                      name="identificationDocument"
-                      control={form.control}
-                      description="National ID, Voter's Card, or International Passport"
-                      isFileInput={true}
-                      accept=".jpg,.jpeg,.png,.pdf"
-                    />
-                  </div>
-
-                  <div className="border rounded-lg p-3 sm:p-4">
-                    <StableFormField
-                      label="2. Passport Photograph"
-                      name="passportPhoto"
-                      control={form.control}
-                      description="Recent, with clear background"
-                      isFileInput={true}
-                      accept=".jpg,.jpeg,.png"
-                    />
-                  </div>
-
-                  <div className="border rounded-lg p-3 sm:p-4">
-                    <StableFormField
-                      label="3. Utility Bill"
-                      name="utilityBill"
-                      control={form.control}
-                      description="Not older than 3 months"
-                      isFileInput={true}
-                      accept=".jpg,.jpeg,.png,.pdf"
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-4 p-3 sm:p-4 bg-blue-50 rounded-lg">
-                  <p className="text-xs sm:text-sm text-blue-700">
-                    <strong>Note:</strong> All documents must be clear, valid,
-                    and unaltered. Verification process typically takes 1-2
-                    business days.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between pt-4">
-              {currentStep > 0 && (
-                <Button
-                  type="button"
-                  onClick={prevStep}
-                  variant="outline"
-                  className="w-full sm:w-auto order-2 sm:order-1"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Previous
-                </Button>
-              )}
-
-              {currentStep < steps.length - 1 ? (
-                <Button
-                  type="button"
-                  onClick={nextStep}
-                  className={`w-full sm:w-auto ${
-                    currentStep > 0
-                      ? "order-1 sm:order-2 sm:ml-auto"
-                      : "order-1"
-                  }`}
-                >
-                  Next
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  className="w-full sm:w-auto order-1 sm:order-2 sm:ml-auto bg-brand-primary hover:bg-brand-primary-dark"
-                >
-                  Submit Verification
-                </Button>
-              )}
-            </div>
-          </form>
-        </Form>
       </div>
       <Toaster position="top-right" duration={3000} />
     </div>

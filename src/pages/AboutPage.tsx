@@ -289,7 +289,7 @@ export function AboutPage() {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="font-bold">Assets Under Management</h4>
-                    <span className="text-2xl font-bold">$2.8B</span>
+                    <span className="text-2xl font-bold">₦2.8B</span>
                   </div>
                   <p className="text-sm opacity-90">
                     Growing portfolio across 15+ countries
@@ -440,7 +440,7 @@ export function AboutPage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <ModalButton
-              className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark px-8 py-4 text-white"
+              className="w-full cursor-pointer bg-brand-primary hover:bg-brand-primary-dark px-8 py-4 text-white"
               text="Schedule a Consultation"
             />
             <Button
