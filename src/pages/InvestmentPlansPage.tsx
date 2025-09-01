@@ -234,7 +234,6 @@ export function InvestmentPlansPage() {
                   <td className="px-6 py-4 text-center">
                     <Badge variant="default">Moderate-High</Badge>
                   </td>
-                  ₦
                 </tr>
                 <tr className="border-b border-gray-200">
                   <td className="px-6 py-4 font-medium">Minimum Investment</td>
