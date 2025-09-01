@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, Link } from "react-router";
 import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
@@ -447,12 +447,27 @@ export default function InvestmentPlanDetailPage() {
                   text="Start Investing"
                   className="bg-white text-brand-primary hover:bg-gray-100"
                 />
-                <Button
-                  variant="outline"
-                  className="border-white text-white bg-transparent hover:bg-white hover:text-brand-primary"
-                >
-                  Compare All Plans
-                </Button>
+                <Link to={"/plans"}>
+                  <Button
+                    variant="outline"
+                    className="border-white text-white bg-transparent hover:bg-white hover:text-brand-primary
+                  "
+                    onClick={() => {
+                      setTimeout(() => {
+                      const comparisonSection =
+                        document.getElementById("comparison");
+                      if (comparisonSection) {
+                        comparisonSection.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
+                      }
+                      }, 1000);
+                    }}
+                  >
+                    Compare All Plans
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="bg-white/10 p-6 rounded-lg">
