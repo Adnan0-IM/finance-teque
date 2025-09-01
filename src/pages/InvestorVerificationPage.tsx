@@ -603,7 +603,7 @@ export function InvestorVerificationPage() {
                     type="button"
                     onClick={prevStep}
                     variant="outline"
-                    className="w-full sm:w-auto order-2 sm:order-1 border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-brand-primary/30"
+                    className="w-full sm:w-auto order-2 sm:order-1 border-gray-300 hover:text-gray-900 hover:bg-gray-50 focus:ring-2 focus:ring-brand-primary/30"
                   >
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Previous

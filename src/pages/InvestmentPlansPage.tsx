@@ -102,7 +102,24 @@ export function InvestmentPlansPage() {
                       </div>
                     </div>
                     <h3 className="text-2xl font-bold mb-2">{plan.title}</h3>
-                    <p className="text-muted-foreground">{plan.description}</p>
+                    <div className="relative">
+                      <p className="text-muted-foreground">
+                        {plan.description.length > 180
+                          ? `${plan.description.substring(0, 180)}...`
+                          : plan.description}
+                      </p>
+                      {plan.description.length > 150 && (
+                        <Button
+                          variant="link"
+                          className="p-0 h-auto text-brand-primary absolute right-0 bottom-0"
+                          onClick={() =>
+                            (window.location.href = `/plans/${plan.id}`)
+                          }
+                        >
+                          Read more
+                        </Button>
+                      )}
+                    </div>
                   </CardHeader>
 
                   <CardContent className="space-y-6">
