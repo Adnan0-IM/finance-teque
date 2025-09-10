@@ -228,11 +228,10 @@ export function ContactPage() {
                     <div>
                       <h4 className="font-semibold mb-1">Business Hours</h4>
                       <p className="text-muted-foreground text-sm leading-relaxed">
-                        Monday - Friday: 9:00 AM - 6:00 PM
+                        Monday - Friday: 8:00 AM - 5:00 PM
                         <br />
-                        Saturday: 10:00 AM - 4:00 PM
-                        <br />
-                        Sunday: Closed
+                        Saturday - Sunday: Closed
+                        
                       </p>
                     </div>
                   </div>
@@ -365,8 +364,8 @@ export function ContactPage() {
                   What is the minimum investment amount?
                 </h3>
                 <p className="text-muted-foreground text-sm">
-                  Our minimum investment varies by plan, starting from $1,000
-                  for Money Market investments up to $10,000 for Growth
+                  Our minimum investment varies by plan, starting from ₦5,000
+                  for Money Market investments up to ₦10,000 for Growth
                   investments.
                 </p>
               </CardContent>

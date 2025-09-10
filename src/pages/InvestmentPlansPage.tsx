@@ -215,10 +215,10 @@ export function InvestmentPlansPage() {
               <tbody>
                 <tr className="border-b border-gray-200">
                   <td className="px-6 py-4 font-medium">Expected Return</td>
-                  <td className="px-6 py-4 text-center">15-22%</td>
-                  <td className="px-6 py-4 text-center">4-6%</td>
-                  <td className="px-6 py-4 text-center">8-12%</td>
-                  <td className="px-6 py-4 text-center">10-16%</td>
+                  <td className="px-6 py-4 text-center">12-18%</td>
+                  <td className="px-6 py-4 text-center">12-18%</td>
+                  <td className="px-6 py-4 text-center">12-18%</td>
+                  <td className="px-6 py-4 text-center">12-18%</td>
                 </tr>
                 <tr className="border-b border-gray-200 bg-gray-50">
                   <td className="px-6 py-4 font-medium">Risk Level</td>
@@ -238,9 +238,9 @@ export function InvestmentPlansPage() {
                 <tr className="border-b border-gray-200">
                   <td className="px-6 py-4 font-medium">Minimum Investment</td>
                   <td className="px-6 py-4 text-center">₦10,000</td>
-                  <td className="px-6 py-4 text-center">₦1,000</td>
                   <td className="px-6 py-4 text-center">₦5,000</td>
-                  <td className="px-6 py-4 text-center">₦7,500</td>
+                  <td className="px-6 py-4 text-center">₦5,000</td>
+                  <td className="px-6 py-4 text-center">₦5,000</td>
                 </tr>
                 <tr className="border-b border-gray-200 bg-gray-50">
                   <td className="px-6 py-4 font-medium">Liquidity</td>
