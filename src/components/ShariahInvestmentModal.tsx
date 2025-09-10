@@ -70,9 +70,9 @@ const investmentDetails = {
     icon: Shield,
     description:
       "Balanced approach with Sukuk and halal equities designed to provide moderate growth with reduced volatility.",
-    expectedReturn: "8-12% annually",
+    expectedReturn: "12-18% annually",
     riskLevel: "Moderate",
-    minInvestment: "₦3,000",
+    minInvestment: "₦5,000",
     recommendedTerm: "3-5 years",
     zakat: "Eligible for annual Zakat calculation",
     assetAllocation: [
@@ -103,9 +103,9 @@ const investmentDetails = {
     icon: Heart,
     description:
       "Stable income through Sukuk and dividend-paying halal stocks with a focus on capital preservation and regular distributions.",
-    expectedReturn: "6-10% annually",
+    expectedReturn: "12-18% annually",
     riskLevel: "Low-Moderate",
-    minInvestment: "₦2,000",
+    minInvestment: "₦5,000",
     recommendedTerm: "1-3 years",
     zakat: "Eligible for annual Zakat calculation",
     assetAllocation: [

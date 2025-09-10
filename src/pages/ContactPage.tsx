@@ -264,10 +264,10 @@ export function ContactPage() {
                     </a>
                     <a
                       href="#"
-                      className="flex items-center space-x-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+                      className="flex items-center space-x-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors  "
                     >
                       <Twitter className="h-6 w-6" />
-                      <span className="font-medium">Twitter</span>
+                      <span className="font-medium text-center mx-4 ">X</span>
                     </a>
                     <a
                       href="#"

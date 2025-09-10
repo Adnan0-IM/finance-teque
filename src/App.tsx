@@ -13,6 +13,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import RouteToTop from "./components/RouteToTop";
 import { InvestorDashboardPage } from "./pages/InvestorDashboardPage";
+import AssetFinancingPage from "./pages/AssetFinancingPage";
 
 // Protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/plans" element={<InvestmentPlansPage />} />
+  <Route path="/asset-financing" element={<AssetFinancingPage />} />
         <Route path="/shariah" element={<ShariahCompliancePage />} />
         <Route path="/team" element={<TeamPage />} />
         <Route path="/contact" element={<ContactPage />} />

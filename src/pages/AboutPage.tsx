@@ -348,9 +348,9 @@ export function AboutPage() {
                 </div>
                 <div className="flex-1 pl-8">
                   <div className="bg-gray-50 p-6 rounded-lg">
-                    <h4 className="font-bold text-lg mb-2">First $100M AUM</h4>
+                    <h4 className="font-bold text-lg mb-2">First ₦100M AUM</h4>
                     <p className="text-muted-foreground">
-                      Reached our first major milestone of $100 million in
+                      Reached our first major milestone of ₦100 million in
                       assets under management, demonstrating strong client
                       trust.
                     </p>
@@ -404,7 +404,7 @@ export function AboutPage() {
                 <div className="flex-1 text-right pr-8">
                   <div className="bg-gray-50 p-6 rounded-lg">
                     <h4 className="font-bold text-lg mb-2">
-                      $2.8B AUM Milestone
+                      ₦2.8B AUM Milestone
                     </h4>
                     <p className="text-muted-foreground">
                       Achieved $2.8 billion in assets under management,

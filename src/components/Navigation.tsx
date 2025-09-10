@@ -10,6 +10,7 @@ const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navLinks = [
     { title: "About", path: "/about" },
+    { title: "Asset Financing", path: "/asset-financing" },
     { title: "Investment Plans", path: "/plans" },
     { title: "Shari'ah Compliance", path: "/shariah" },
     { title: "Team", path: "/team" },
@@ -152,7 +153,6 @@ const Navigation = () => {
 
               {/* Mobile Get Started Button */}
               {user ? (
-              
                 <div className="p-6 border-t border-border">
                   <Button
                     variant="outline"
@@ -162,7 +162,7 @@ const Navigation = () => {
                   >
                     Logout
                   </Button>
-                  </div>
+                </div>
               ) : (
                 <div className="p-6 border-t border-border">
                   <InvestorRegistrationButton className="w-full cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white" />

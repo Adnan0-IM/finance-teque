@@ -503,7 +503,7 @@ export function ShariahCompliancePage() {
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                   <span className="font-medium">Expected Return</span>
-                  <span className="font-bold text-primary">8-12% annually</span>
+                  <span className="font-bold text-primary">12-18% annually</span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                   <span className="font-medium">Risk Level</span>
@@ -516,7 +516,7 @@ export function ShariahCompliancePage() {
                 </div>
                 <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                   <span className="font-medium">Min. Investment</span>
-                  <span className="font-bold">₦3,000</span>
+                  <span className="font-bold">₦5,000</span>
                 </div>
                 <Button
                   className="w-full cursor-pointer bg-primary hover:bg-primary-dark text-primary-foreground mt-6"
@@ -541,7 +541,7 @@ export function ShariahCompliancePage() {
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                   <span className="font-medium">Expected Return</span>
-                  <span className="font-bold text-primary">6-10% annually</span>
+                  <span className="font-bold text-primary">12-18% annually</span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                   <span className="font-medium">Risk Level</span>
@@ -554,7 +554,7 @@ export function ShariahCompliancePage() {
                 </div>
                 <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                   <span className="font-medium">Min. Investment</span>
-                  <span className="font-bold">₦2,000</span>
+                  <span className="font-bold">₦5,000</span>
                 </div>
                 <Button
                   className="w-full cursor-pointer bg-primary hover:bg-primary-dark text-primary-foreground mt-6"
