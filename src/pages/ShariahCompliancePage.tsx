@@ -131,7 +131,7 @@ export function ShariahCompliancePage() {
       {/* Navigation  */}
       <Navigation />
       {/* Banner Section */}
-      <section className="relative h-[60vh] flex items-center justify-center pt-16 sm:pt-0 overflow-hidden">
+      <section className="relative h-[75vh] flex items-center justify-center pt-16 sm:pt-0 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{

@@ -1,7 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
-import { CheckCircle, BarChart, ArrowRight, Target, Shield } from "lucide-react";
+import {
+  CheckCircle,
+  BarChart,
+  ArrowRight,
+  Target,
+  Shield,
+} from "lucide-react";
 import dubaiCityscape from "@/assets/business-banner@2x.jpg";
 import { Link } from "react-router";
 import { Toaster } from "@/components/ui/sonner";
@@ -11,9 +17,9 @@ export function AssetFinancingPage() {
     <div className="min-h-screen bg-background">
       {/* Navigation */}
       <Navigation />
-      
+
       {/* Banner Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[75vh] flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
@@ -24,14 +30,14 @@ export function AssetFinancingPage() {
         </div>
 
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Empowering Your Business with Asset Financing
           </h1>
-          <p className="text-xl md:text-2xl opacity-90 max-w-2xl mx-auto">
-            At Finance Teque Nigeria Limited, we believe the right asset at the right
-            time can redefine your business success. Whether you're just starting out
-            or expanding, our asset financing solutions are designed to meet your
-            needs.
+          <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
+            At Finance Teque Nigeria Limited, we believe the right asset at the
+            right time can redefine your business success. Whether you're just
+            starting out or expanding, our asset financing solutions are
+            designed to meet your needs.
           </p>
         </div>
       </section>
@@ -43,9 +49,12 @@ export function AssetFinancingPage() {
             <h3 className="text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wide">
               Tailored Solutions
             </h3>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand-dark">Our Four Specialized Financing Tracks</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand-dark">
+              Our Four Specialized Financing Tracks
+            </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              We offer customized asset financing solutions for businesses at every growth stage
+              We offer customized asset financing solutions for businesses at
+              every growth stage
             </p>
           </div>
 
@@ -56,11 +65,17 @@ export function AssetFinancingPage() {
                   <Target className="h-8 w-8 text-brand-primary" />
                 </div>
                 <CardTitle className="text-xl">
-                  <span className="text-brand-primary">Venture Capital Support</span>
+                  <span className="text-brand-primary">
+                    Venture Capital Support
+                  </span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Kickstart your innovative ideas with assets that attract investor interest — from production tools to critical infrastructure.</p>
+                <p className="text-muted-foreground">
+                  Kickstart your innovative ideas with assets that attract
+                  investor interest — from production tools to critical
+                  infrastructure.
+                </p>
               </CardContent>
             </Card>
 
@@ -70,11 +85,16 @@ export function AssetFinancingPage() {
                   <BarChart className="h-8 w-8 text-brand-primary" />
                 </div>
                 <CardTitle className="text-xl">
-                  <span className="text-brand-primary">Private Equity Partnership</span>
+                  <span className="text-brand-primary">
+                    Private Equity Partnership
+                  </span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Acquire the machinery or equipment that positions your business for higher valuation and strategic partnerships.</p>
+                <p className="text-muted-foreground">
+                  Acquire the machinery or equipment that positions your
+                  business for higher valuation and strategic partnerships.
+                </p>
               </CardContent>
             </Card>
 
@@ -84,11 +104,16 @@ export function AssetFinancingPage() {
                   <Shield className="h-8 w-8 text-brand-primary" />
                 </div>
                 <CardTitle className="text-xl">
-                  <span className="text-brand-primary">Nano Business Empowerment</span>
+                  <span className="text-brand-primary">
+                    Nano Business Empowerment
+                  </span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Start small, dream big. We provide financing for essential items or small-scale tools to fuel your daily operations.</p>
+                <p className="text-muted-foreground">
+                  Start small, dream big. We provide financing for essential
+                  items or small-scale tools to fuel your daily operations.
+                </p>
               </CardContent>
             </Card>
 
@@ -98,11 +123,16 @@ export function AssetFinancingPage() {
                   <CheckCircle className="h-8 w-8 text-brand-primary" />
                 </div>
                 <CardTitle className="text-xl">
-                  <span className="text-brand-primary">Ethical & Development Financing</span>
+                  <span className="text-brand-primary">
+                    Ethical & Development Financing
+                  </span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Running a socially responsible or community-based business? We offer favorable terms to help you create a lasting impact.</p>
+                <p className="text-muted-foreground">
+                  Running a socially responsible or community-based business? We
+                  offer favorable terms to help you create a lasting impact.
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -116,9 +146,12 @@ export function AssetFinancingPage() {
             <h3 className="text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wide">
               Our Advantages
             </h3>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand-dark">Why Choose Us?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand-dark">
+              Why Choose Us?
+            </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Finance Teque provides flexible asset financing solutions with competitive advantages
+              Finance Teque provides flexible asset financing solutions with
+              competitive advantages
             </p>
           </div>
 
@@ -128,28 +161,43 @@ export function AssetFinancingPage() {
                 <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-6">
                   <CheckCircle className="h-8 w-8 text-brand-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">Flexible repayment plans</h3>
-                <p className="text-muted-foreground">Customize your payment schedule to match your business's cash flow and revenue cycles.</p>
+                <h3 className="text-xl font-semibold mb-4">
+                  Flexible repayment plans
+                </h3>
+                <p className="text-muted-foreground">
+                  Customize your payment schedule to match your business's cash
+                  flow and revenue cycles.
+                </p>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
               <CardContent className="pt-10 pb-8">
                 <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-6">
                   <CheckCircle className="h-8 w-8 text-brand-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">Transparent terms</h3>
-                <p className="text-muted-foreground">Clear documentation with no hidden charges or surprise fees throughout your financing period.</p>
+                <h3 className="text-xl font-semibold mb-4">
+                  Transparent terms
+                </h3>
+                <p className="text-muted-foreground">
+                  Clear documentation with no hidden charges or surprise fees
+                  throughout your financing period.
+                </p>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
               <CardContent className="pt-10 pb-8">
                 <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-6">
                   <CheckCircle className="h-8 w-8 text-brand-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">Fast approval process</h3>
-                <p className="text-muted-foreground">Streamlined application and evaluation with quick decisions to get your business moving faster.</p>
+                <h3 className="text-xl font-semibold mb-4">
+                  Fast approval process
+                </h3>
+                <p className="text-muted-foreground">
+                  Streamlined application and evaluation with quick decisions to
+                  get your business moving faster.
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -163,47 +211,62 @@ export function AssetFinancingPage() {
             <h3 className="text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wide">
               Simple Process
             </h3>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand-dark">How It Works</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand-dark">
+              How It Works
+            </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Our straightforward process gets you from application to asset acquisition quickly
+              Our straightforward process gets you from application to asset
+              acquisition quickly
             </p>
           </div>
 
           <div className="relative">
             {/* Connection line */}
             <div className="absolute top-24 left-0 right-0 h-1 bg-gray-200 hidden md:block"></div>
-            
+
             <div className="grid md:grid-cols-4 gap-8">
               <div className="relative text-center">
                 <div className="w-16 h-16 bg-brand-primary text-white rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
                   <span className="text-xl font-bold">1</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Fill Application</h3>
-                <p className="text-muted-foreground">Complete our secure online application with your business details.</p>
+                <p className="text-muted-foreground">
+                  Complete our secure online application with your business
+                  details.
+                </p>
               </div>
-              
+
               <div className="relative text-center">
                 <div className="w-16 h-16 bg-brand-primary text-white rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
                   <span className="text-xl font-bold">2</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Upload Documents</h3>
-                <p className="text-muted-foreground">Provide your business documentation for verification and assessment.</p>
+                <p className="text-muted-foreground">
+                  Provide your business documentation for verification and
+                  assessment.
+                </p>
               </div>
-              
+
               <div className="relative text-center">
                 <div className="w-16 h-16 bg-brand-primary text-white rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
                   <span className="text-xl font-bold">3</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Get Matched</h3>
-                <p className="text-muted-foreground">We'll match you with the right financing track for your business needs.</p>
+                <p className="text-muted-foreground">
+                  We'll match you with the right financing track for your
+                  business needs.
+                </p>
               </div>
-              
+
               <div className="relative text-center">
                 <div className="w-16 h-16 bg-brand-primary text-white rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
                   <span className="text-xl font-bold">4</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Receive Approval</h3>
-                <p className="text-muted-foreground">Get approval and access your asset with complete peace of mind.</p>
+                <p className="text-muted-foreground">
+                  Get approval and access your asset with complete peace of
+                  mind.
+                </p>
               </div>
             </div>
           </div>
@@ -278,23 +341,28 @@ export function AssetFinancingPage() {
       {/* CTA Section */}
       <section className="py-20 bg-brand-primary text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Your growth story starts here.</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Your growth story starts here.
+          </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Ready to acquire the assets your business needs? Apply today and take the next step toward sustainable growth and success.
+            Ready to acquire the assets your business needs? Apply today and
+            take the next step toward sustainable growth and success.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="bg-white text-brand-primary hover:bg-gray-100 px-8 py-4"
-            >
-              Apply Now 
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <Link to={"/dashboard"}>
+              <Button
+                size="lg"
+                className="bg-white text-brand-primary hover:bg-gray-100 px-8 py-4"
+              >
+                Apply Now
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
             <Link to="/contact">
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-white text-white hover:bg-white/10 px-8 py-4"
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white  hover:text-white text-brand-primary hover:bg-white/10 px-8 py-4"
               >
                 Contact Us
               </Button>
@@ -302,7 +370,7 @@ export function AssetFinancingPage() {
           </div>
         </div>
       </section>
-      
+
       {/* FAQ Section */}
       {/* <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -355,7 +423,7 @@ export function AssetFinancingPage() {
           </div>
         </div>
       </section> */}
-      
+
       <Toaster className="text-base" position="top-right" duration={3000} />
     </div>
   );

@@ -39,116 +39,134 @@ const HomePage = () => {
       {/* Navigation */}
       <Navigation />
 
-
-{/* Hero Section */}
-<section className="relative h-screen flex items-center justify-center overflow-hidden">
-  <div
-    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-    style={{
-      backgroundImage: `url(${dubaiCityscape})`,
-    }}
-  >
-    <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
-  </div>
-
-  <div className="relative z-10 text-white w-full max-w-7xl mx-auto px-6 py-12">
-    <div className="grid md:grid-cols-2 gap-8 items-center">
-      {/* Left side - Heading and subtitle */}
-      <div className="text-left">
-        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight tracking-tight">
-          Grow Your Business with <span className="text-brand-primary">Asset Financing</span>
-        </h1>
-        
-        <p className="text-lg md:text-xl lg:text-2xl mb-8 font-light">
-          Need essential tools, machinery, or equipment to scale your business?
-          <span className="font-medium block mt-2">Finance Teque Nigeria Limited offers flexible asset financing for all growth stages.</span>
-        </p>
-        
-        <p className="text-xl md:text-2xl mb-8 font-medium hidden md:block">
-          Apply today and own the assets your business deserves.
-        </p>
-        
-        <div className="hidden md:block">
-          <Link to="/asset-financing" className="inline-block group">
-            <Button 
-              size="lg" 
-              variant="default"
-              className="text-lg px-10 py-6 font-semibold bg-brand-primary hover:bg-brand-primary/90 transition-all duration-300 shadow-lg"
-            >
-              Apply Now <span className="ml-2 group-hover:translate-x-1 inline-block transition-transform">→</span>
-            </Button>
-          </Link>
-        </div>
-      </div>
-      
-      {/* Right side - List items */}
-      <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/10 shadow-xl hidden md:block">
-        <h3 className="text-xl md:text-2xl mb-6 font-medium">Our Financing Solutions:</h3>
-        <ul className="space-y-5">
-          <li className="flex items-start">
-            <span className="inline-flex items-center justify-center bg-brand-primary text-white rounded-full h-8 w-8 min-w-8 mr-4 mt-0.5">✓</span>
-            <div>
-              <strong className="text-xl text-brand-primary">Startups</strong>
-              <p className="text-lg text-white/90">Secure key assets to attract venture funding.</p>
-            </div>
-          </li>
-          <li className="flex items-start">
-            <span className="inline-flex items-center justify-center bg-brand-primary text-white rounded-full h-8 w-8 min-w-8 mr-4 mt-0.5">✓</span>
-            <div>
-              <strong className="text-xl text-brand-primary">Growing businesses</strong>
-              <p className="text-lg text-white/90">Boost your value for private equity opportunities.</p>
-            </div>
-          </li>
-          <li className="flex items-start">
-            <span className="inline-flex items-center justify-center bg-brand-primary text-white rounded-full h-8 w-8 min-w-8 mr-4 mt-0.5">✓</span>
-            <div>
-              <strong className="text-xl text-brand-primary">Micro & Nano entrepreneurs</strong>
-              <p className="text-lg text-white/90">Get started with affordable equipment financing.</p>
-            </div>
-          </li>
-          <li className="flex items-start">
-            <span className="inline-flex items-center justify-center bg-brand-primary text-white rounded-full h-8 w-8 min-w-8 mr-4 mt-0.5">✓</span>
-            <div>
-              <strong className="text-xl text-brand-primary">Impact-driven enterprises</strong>
-              <p className="text-lg text-white/90">Access ethical financing for community-focused projects.</p>
-            </div>
-          </li>
-        </ul>
-        
-        {/* Mobile-only button */}
-        <div className="mt-8 md:hidden text-center">
-          <p className="text-xl mb-4 font-medium">
-            Apply today and own the assets your business deserves.
-          </p>
-          <Link to="/asset-financing" className="inline-block">
-            <Button 
-              size="lg" 
-              variant="default"
-              className="text-lg px-8 py-5 font-semibold bg-brand-primary hover:bg-brand-primary/90"
-            >
-              Apply Now →
-            </Button>
-          </Link>
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url(${dubaiCityscape})`,
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
         </div>
 
-      </div>
- <div className="mt-8 md:hidden text-center">
-          <p className="text-xl mb-4 font-medium">
-            Apply today and own the assets your business deserves.
-          </p>
-          <Link to="/asset-financing" className="inline-block">
-            <Button 
-              size="lg" 
-              variant="default"
-              className="text-lg px-8 py-5 font-semibold bg-brand-primary hover:bg-brand-primary/90"
-            >
-              Apply Now →
-            </Button>
-          </Link>
+        <div className="relative z-10 text-white w-full max-w-7xl mx-auto px-6 py-12 pt-24 ">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* Left side - Heading and subtitle */}
+            <div className="text-center md:text-left">
+              <h1 className="text-4xl sm:text-5xl  font-bold mb-6 leading-tight tracking-tight">
+                Grow Your Business with{" "}
+                <span className="text-brand-primary">Asset Financing</span>
+              </h1>
+
+              <p className="text-lg md:text-xl lg:text-2xl mb-8 font-light">
+                Need essential tools, machinery, or equipment to scale your
+                business?
+                <span className="font-medium block mt-2">
+                  Finance Teque Nigeria Limited offers flexible asset financing
+                  for all growth stages.
+                </span>
+              </p>
+
+              <p className="text-xl md:text-2xl mb-8 font-medium ">
+                Apply today and own the assets your business deserves.
+              </p>
+
+              <div className="">
+                <Link to="/asset-financing" className="inline-block group">
+                  <Button
+                    size="lg"
+                    variant="default"
+                    className="text-lg px-10 py-6 font-semibold bg-brand-primary hover:bg-brand-primary/90 transition-all duration-300 shadow-lg"
+                  >
+                    Apply Now{" "}
+                    <span className="ml-2 group-hover:translate-x-1 inline-block transition-transform">
+                      →
+                    </span>
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right side - List items */}
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/10 shadow-xl hidden md:block">
+              <h3 className="text-xl md:text-2xl mb-6 font-medium">
+                Our Financing Solutions:
+              </h3>
+              <ul className="space-y-5">
+                <li className="flex items-start">
+                  <span className="inline-flex items-center justify-center bg-brand-primary text-white rounded-full h-8 w-8 min-w-8 mr-4 mt-0.5">
+                    ✓
+                  </span>
+                  <div>
+                    <strong className="text-xl text-brand-primary">
+                      Startups
+                    </strong>
+                    <p className="text-lg text-white/90">
+                      Secure key assets to attract venture funding.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="inline-flex items-center justify-center bg-brand-primary text-white rounded-full h-8 w-8 min-w-8 mr-4 mt-0.5">
+                    ✓
+                  </span>
+                  <div>
+                    <strong className="text-xl text-brand-primary">
+                      Growing businesses
+                    </strong>
+                    <p className="text-lg text-white/90">
+                      Boost your value for private equity opportunities.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="inline-flex items-center justify-center bg-brand-primary text-white rounded-full h-8 w-8 min-w-8 mr-4 mt-0.5">
+                    ✓
+                  </span>
+                  <div>
+                    <strong className="text-xl text-brand-primary">
+                      Micro & Nano entrepreneurs
+                    </strong>
+                    <p className="text-lg text-white/90">
+                      Get started with affordable equipment financing.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="inline-flex items-center justify-center bg-brand-primary text-white rounded-full h-8 w-8 min-w-8 mr-4 mt-0.5">
+                    ✓
+                  </span>
+                  <div>
+                    <strong className="text-xl text-brand-primary">
+                      Impact-driven enterprises
+                    </strong>
+                    <p className="text-lg text-white/90">
+                      Access ethical financing for community-focused projects.
+                    </p>
+                  </div>
+                </li>
+              </ul>
+
+              {/* Mobile-only button */}
+              <div className="mt-8 md:hidden text-center">
+                <p className="text-xl mb-4 font-medium">
+                  Apply today and own the assets your business deserves.
+                </p>
+                <Link to="/asset-financing" className="inline-block">
+                  <Button
+                    size="lg"
+                    variant="default"
+                    className="text-lg px-8 py-5 font-semibold bg-brand-primary hover:bg-brand-primary/90"
+                  >
+                    Apply Now →
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* Our Story Section */}
       <section id="about" className="py-20 bg-brand-primary text-white">
