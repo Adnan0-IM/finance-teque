@@ -117,7 +117,7 @@ export function LoginPage() {
 
               <Button
                 type="submit"
-                className="w-full h-11 bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 transition-all duration-200"
+                className="w-full h-11 py-5 text-base bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 transition-all duration-200"
                 disabled={isLoading}
               >
                 {isLoading ? "Logging in..." : "Login"}

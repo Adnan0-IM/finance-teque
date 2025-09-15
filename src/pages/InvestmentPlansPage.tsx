@@ -111,7 +111,7 @@ export function InvestmentPlansPage() {
                       {plan.description.length > 150 && (
                         <Button
                           variant="link"
-                          className="p-0 h-auto text-brand-primary absolute right-0 bottom-0"
+                          className="p-0 h-auto text-brand-primary text-base absolute right-0 bottom-0"
                           onClick={() =>
                             (window.location.href = `/plans/${plan.id}`)
                           }
@@ -159,10 +159,10 @@ export function InvestmentPlansPage() {
                     </div>
 
                     <div className="flex gap-3 pt-4">
-                      <InvestorRegistrationButton className="flex-1" />
+                      <InvestorRegistrationButton className="flex-1 " />
                       <Button
                         variant="outline"
-                        className="flex-1 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white"
+                        className="flex-1 text-base py-5 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white"
                         onClick={() =>
                           (window.location.href = `/plans/${plan.id}`)
                         }
@@ -360,7 +360,7 @@ export function InvestmentPlansPage() {
             <Button
               size="lg"
               variant="outline"
-              className="border-white text-brand-primary hover:bg-transparent hover:text-white px-8 py-4 "
+              className="border-white py-5 text-base text-brand-primary hover:bg-transparent hover:text-white px-8"
               onClick={() => {
                 const comparisonSection = document.getElementById("comparison");
                 if (comparisonSection) {

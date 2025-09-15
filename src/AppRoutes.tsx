@@ -45,9 +45,9 @@ export default function AppRoutes() {
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <RoleGuard allow={["investor"]}>
+            {/* <RoleGuard allow={["investor"]}> */}
               <InvestorDashboardPage />
-            </RoleGuard>
+            {/* </RoleGuard> */}
           </ProtectedRoute>
         }
       />

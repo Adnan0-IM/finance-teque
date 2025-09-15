@@ -78,16 +78,14 @@ const HomePage = () => {
                 <Button
                   size="lg"
                   variant="default"
-                  className="text-lg px-10 py-6 font-semibold bg-brand-primary hover:bg-brand-primary/90 transition-all duration-300 shadow-lg"
+                  className=" text-base md:text-lg px-6 py-6 font-semibold bg-brand-primary hover:bg-brand-primary/90 transition-all duration-300 shadow-lg"
                   onClick={() => {
                     // Guide user into the correct journey explicitly
                     navigate("/asset-financing");
                   }}
                 >
                   Apply for Asset Financing{" "}
-                  <span className="ml-2 group-hover:translate-x-1 inline-block transition-transform">
-                    →
-                  </span>
+                  <ArrowRight className="inline-block ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
             </div>
@@ -151,22 +149,6 @@ const HomePage = () => {
                   </div>
                 </li>
               </ul>
-
-              {/* Mobile-only button */}
-              <div className="mt-8 md:hidden text-center">
-                <p className="text-xl mb-4 font-medium">
-                  Apply today and own the assets your business deserves.
-                </p>
-                <Link to="/asset-financing" className="inline-block">
-                  <Button
-                    size="lg"
-                    variant="default"
-                    className="text-lg px-8 py-5 font-semibold bg-brand-primary hover:bg-brand-primary/90"
-                  >
-                    Apply Now →
-                  </Button>
-                </Link>
-              </div>
             </div>
           </div>
         </div>
@@ -191,7 +173,7 @@ const HomePage = () => {
               <Link to={"/contact"}>
                 <Button
                   variant="outline"
-                  className="cursor-pointer border-white text-brand-primary hover:bg-black/50 hover:text-white mt-6"
+                  className="cursor-pointer text-base text-left border-white text-brand-primary hover:bg-transparent hover:text-white mt-6 py-5 w-1/2 md:w-1/3 lg:w-1/4"
                 >
                   Contact Us
                 </Button>
@@ -257,7 +239,7 @@ const HomePage = () => {
                 </div>
               </div>
               <Link to={"/plans"}>
-                <Button className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white">
+                <Button className="cursor-pointer bg-brand-primary text-base py-5 hover:bg-brand-primary-dark text-white">
                   View Investment Plans
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
@@ -282,14 +264,14 @@ const HomePage = () => {
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
                 <Link className="w-full sm:w-fit" to={"/team"}>
-                  <Button className="cursor-pointer w-full sm:w-auto bg-brand-primary hover:bg-brand-primary-dark text-white px-6 sm:px-8">
+                  <Button className="cursor-pointer text-[17px] py-5 w-full sm:w-auto bg-brand-primary hover:bg-brand-primary-dark text-white px-6 sm:px-8">
                     Meet Our Team
                   </Button>
                 </Link>
                 <Link className="w-full sm:w-fit" to={"/about"}>
                   <Button
                     variant="outline"
-                    className="cursor-pointer w-full sm:w-auto border-white text-gray-900 hover:bg-transparent hover:text-white px-6 sm:px-8"
+                    className="cursor-pointer w-full text-[17px] py-5 sm:w-auto border-white text-gray-900 hover:bg-transparent hover:text-white px-6 sm:px-8"
                   >
                     Learn More
                   </Button>
@@ -372,7 +354,7 @@ const HomePage = () => {
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <Link to={"/plans"}>
-              <Button className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white">
+              <Button className="cursor-pointer text-[17px] py-[21px]  bg-brand-primary hover:bg-brand-primary-dark text-white">
                 Explore Ethical Investment Plan
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -408,7 +390,7 @@ const HomePage = () => {
           <Link to={"/contact"}>
             <Button
               size="lg"
-              className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white px-8 py-4"
+              className="cursor-pointer bg-brand-primary text-[17px] py-5 hover:bg-brand-primary-dark text-white px-8"
             >
               Contact Us
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -441,14 +423,14 @@ const HomePage = () => {
                   placeholder="Enter your email address"
                   value={emailSubscription}
                   onChange={(e) => setEmailSubscription(e.target.value)}
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60 min-w-80"
+                  className="bg-white/10 border-white/20 text-white text-[17px] py-[21px] placeholder:text-white/60 min-w-80"
                   required
                 />
                 <Button
                   type="submit"
-                  className="cursor-pointer bg-white text-brand-primary hover:bg-gray-100 flex-shrink-0"
+                  className="cursor-pointer bg-white text-brand-primary text-[17px] py-[21px] hover:bg-gray-100 flex-shrink-0"
                 >
-                  <Send className="h-4 w-4 mr-2" />
+                  <Send className="size-5 mr-2" />
                   Subscribe
                 </Button>
               </form>
@@ -591,11 +573,9 @@ const HomePage = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to={"/shariah"}>
-                      <button className="hover:text-white transition-colors text-left">
-                        Shari'ah Compliance
-                      </button>
-                    </Link>
+                    <button className="hover:text-white transition-colors text-left">
+                      Shari'ah Compliance
+                    </button>
                   </li>
                   <li>
                     <a href="#" className="hover:text-white transition-colors">

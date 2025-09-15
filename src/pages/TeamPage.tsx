@@ -185,11 +185,17 @@ export function TeamPage() {
           </p>
 
           <Tabs defaultValue="board" className="w-full max-w-7xl mx-auto mt-8">
-            <TabsList className="grid w-full grid-cols-2 mb-8 md:h-12">
-              <TabsTrigger value="board" className="md:text-lg  ">
+            <TabsList className="flex w-full mb-8 h-12 gap-2 rounded-lg bg-gray-100 p-1">
+              <TabsTrigger
+                value="board"
+                className="flex-1 text-base md:text-lg rounded-md data-[state=active]:bg-brand-primary data-[state=active]:text-white transition-colors"
+              >
                 Board of Directors
               </TabsTrigger>
-              <TabsTrigger value="management" className="md:text-lg">
+              <TabsTrigger
+                value="management"
+                className="flex-1 text-base md:text-lg rounded-md data-[state=active]:bg-brand-primary data-[state=active]:text-white transition-colors"
+              >
                 Management Team
               </TabsTrigger>
             </TabsList>

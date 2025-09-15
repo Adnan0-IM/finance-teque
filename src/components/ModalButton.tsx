@@ -9,7 +9,7 @@ const ModalButton = ({ className, text }: {className?: string, text: string}) =>
     <div>
       <Button
         size="lg"
-        className={`bg-white text-primary hover:bg-gray-100 px-8 py-4 ${className}`}
+        className={`bg-white text-primary hover:bg-gray-100 px-8 py-5 text-base ${className}`}
         onClick={() => setShowModal(true)}
       >
         {text}

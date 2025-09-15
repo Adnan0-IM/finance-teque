@@ -229,7 +229,7 @@ export function RegisterPage() {
               />
               <Button
                 type="submit"
-                className="w-full h-11 bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 transition-all duration-200 mt-4"
+                className="w-full h-11 bg-brand-primary py-5 text-base hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 transition-all duration-200 mt-4"
                 disabled={isLoading}
               >
                 {isLoading ? "Creating account..." : "Register"}

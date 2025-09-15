@@ -322,7 +322,7 @@ export function ContactPage() {
                 </div>
                 <Button
                   variant="outline"
-                  className="flex  w-full sm:w-fit items-center space-x-2 border-primary text-primary hover:bg-primary hover:text-white"
+                  className="flex  w-full py-5 text-base sm:w-fit items-center space-x-2 border-primary text-primary hover:bg-primary hover:text-white"
                 >
                   <MapPin className="h-4 w-4" />
                   <span>Get Directions</span>
@@ -411,7 +411,7 @@ export function ContactPage() {
             <Button
               size="lg"
               variant="outline"
-              className="border-white text-primary hover:bg-transparent hover:text-white px-8 py-4"
+              className="border-white text-primary hover:bg-transparent text-base hover:text-white px-8 py-5"
               onClick={() => {
                 const contactSection = document.getElementById("contact");
                 if (contactSection) {

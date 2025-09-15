@@ -33,7 +33,7 @@ export default function InvestorRegistrationButton({
   };
 
   return (
-    <Button className={className} onClick={handleClick} {...props}>
+    <Button className={`text-base py-5 ${className}`} onClick={handleClick} {...props}>
       {children}
       <ArrowRight className="ml-2 h-4 w-4" />
     </Button>

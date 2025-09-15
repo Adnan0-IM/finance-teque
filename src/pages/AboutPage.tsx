@@ -95,7 +95,7 @@ export function AboutPage() {
               </div>
 
               <Link to={{ pathname: "/plans", hash: "#process" }}>
-                <Button className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white mt-8">
+                <Button className="cursor-pointer bg-brand-primary text-base py-[21px] hover:bg-brand-primary-dark text-white mt-8">
                   Learn More About Our Process
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
@@ -440,13 +440,13 @@ export function AboutPage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <ModalButton
-              className="w-full cursor-pointer  px-8 py-4 "
+              className="w-full cursor-pointer  px-8 py-5  "
               text="Schedule a Consultation"
             />
             <Button
               size="lg"
               variant="outline"
-              className="cursor-pointer  border-white  hover:bg-transparent text-brand-primary hover:text-white px-8 py-4"
+              className="cursor-pointer text-base py-5 border-white  hover:bg-transparent text-brand-primary hover:text-white px-8 "
               onClick={handleDownload}
             >
               Download Our Brochure

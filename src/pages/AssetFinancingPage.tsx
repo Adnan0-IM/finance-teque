@@ -355,7 +355,7 @@ export function AssetFinancingPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
-                className="bg-brand-primary w-fit text-white hover:bg-gray-100 px-8 py-4"
+                className="bg-brand-primary md:w-fit text-lg  text-white hover:bg-gray-100 px-8 py-5"
                 onClick={(e) => {
                   e.preventDefault();
                   if (!user) {
@@ -378,7 +378,7 @@ export function AssetFinancingPage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white text-gray-900 bg-white  w-full hover:text-white  hover:bg-transparent px-8 py-4"
+                className="border-white text-gray-900 text-lg py-5 bg-white  w-full hover:text-white  hover:bg-transparent px-8"
               >
                 Contact Us
               </Button>
