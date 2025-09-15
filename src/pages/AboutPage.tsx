@@ -428,7 +428,7 @@ export function AboutPage() {
       </section>
 
       {/* Call to Action Section */}
-      <section className="py-20 bg-gray-900 text-white">
+      <section className="py-20 bg-brand-primary text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6">
             Ready to Start Your Investment Journey?
@@ -440,13 +440,13 @@ export function AboutPage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <ModalButton
-              className="w-full cursor-pointer bg-brand-primary hover:bg-brand-primary-dark px-8 py-4 text-white"
+              className="w-full cursor-pointer  px-8 py-4 "
               text="Schedule a Consultation"
             />
             <Button
               size="lg"
               variant="outline"
-              className="cursor-pointer border-white text-gray-900 hover:bg-transparent hover:text-white px-8 py-4"
+              className="cursor-pointer  border-white  hover:bg-transparent text-brand-primary hover:text-white px-8 py-4"
               onClick={handleDownload}
             >
               Download Our Brochure

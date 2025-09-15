@@ -24,7 +24,7 @@ import realEstate from "../assets/real-estate-1536x990.jpg";
 import hospitalFacilities from "../assets/hospital-facilities-1367x2048.jpg";
 import logo from "../assets/logo.png";
 import Navigation from "@/components/Navigation";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 const HomePage = () => {
   const [emailSubscription, setEmailSubscription] = useState("");
   const handleNewsletterSubmit = (e: React.FormEvent) => {
@@ -33,6 +33,8 @@ const HomePage = () => {
     console.log("Newsletter subscription:", emailSubscription);
     setEmailSubscription("");
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
@@ -55,12 +57,12 @@ const HomePage = () => {
             {/* Left side - Heading and subtitle */}
             <div className="text-center md:text-left">
               <h1 className="text-4xl sm:text-5xl  font-bold mb-6 leading-tight tracking-tight">
-                Grow Your Business with{" "}
-                <span className="text-brand-primary">Asset Financing</span>
+                Venture Capital Investment <br />
+                <span className="text-brand-primary">And Financing</span>
               </h1>
 
               <p className="text-lg md:text-xl lg:text-2xl mb-8 font-light">
-                Need essential tools, machinery, or equipment to scale your
+                Need to grow your income, business, or investment to scale your
                 business?
                 <span className="font-medium block mt-2">
                   Finance Teque Nigeria Limited offers flexible asset financing
@@ -73,18 +75,20 @@ const HomePage = () => {
               </p>
 
               <div className="">
-                <Link to="/asset-financing" className="inline-block group">
-                  <Button
-                    size="lg"
-                    variant="default"
-                    className="text-lg px-10 py-6 font-semibold bg-brand-primary hover:bg-brand-primary/90 transition-all duration-300 shadow-lg"
-                  >
-                    Apply Now{" "}
-                    <span className="ml-2 group-hover:translate-x-1 inline-block transition-transform">
-                      →
-                    </span>
-                  </Button>
-                </Link>
+                <Button
+                  size="lg"
+                  variant="default"
+                  className="text-lg px-10 py-6 font-semibold bg-brand-primary hover:bg-brand-primary/90 transition-all duration-300 shadow-lg"
+                  onClick={() => {
+                    // Guide user into the correct journey explicitly
+                    navigate("/asset-financing");
+                  }}
+                >
+                  Apply for Asset Financing{" "}
+                  <span className="ml-2 group-hover:translate-x-1 inline-block transition-transform">
+                    →
+                  </span>
+                </Button>
               </div>
             </div>
 
@@ -180,8 +184,8 @@ const HomePage = () => {
                 Finance Teque Investment Growth invests primarily in equities
                 and as such seeks to provide superior long-term protection
                 against inflation to investors with a high-risk appetite. The
-                high risk of equities is lowered by also investing in fixed
-                income securities, which provide a fairly predictable income
+                high risk of equities is lowered by also investing in asset
+                financing investment, which provide a fairly predictable income
                 stream and easy access to your money.
               </p>
               <Link to={"/contact"}>
@@ -238,15 +242,16 @@ const HomePage = () => {
                   <h4 className="font-semibold mb-2">Investment Outlook</h4>
                   <p className="text-muted-foreground">
                     Suitable for investing towards long term goals such as
-                    housing and education.
+                    housing, education, innovative startup, bussiness expansion
+                    and developmental project.
                   </p>
                 </div>
 
                 <div>
                   <h4 className="font-semibold mb-2">Inclusive</h4>
                   <p className="text-muted-foreground">
-                    The Fund is certified annually for Shari'ah compliance and
-                    is excellent for investors with faith-based or ethical
+                    The Fund is certified annually for compliance and is
+                    excellent for investors with faith-based or ethical
                     preferences.
                   </p>
                 </div>
@@ -370,14 +375,6 @@ const HomePage = () => {
               <Button className="cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white">
                 Explore Ethical Investment Plan
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Link to={"/shariah"}>
-              <Button
-                variant="outline"
-                className="cursor-pointer border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white"
-              >
-                Shari'ah Compliance
               </Button>
             </Link>
           </div>

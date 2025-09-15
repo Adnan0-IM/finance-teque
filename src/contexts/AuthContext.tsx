@@ -11,6 +11,7 @@ type User = {
   email: string;
   name: string;
   isVerified: boolean;
+  role?: "investor" | "startup" | "admin"
 } | null;
 
 interface AuthContextType {
@@ -56,12 +57,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email,
         name: email.split("@")[0],
         isVerified: false,
-        password: password.length
+        password: password.length,
+        role: "investor"
       };
 
       // Save to localStorage (in a real app, you'd use secure cookies or tokens)
       localStorage.setItem("finance_teque_user", JSON.stringify(mockUser));
-      setUser(mockUser);
+      setUser(mockUser as User);
     } catch (error) {
       console.error("Login faile:", error);
       throw new Error("Invalid email or password");
@@ -80,12 +82,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email,
         name,
         isVerified: false,
-        password: password.length
+        password: password.length,
+        role: "investor"
       };
 
       // Save to localStorage (in a real app, you'd use secure cookies or tokens)
       localStorage.setItem("finance_teque_user", JSON.stringify(mockUser));
-      setUser(mockUser);
+      setUser(mockUser as User );
     } catch (error) {
       console.error("Registration failed:", error);
       throw new Error("Registration failed. Please try again.");

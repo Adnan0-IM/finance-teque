@@ -1,116 +1,153 @@
-import { Button } from "../components/ui/button";
-import { Card, CardContent } from "../components/ui/card";
-import {
-  ArrowRight,
-  Linkedin,
-  Twitter,
-  Users,
-  Award,
-  TrendingUp,
-  Shield,
-} from "lucide-react";
-import { ImageWithFallback } from "../components/ImageWithFallback";
-import dubaiCityscape from "../assets/business-banner@2x.jpg";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
-import ModalButton from "@/components/ModalButton";
-import { Toaster } from "sonner";
-import { Link } from "react-router";
+import { Toaster } from "@/components/ui/sonner";
+import dubaiCityscape from "@/assets/business-banner@2x.jpg";
+import { Linkedin, Twitter } from "lucide-react";
+import { ImageWithFallback } from "@/components/ImageWithFallback";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { useState } from "react";
+
 export function TeamPage() {
-  const teamMembers = [
+  const [openModal, setOpenModal] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [selectedMember, setSelectedMember] = useState<any>(null);
+  const boardMembers = [
     {
       id: 1,
-      name: "Amina Hassan",
-      title: "Chief Executive Officer",
-      bio: "With over 15 years of experience in Islamic finance and investment management, Amina leads our strategic vision and ensures our commitment to ethical investing principles.",
-      image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+      name: "Ibrahim Kabir Bayero",
+      position: "Chairman, Board of Directors",
+      imageUrl: "/team/board/ibrahim-bayero.jpeg", 
+      education: "B.Sc. Sociology, Usman Dan Fodio University, Sokoto",
+      expertise: "Enterprise Risk Management, Customer Relations",
+      bio: "A fellow from institute of corporate administration of Nigeria and specialist in Enterprise risk management. He was a career banker and a senior manager at Kano Electricity Distribution Company of Nigeria (KEDCO). Also a Consultant on capital market activities over the years. He is a chairman of Crystal partners' investment, an investment advisory company.",
+      linkedin: "",
+      twitter: "",
+    },
+    {
+      id: 2,
+      name: "Suleiman Abubakar",
+      position: "Managing Director",
+      imageUrl: "/team/board/suleiman-abubakar.jpeg",
+      education:
+        "B.Sc. Accountancy, Bayero University Kano | Master in Business and Commercial Law (M.B.C.L)",
+      expertise: "Accountancy, Auditing, Advisory Services",
+      bio: "Alhaji Suleiman Abubakar is a partner in Ibrahim Abdullahi & Co Chartered Accountant with over 10 years of experience. He was the Head of Finance at Top up Africa and Rumbu Sacks Nig Ltd. He is a fellow member of the Institute of Chartered Accountants of Nigeria (ICAN) and a student member of the Chartered Institute of Stockbrokers (CIS). Alhaji Abubakar owned 97.7% of Finance Teque Nigeria Limited.",
+      linkedin: "",
+      twitter: "",
+    },
+    {
+      id: 3,
+      name: "Saidu Idris Baraya",
+      position: "Executive Director",
+      imageUrl: "/team/board/saidu-baraya.jpeg",
+      education:
+        "B.Sc. Accounting, Bayero University | MBA, Ladoke Akintola University of Technology",
+      expertise: "Financial Reporting, Accounting, Pension Fund Management",
+      bio: "A highly organized and detail-focused accountant with an exceptional track record. He holds a Master's degree in Business Administration alongside certification as a Pension Fund Manager. Alhaji Baraya has worked with the Federal Ministry of Police Affairs, Nigerian Customs Service Fund Section, Sigma Bureau de Change Limited, Sigma Securities Limited and Nepa District Office Ilorin.",
+      linkedin: "",
+      twitter: "",
+    },
+    {
+      id: 4,
+      name: "Musa Haruna Hassan",
+      position: "Director",
+      imageUrl: "/team/board/haruna-musa-hassan.jpeg",
+      education: "",
+      expertise: "Business Development, Marketing",
+      bio: "Alhaji Musa Haruna Hassan has been a key figure in business development and marketing for the company. He has held several positions, including Marketing Officer, Brand Manager, Product Manager, and currently serves as the Marketing Manager.",
+      linkedin: "",
+      twitter: "",
+    },
+    {
+      id: 5,
+      name: "Salamatu Musa Nasir",
+      position: "Director",
+      imageUrl: "/team/board/salamatu-musa-nasir.jpg",
+      education:
+        "NCE, Federal College of Education | Pursuing B.Ed, Bayero University, Kano",
+      expertise: "Education, Administration",
+      bio: "Salamatu works as an Education Officer at the Nassarawa Local Education Authority. She owns 0.7% of the shares in Finance Teque, making her both a shareholder and a director.",
+      linkedin: "",
+      twitter: "",
+    },
+    {
+      id: 6,
+      name: "Ahmed Muhammed Abdul, ACA",
+      position: "Independent Director",
+      imageUrl: "/team/board/ahmed-mohammed-abdul.jpg",
+      education:
+        "HND Business Administration, Federal Polytechnic Mubi | Executive Management Accountancy, University of Lagos",
+      expertise: "Chartered Accountancy, Financial Management",
+      bio: "An associate member of the Institute of Chartered Accountants of Nigeria. Before his appointment at Finance Teque, he was the managing partner at Ahmed Abdul & Co Chartered Accountant Firm. He also served as the Deputy Director at the Salary and Pension Directorate in Jigawa State.",
+      linkedin: "",
+      twitter: "",
+    },
+  ];
+
+  const managementTeam = [
+    {
+      id: 1,
+      name: "Suleiman Abubakar",
+      position: "Managing Director",
+      imageUrl: "/team/management/suleiman-abubakar.jpeg",
+      education:
+        "B.Sc. Accountancy, Bayero University Kano | Master in Business and Commercial Law (M.B.C.L)",
+      expertise: "Accountancy, Auditing, Advisory Services",
+      bio: "Alhaji Suleiman Abubakar is a partner in Ibrahim Abdullahi & Co Chartered Accountant with over 10 years of experience. He was the Head of Finance at Top up Africa and Rumbu Sacks Nig Ltd. He is a fellow member of the Institute of Chartered Accountants of Nigeria (ICAN) and a student member of the Chartered Institute of Stockbrokers (CIS).",
       linkedin: "#",
       twitter: "#",
     },
     {
       id: 2,
-      name: "Ibrahim Abdullahi",
-      title: "Chief Investment Officer",
-      bio: "Ibrahim brings 12 years of portfolio management expertise, specializing in emerging markets and technology sector investments across Africa and the Middle East.",
-      image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+      name: "Umar Mustapha Amadu",
+      position: "Head of Investment & Portfolio",
+      imageUrl: "/team/management/umar-mustapha-amadu.jpeg",
+      education:
+        "B.Sc. Banking and Finance, Kano State Polytechnic | Master's in Development Studies, Federal University Dutse",
+      expertise: "Investment Management, Portfolio Analysis",
+      bio: "Mr. Umar has held various positions as an Accounts Officer and has worked with ARM Pension Manager in Kano. He has participated in several professional training programs, including the ARM Internal Audit Training and Sales Effectiveness and Customer Experience Management Program.",
       linkedin: "#",
       twitter: "#",
     },
     {
       id: 3,
-      name: "Fatima Al-Zahra",
-      title: "Head of Shari'ah Compliance",
-      bio: "Dr. Fatima holds a PhD in Islamic Jurisprudence and ensures all our investment decisions align with Islamic principles and ethical standards.",
-      image:
-        "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face",
+      name: "Aminu Sheikh Muhammad",
+      position: "Compliance Officer",
+      imageUrl: "/team/management/aminu-sheikh-muhammad.jpeg",
+      education:
+        "B.Sc. Accounting, Bayero University Kano | Master's in Accounting and Financial Management",
+      expertise: "Tax Auditing, Compliance, Financial Management",
+      bio: "Mr. Aminu has gained substantial experience in various sectors, including his role as a Tax Auditor at Crystal Partners Investment Limited, where he focused on tax audits and the recovery of personal income tax and withholding tax liabilities. He also contributed to the NASSCO social investment program.",
       linkedin: "#",
       twitter: "#",
     },
     {
       id: 4,
-      name: "Yusuf Mohammed",
-      title: "Senior Portfolio Manager",
-      bio: "Yusuf manages our growth investment portfolios and has a proven track record in identifying high-potential technology companies in emerging markets.",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+      name: "Amina Mohammed",
+      position: "Head of Admin and Human Resource",
+      imageUrl: "/team/management/amina-mohammed.jpeg",
+      education: "B.Sc. Business Administration | MBA, Bayero University",
+      expertise: "Administrative Management, HR, Business Development",
+      bio: "Amina is a seasoned professional with over 20 years of experience in administrative management, business development, and customer service. Her career spans various industries, including eight years in banking and international development, where she has served as a short-term expert for organizations such as the EU, Ipas, Mafita (DFID), and the Enterprise Development Centre.",
       linkedin: "#",
       twitter: "#",
-    },
-    {
-      id: 5,
-      name: "Aisha Suleiman",
-      title: "Head of Client Relations",
-      bio: "Aisha leads our client services team and ensures every investor receives personalized guidance aligned with their financial goals and values.",
-      image:
-        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face",
-      linkedin: "#",
-      twitter: "#",
-    },
-    {
-      id: 6,
-      name: "Umar Kano",
-      title: "Risk Management Director",
-      bio: "Umar oversees our comprehensive risk assessment framework and ensures optimal portfolio diversification across all our investment strategies.",
-      image:
-        "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face",
-      linkedin: "#",
-      twitter: "#",
-    },
-  ];
-
-  const companyValues = [
-    {
-      icon: Shield,
-      title: "Integrity",
-      description:
-        "We maintain the highest ethical standards in all our business practices and investment decisions.",
-    },
-    {
-      icon: TrendingUp,
-      title: "Excellence",
-      description:
-        "We strive for exceptional performance and continuous improvement in serving our clients.",
-    },
-    {
-      icon: Users,
-      title: "Collaboration",
-      description:
-        "We work together as a team to deliver the best outcomes for our investors and communities.",
-    },
-    {
-      icon: Award,
-      title: "Innovation",
-      description:
-        "We embrace innovative approaches to investment management while respecting traditional values.",
     },
   ];
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation  */}
+      {/* Navigation */}
       <Navigation />
-      {/* Header Section */}
+
+      {/* Banner Section */}
       <section className="relative h-[75vh] flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -121,240 +158,403 @@ export function TeamPage() {
           <div className="absolute inset-0 bg-black/50"></div>
         </div>
 
-        <div className="relative z-10 text-center text-primary-foreground max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Our Team</h1>
+        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            Our Leadership Team
+          </h1>
           <p className="text-xl md:text-2xl opacity-90 max-w-2xl mx-auto">
-            Meet the people behind our mission to deliver ethical investment
-            solutions and sustainable financial growth.
+            Meet the experienced professionals guiding Finance Teque's vision
+            and operations
           </p>
         </div>
       </section>
 
-      {/* Team Introduction */}
-      <section className="py-20 bg-white">
+      {/* Leadership Introduction */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-6 text-brand-dark">
+            Governance & Leadership
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
+            Finance Teque Nigeria Limited is governed by a six-member Board of
+            Directors with shareholder representation. The Board is responsible
+            for formulating corporate goals, targets, and plans, as well as
+            reviewing the company's performance. Our day-to-day operations are
+            managed by an experienced team of qualified professionals across
+            various departments.
+          </p>
+
+          <Tabs defaultValue="board" className="w-full max-w-7xl mx-auto mt-8">
+            <TabsList className="grid w-full grid-cols-2 mb-8 md:h-12">
+              <TabsTrigger value="board" className="md:text-lg  ">
+                Board of Directors
+              </TabsTrigger>
+              <TabsTrigger value="management" className="md:text-lg">
+                Management Team
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="board" className="mt-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {boardMembers.map((member) => (
+                  <Card
+                    key={member.id}
+                    className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group text-start"
+                    onClick={() => {
+                      setSelectedMember(member);
+                      setOpenModal(true);
+                    }}
+                  >
+                    <CardContent className="p-0">
+                      <div className="relative overflow-hidden">
+                        <ImageWithFallback
+                          src={member.imageUrl}
+                          alt={member.name}
+                          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300 rounded-t-2xl"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="flex space-x-3">
+                            {member.linkedin !== "" && (
+                              <a
+                                href={member.linkedin}
+                                className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                              >
+                                <Linkedin className="h-5 w-5" />
+                              </a>
+                            )}
+                            {member.twitter !== "" && (
+                              <a
+                                href={member.twitter}
+                                className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                              >
+                                <Twitter className="h-5 w-5" />
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-6">
+                        <h3 className="text-xl font-bold mb-1">
+                          {member.name}
+                        </h3>
+                        <p className="text-brand-primary font-medium mb-3">
+                          {member.position}
+                        </p>
+                        {/* {member.education && (
+                          <p className="text-sm text-muted-foreground mb-3">{member.education}</p>
+                        )} */}
+                        <p className="text-sm line-clamp-4">
+                          {member.bio.length >= 150
+                            ? member.bio.slice(0, 150)
+                            : member.bio}
+                          ...
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="management" className="mt-6">
+              <div className="grid md:grid-cols-2 gap-8">
+                {managementTeam.map((member) => (
+                  <Card
+                    key={member.id}
+                    className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group text-start pb-0"
+                    onClick={() => {
+                      setSelectedMember(member);
+                      setOpenModal(true);
+                    }}
+                  >
+                    <CardContent className="[&:last-child]:pb-0 p-0 flex flex-col lg:flex-row">
+                      <div className="relative overflow-hidden w-full h-auto rounded-t-2xl lg:rounded-tl-2xl lg:rounded-bl-2xl">
+                        <ImageWithFallback
+                          src={member.imageUrl}
+                          alt={member.name}
+                          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="flex space-x-3">
+                            {member.linkedin !== "" && (
+                              <a
+                                href={member.linkedin}
+                                className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                              >
+                                <Linkedin className="h-5 w-5" />
+                              </a>
+                            )}
+                            {member.twitter !== "" && (
+                              <a
+                                href={member.twitter}
+                                className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                              >
+                                <Twitter className="h-5 w-5" />
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-6">
+                        <h3 className="text-xl font-bold mb-1">
+                          {member.name}
+                        </h3>
+                        <p className="text-brand-primary font-medium mb-3">
+                          {member.position}
+                        </p>
+                        {member.education && (
+                          <p className="text-sm text-muted-foreground mb-3">
+                            {member.education}
+                          </p>
+                        )}
+                        <p className="text-sm line-clamp-4">
+                          {member.bio.length >= 150
+                            ? member.bio.slice(0, 150)
+                            : member.bio}
+                          ...
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </section>
+
+      {/* Company Structure */}
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h3 className="text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wide">
-              Leadership Team
-            </h3>
-            <h2 className="text-4xl font-bold mb-6 text-primary">
-              Experienced Professionals Committed to Your Success
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-6 text-brand-dark">
+              Our Company Structure
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Our diverse team of investment professionals, Islamic finance
-              experts, and client service specialists work together to deliver
-              exceptional results while maintaining the highest ethical
-              standards.
+            <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
+              Finance Teque Nigeria Limited operates with a well-defined
+              organizational structure designed to ensure effective governance
+              and operational efficiency.
             </p>
           </div>
 
-          {/* Team Members Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member) => (
-              <Card
-                key={member.id}
-                className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group"
-              >
-                <CardContent className="p-0">
-                  <div className="relative overflow-hidden">
-                    <ImageWithFallback
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="flex space-x-3">
-                        <a
-                          href={member.linkedin}
-                          className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
-                        >
-                          <Linkedin className="h-5 w-5" />
-                        </a>
-                        <a
-                          href={member.twitter}
-                          className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
-                        >
-                          <Twitter className="h-5 w-5" />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+          <div className="relative max-w-4xl mx-auto">
+            {/* Company structure diagram - simplified version */}
+            <div className="grid grid-cols-1 gap-4">
+              {/* Board level */}
+              <div className="bg-brand-primary text-white p-4 rounded-lg text-center">
+                <h3 className="font-bold">Board of Directors</h3>
+                <p className="text-sm">Strategic Oversight & Governance</p>
+              </div>
 
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                    <p className="text-primary font-medium mb-3">
-                      {member.title}
-                    </p>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {member.bio}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+              {/* Arrow */}
+              <div className="flex justify-center">
+                <div className="h-8 w-0.5 bg-gray-300"></div>
+              </div>
+
+              {/* Managing Director */}
+              <div className="bg-brand-secondary text-white p-4 rounded-lg text-center">
+                <h3 className="font-bold">Managing Director</h3>
+                <p className="text-sm">Executive Leadership</p>
+              </div>
+
+              {/* Arrow */}
+              <div className="flex justify-center">
+                <div className="h-8 w-0.5 bg-gray-300"></div>
+              </div>
+
+              {/* Department Heads */}
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                  <h3 className="font-bold text-brand-dark">
+                    Investment & Portfolio
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Asset Management
+                  </p>
+                </div>
+                <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                  <h3 className="font-bold text-brand-dark">Compliance</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Regulatory Adherence
+                  </p>
+                </div>
+                <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                  <h3 className="font-bold text-brand-dark">Admin & HR</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Personnel Management
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Company Values */}
-      <section className="py-20 bg-gray-50">
+      {/* Values Section */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 text-primary">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-6 text-brand-dark">
               Our Core Values
             </h2>
-            <p className="text-xl text-muted-foreground">
-              The principles that guide our team and drive our commitment to
-              excellence
+            <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
+              The principles that guide our leadership team and every member of
+              Finance Teque
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {companyValues.map((value, index) => {
-              const IconComponent = value.icon;
-              return (
-                <Card
-                  key={index}
-                  className="bg-white border-0 shadow-lg hover:shadow-xl transition-shadow text-center"
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center p-6">
+              <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-brand-primary"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  <CardContent className="p-8">
-                    <div className="w-16 h-16 bg-secondary/90 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <IconComponent className="h-8 w-8 text-brand-primary-dark" />
-                    </div>
-                    <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                    <p className="text-muted-foreground text-sm">
-                      {value.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Stats */}
-      <section className="py-20 bg-primary text-primary-foreground">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">Our Team by the Numbers</h2>
-            <p className="text-xl opacity-90">
-              Experience and expertise you can trust
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-5xl font-bold mb-2">25+</div>
-              <p className="text-xl opacity-90">Team Members</p>
-              <p className="text-sm opacity-75 mt-2">Across all departments</p>
-            </div>
-
-            <div className="text-center">
-              <div className="text-5xl font-bold mb-2">150+</div>
-              <p className="text-xl opacity-90">Years Combined Experience</p>
-              <p className="text-sm opacity-75 mt-2">
-                In finance and investment
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-3">Integrity</h3>
+              <p className="text-muted-foreground">
+                We uphold the highest standards of honesty and ethical conduct
+                in all our business dealings.
               </p>
             </div>
 
-            <div className="text-center">
-              <div className="text-5xl font-bold mb-2">12</div>
-              <p className="text-xl opacity-90">Countries Represented</p>
-              <p className="text-sm opacity-75 mt-2">
-                Diverse global perspectives
+            <div className="text-center p-6">
+              <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-brand-primary"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-3">Innovation</h3>
+              <p className="text-muted-foreground">
+                We constantly seek new and better ways to serve our clients and
+                adapt to changing market conditions.
               </p>
             </div>
 
-            <div className="text-center">
-              <div className="text-5xl font-bold mb-2">5</div>
-              <p className="text-xl opacity-90">Shari'ah Scholars</p>
-              <p className="text-sm opacity-75 mt-2">Ensuring compliance</p>
+            <div className="text-center p-6">
+              <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-brand-primary"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-3">Client-Centric</h3>
+              <p className="text-muted-foreground">
+                We put our clients' needs at the center of everything we do,
+                striving to exceed expectations.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Join Our Team Section */}
-      <section className="py-20 bg-white">
+      {/* Join Our Team CTA */}
+      <section className="py-16 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-8">
-            <div className="w-24 h-24 bg-secondary/90 rounded-full mx-auto mb-6 flex items-center justify-center">
-              <Users className="h-12 w-12 text-brand-primary-dark" />
-            </div>
-          </div>
-
-          <h2 className="text-4xl font-bold mb-6 text-primary">
-            Join Our Team
-          </h2>
-
-          <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-            We're always looking for talented individuals who share our passion
-            for ethical investing and commitment to excellence. Join a team that
-            values integrity, innovation, and making a positive impact in the
-            world of finance. Explore opportunities to grow your career while
-            contributing to meaningful financial solutions that align with
-            Islamic principles and sustainable practices.
+          <h2 className="text-3xl font-bold mb-6">Join Our Team</h2>
+          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+            Are you passionate about finance and looking to make an impact?
+            We're always looking for talented individuals to join our team.
           </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link className="w-full" to={"/about"}>
-              <Button
-                size="lg"
-                variant="outline"
-                className="px-8 py-4 border-primary text-primary hover:bg-primary hover:text-white"
-              >
-                Learn About Our Culture
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-          </div>
-
-          <div className="mt-12 p-6 bg-gray-50 rounded-lg">
-            <h3 className="text-lg font-bold mb-3">Why Work With Us?</h3>
-            <div className="grid md:grid-cols-3 gap-6 text-sm text-muted-foreground">
-              <div>
-                <strong className="text-foreground">
-                  Professional Development
-                </strong>
-                <br />
-                Continuous learning opportunities and career advancement
-                programs
-              </div>
-              <div>
-                <strong className="text-foreground">Work-Life Balance</strong>
-                <br />
-                Flexible working arrangements and comprehensive benefits package
-              </div>
-              <div>
-                <strong className="text-foreground">Meaningful Impact</strong>
-                <br />
-                Contribute to ethical investing and positive social change
-              </div>
-            </div>
-          </div>
+          <a
+            // href="/careers"
+            className="inline-block bg-white text-brand-primary font-semibold px-8 py-3 rounded-md hover:bg-gray-100 transition-colors"
+          >
+            View Open Positions
+          </a>
         </div>
       </section>
+      {selectedMember && (
+        <Dialog open={openModal} onOpenChange={setOpenModal}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle>{selectedMember.name}</DialogTitle>
+              <DialogDescription>
+                <span className="block font-medium text-brand-primary mb-2">
+                  {selectedMember.position}
+                </span>
+                {selectedMember.education && (
+                  <span className="block text-sm text-muted-foreground mb-2">
+                    {selectedMember.education}
+                  </span>
+                )}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col items-center">
+              <ImageWithFallback
+                src={selectedMember.imageUrl}
+                alt={selectedMember.name}
+                className="w-40 h-40 object-cover rounded-full mb-4"
+              />
+              <p className="text-sm mb-4">{selectedMember.bio}</p>
+              <div className="flex space-x-3">
+                {selectedMember.linkedin && (
+                  <a
+                    href={selectedMember.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Linkedin className="h-6 w-6 text-brand-primary" />
+                  </a>
+                )}
+                {selectedMember.twitter && (
+                  <a
+                    href={selectedMember.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Twitter className="h-6 w-6 text-brand-primary" />
+                  </a>
+                )}
+              </div>
+            </div>
+            <DialogClose asChild>
+              <button className="mt-6 cursor-pointer px-4 py-2 bg-brand-primary text-white rounded">
+                Close
+              </button>
+            </DialogClose>
+          </DialogContent>
+        </Dialog>
+      )}
 
-      {/* Call to Action Section */}
-      <section className="py-20 bg-gray-900 text-primary-foreground">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">
-            Ready to Work with Our Expert Team?
-          </h2>
-          <p className="text-xl mb-8 opacity-90">
-            Schedule a consultation with our investment professionals and
-            discover how we can help achieve your financial goals.
-          </p>
-
-          <ModalButton
-            className="cursor-pointer bg-primary hover:bg-primary/70 border px-8 py-4 text-primary-foreground"
-            text="Schedule a Consultation"
-          />
-        </div>
-      </section>
       <Toaster className="text-base" position="top-right" duration={3000} />
     </div>
   );
 }
+
+export default TeamPage;

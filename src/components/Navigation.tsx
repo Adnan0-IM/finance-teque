@@ -12,14 +12,28 @@ const Navigation = () => {
     { title: "About", path: "/about" },
     { title: "Asset Financing", path: "/asset-financing" },
     { title: "Investment Plans", path: "/plans" },
-    { title: "Shari'ah Compliance", path: "/shariah" },
     { title: "Team", path: "/team" },
     { title: "Contact", path: "/contact" },
   ];
   const { user, logout } = useAuth();
+
+  // window.addEventListener("scroll", () => {
+  //   const windowScrollY = window.scrollY;
+  //   if (windowScrollY > 50) {
+  //     document
+  //       .querySelector("nav")
+  //       ?.classList.add("bg-white/95", "backdrop-blur-sm", "shadow-md");
+  //     document.querySelector("nav")?.classList.remove("bg-white/95");
+  //   } else {
+  //     document
+  //       .querySelector("nav")
+  //       ?.classList.remove("bg-white/95", "backdrop-blur-sm", "shadow-md");
+  //     document.querySelector("nav")?.classList.add("bg-white/95");
+  //   }
+  // });
   return (
     <>
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-border">
+      <nav className="fixed top-0 w-full  z-50 bg-white/95 backdrop-blur-sm border-b border-border transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
@@ -123,6 +137,7 @@ const Navigation = () => {
                 <nav className=" flex flex-col space-y-2">
                   <NavLink
                     to={"/"}
+                    onClick={() => setIsMobileMenuOpen(false)}
                     className={({ isActive }) =>
                       `w-full text-left px-4 py-3 rounded-lg text-lg transition-colors ${
                         isActive
@@ -137,6 +152,7 @@ const Navigation = () => {
                     <NavLink
                       key={link.title}
                       to={link.path}
+                      onClick={() => setIsMobileMenuOpen(false)}
                       className={({ isActive }) =>
                         `w-full text-left px-4 py-3 rounded-lg text-lg transition-colors ${
                           isActive
@@ -158,14 +174,14 @@ const Navigation = () => {
                     variant="outline"
                     size="sm"
                     onClick={logout}
-                    className="w-full text-base  hover:bg-gray-300 hover:text-gray-900 bg-gray-900 text-white transition-colors"
+                    className="w-full text-base py-5  hover:bg-gray-900/90 hover:text-gray-100  bg-gray-900 text-white transition-colors"
                   >
                     Logout
                   </Button>
                 </div>
               ) : (
                 <div className="p-6 border-t border-border">
-                  <InvestorRegistrationButton className="w-full cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white" />
+                  <InvestorRegistrationButton className="w-full cursor-pointer bg-brand-primary py-5 hover:bg-brand-primary-dark text-white" />
                 </div>
               )}
             </div>

@@ -356,11 +356,11 @@ export function InvestmentPlansPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <ModalButton text="Schedule a Consultation" />
+            <ModalButton className="w-full" text="Schedule a Consultation" />
             <Button
               size="lg"
               variant="outline"
-              className="border-white text-brand-primary hover:bg-transparent hover:text-white px-8 py-4"
+              className="border-white text-brand-primary hover:bg-transparent hover:text-white px-8 py-4 "
               onClick={() => {
                 const comparisonSection = document.getElementById("comparison");
                 if (comparisonSection) {

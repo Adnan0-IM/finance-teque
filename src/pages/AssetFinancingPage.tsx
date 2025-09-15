@@ -9,10 +9,14 @@ import {
   Shield,
 } from "lucide-react";
 import dubaiCityscape from "@/assets/business-banner@2x.jpg";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Toaster } from "@/components/ui/sonner";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function AssetFinancingPage() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -339,7 +343,7 @@ export function AssetFinancingPage() {
       </section> */}
 
       {/* CTA Section */}
-      <section className="py-20 bg-brand-primary text-white">
+      <section className="py-20 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Your growth story starts here.
@@ -349,20 +353,32 @@ export function AssetFinancingPage() {
             take the next step toward sustainable growth and success.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to={"/dashboard"}>
               <Button
                 size="lg"
-                className="bg-white text-brand-primary hover:bg-gray-100 px-8 py-4"
+                className="bg-brand-primary w-fit text-white hover:bg-gray-100 px-8 py-4"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (!user) {
+                    navigate("/login", {
+                      state: { from: "/applications/new" },
+                    });
+                    return;
+                  }
+                  if (user.role === "startup") {
+                    navigate("/applications/new");
+                  } else {
+                    navigate("/dashboard"); 
+                  }
+                }}
               >
                 Apply Now
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-            </Link>
             <Link to="/contact">
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white  hover:text-white text-brand-primary hover:bg-white/10 px-8 py-4"
+                className="border-white text-gray-900 bg-white  w-full hover:text-white  hover:bg-transparent px-8 py-4"
               >
                 Contact Us
               </Button>
@@ -370,59 +386,6 @@ export function AssetFinancingPage() {
           </div>
         </div>
       </section>
-
-      {/* FAQ Section */}
-      {/* <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h3 className="text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wide">
-              Common Questions
-            </h3>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand-dark">Frequently Asked Questions</h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Find answers to common questions about our asset financing solutions
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card className="bg-gray-50 border-0">
-              <CardContent className="p-6">
-                <h3 className="font-bold mb-3">What types of assets can be financed?</h3>
-                <p className="text-muted-foreground text-sm">
-                  We finance a wide range of business assets including machinery, equipment, vehicles, technology infrastructure, and specialized tools for various industries.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-gray-50 border-0">
-              <CardContent className="p-6">
-                <h3 className="font-bold mb-3">What are the minimum requirements?</h3>
-                <p className="text-muted-foreground text-sm">
-                  Businesses should be legally registered in Nigeria, have been operational for at least 6 months, and demonstrate capacity for repayment based on cash flow.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-gray-50 border-0">
-              <CardContent className="p-6">
-                <h3 className="font-bold mb-3">How long is the typical financing term?</h3>
-                <p className="text-muted-foreground text-sm">
-                  Financing terms range from 12 months to 60 months depending on the asset type, value, and your business needs and capacity.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-gray-50 border-0">
-              <CardContent className="p-6">
-                <h3 className="font-bold mb-3">Is a down payment required?</h3>
-                <p className="text-muted-foreground text-sm">
-                  Most financing plans require a 10-20% down payment, though this may vary based on your business profile and the asset being financed.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section> */}
 
       <Toaster className="text-base" position="top-right" duration={3000} />
     </div>
