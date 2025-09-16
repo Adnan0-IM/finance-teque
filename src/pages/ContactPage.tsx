@@ -9,9 +9,9 @@ import {
   Mail,
   Clock,
   Facebook,
-  Linkedin,
   Instagram,
   Send,
+  Youtube,
 } from "lucide-react";
 import dubaiCityscape from "../assets/business-banner@2x.jpg";
 
@@ -33,7 +33,7 @@ export function ContactPage() {
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -272,25 +272,24 @@ export function ContactPage() {
                     <CardContent>
                       <div className="grid grid-cols-2 gap-4">
                         <a
-                          href="#"
                           target="_blank"
-                          rel="noopener noreferrer"
+                          href="https://www.youtube.com/@financetequeventurecapital"
                           className="flex items-center space-x-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
                         >
-                          <Linkedin className="h-6 w-6" />
-                          <span className="font-medium">LinkedIn</span>
+                          <Youtube className="h-6 w-6" />
+                          <span className="font-medium">YouTube</span>
                         </a>
                         <a
-                          href="#"
                           target="_blank"
-                          rel="noopener noreferrer"
+                          href="https://www.instagram.com/financetequecv/"
                           className="flex items-center space-x-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
                         >
-                          <Facebook className="h-6 w-6" />
-                          <span className="font-medium">Facebook</span>
+                          <Instagram className="h-6 w-6" />
+                          <span className="font-medium">Instagram</span>
                         </a>
+
                         <a
-                          href="#"
+                          href="https://x.com/FinanceTeque"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center space-x-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
@@ -310,10 +309,12 @@ export function ContactPage() {
                         </a>
                         <a
                           href="#"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="flex items-center space-x-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
                         >
-                          <Instagram className="h-6 w-6" />
-                          <span className="font-medium">Instagram</span>
+                          <Facebook className="h-6 w-6" />
+                          <span className="font-medium">Facebook</span>
                         </a>
                       </div>
                     </CardContent>

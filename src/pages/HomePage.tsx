@@ -8,10 +8,9 @@ import {
   Phone,
   Mail,
   Facebook,
-  Twitter,
-  Linkedin,
   Instagram,
   Send,
+  Youtube,
 } from "lucide-react";
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -618,28 +617,42 @@ const HomePage = () => {
                       {/* Social Media Links */}
                       <div className="flex space-x-4">
                         <a
-                          href="#"
-                          className="w-10 h-10 bg-gray-800 hover:bg-brand-primary rounded-full flex items-center justify-center transition-colors"
+                          target="_blank"
+                          href="https://www.youtube.com/@financetequeventurecapital"
+                          className="w-10 h-10 bg-gray-800 hover:bg-[#FF0000] rounded-full flex items-center justify-center transition-colors"
                         >
-                          <Linkedin className="h-5 w-5" />
+                          <Youtube className="h-5 w-5" />
                         </a>
                         <a
                           href="#"
-                          className="w-10 h-10 bg-gray-800 hover:bg-brand-primary rounded-full flex items-center justify-center transition-colors"
+                          target="_blank"
+                          className="w-10 h-10 bg-gray-800 hover:bg-[#1877F2] rounded-full flex items-center justify-center transition-colors"
                         >
                           <Facebook className="h-5 w-5" />
                         </a>
                         <a
-                          href="#"
-                          className="w-10 h-10 bg-gray-800 hover:bg-brand-primary rounded-full flex items-center justify-center transition-colors"
+                          href="https://x.com/FinanceTeque"
+                          target="_blank"
+                          className="w-10 h-10 bg-gray-800 hover:bg-black rounded-full flex items-center justify-center transition-colors"
                         >
-                          <Twitter className="h-5 w-5" />
+                          <svg
+                            className="h-5 w-5"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                            />
+                          </svg>
                         </a>
                         <a
-                          href="#"
-                          className="w-10 h-10 bg-gray-800 hover:bg-brand-primary rounded-full flex items-center justify-center transition-colors"
+                          href="https://www.instagram.com/financetequecv/"
+                          target="_blank"
+                          className="w-10 h-10 bg-gray-800  rounded-full hover:bg-[#d62976] flex items-center justify-center transition-colors"
                         >
-                          <Instagram className="h-5 w-5" />
+                          <Instagram className="h-5 w-5 " />
                         </a>
                       </div>
                     </div>
@@ -703,11 +716,6 @@ const HomePage = () => {
                               Investment Plans
                             </button>
                           </Link>
-                        </li>
-                        <li>
-                          <button className="hover:text-white transition-colors text-left">
-                            Shari'ah Compliance
-                          </button>
                         </li>
                         <li>
                           <a
