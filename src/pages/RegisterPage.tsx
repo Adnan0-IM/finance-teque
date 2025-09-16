@@ -5,7 +5,6 @@ import { z } from "zod";
 import { useNavigate, useLocation, Link } from "react-router";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -18,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/contexts/AuthContext";
 import { ArrowRight } from "lucide-react";
+import { MotionButton } from "@/components/animations/MotionizedButton";
 
 const registerSchema = z
   .object({
@@ -115,6 +115,7 @@ export function RegisterPage() {
                       <Input
                         placeholder="John Doe"
                         className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                        autoComplete="name"
                         {...field}
                       />
                     </FormControl>
@@ -134,6 +135,7 @@ export function RegisterPage() {
                       <Input
                         placeholder="name@example.com"
                         className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                        autoComplete="email"
                         {...field}
                       />
                     </FormControl>
@@ -153,6 +155,7 @@ export function RegisterPage() {
                       <Input
                         placeholder="+234 704 123 4567"
                         className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                        autoComplete="tel"
                         {...field}
                       />
                     </FormControl>
@@ -172,6 +175,7 @@ export function RegisterPage() {
                       <Input
                         type="password"
                         placeholder="••••••••"
+                        autoComplete="new-password"
                         className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
                         {...field}
                       />
@@ -227,14 +231,21 @@ export function RegisterPage() {
                   </FormItem>
                 )}
               />
-              <Button
+              <MotionButton
+                whileHover={{ scale: 1.05, y: -1 }}
+                whileTap={{ scale: 0.98, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 500,
+                  damping: 30,
+                }}
                 type="submit"
                 className="w-full h-11 bg-brand-primary py-5 text-base hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 transition-all duration-200 mt-4"
                 disabled={isLoading}
               >
                 {isLoading ? "Creating account..." : "Register"}
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              </MotionButton>
             </form>
           </Form>
 

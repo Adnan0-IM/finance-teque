@@ -14,6 +14,12 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { useState } from "react";
+import { MotionButton } from "@/components/animations/MotionizedButton";
+import PageTransition from "@/components/animations/PageTransition";
+import { FadeIn } from "../components/animations/FadeIn";
+import { MotionImage } from "../components/animations/MotionizedImage";
+import {  motion } from "framer-motion";
+import { sectionVariant } from "@/utils/motionVariants";
 
 export function TeamPage() {
   const [openModal, setOpenModal] = useState(false);
@@ -24,7 +30,7 @@ export function TeamPage() {
       id: 1,
       name: "Ibrahim Kabir Bayero",
       position: "Chairman, Board of Directors",
-      imageUrl: "/team/board/ibrahim-bayero.jpeg", 
+      imageUrl: "/team/board/ibrahim-bayero.jpeg",
       education: "B.Sc. Sociology, Usman Dan Fodio University, Sokoto",
       expertise: "Enterprise Risk Management, Customer Relations",
       bio: "A fellow from institute of corporate administration of Nigeria and specialist in Enterprise risk management. He was a career banker and a senior manager at Kano Electricity Distribution Company of Nigeria (KEDCO). Also a Consultant on capital market activities over the years. He is a chairman of Crystal partners' investment, an investment advisory company.",
@@ -143,423 +149,466 @@ export function TeamPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
       {/* Navigation */}
       <Navigation />
-
-      {/* Banner Section */}
-      <section className="relative h-[75vh] flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url(${dubaiCityscape})`,
-          }}
+      <div className="min-h-screen bg-background">
+        {/* Banner Section */}
+        <motion.section
+          variants={sectionVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="relative h-[75vh] flex items-center justify-center overflow-hidden"
         >
-          <div className="absolute inset-0 bg-black/50"></div>
-        </div>
+          <motion.div
+            initial={{ scale: 1.08 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 8, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url(${dubaiCityscape})`,
+            }}
+          >
+            <div className="absolute inset-0 bg-black/50"></div>
+          </motion.div>
 
-        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Our Leadership Team
-          </h1>
-          <p className="text-xl md:text-2xl opacity-90 max-w-2xl mx-auto">
-            Meet the experienced professionals guiding Finance Teque's vision
-            and operations
-          </p>
-        </div>
-      </section>
+          <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              Our Leadership Team
+            </h1>
+            <p className="text-xl md:text-2xl opacity-90 max-w-2xl mx-auto">
+              Meet the experienced professionals guiding Finance Teque's vision
+              and operations
+            </p>
+          </div>
+        </motion.section>
 
-      {/* Leadership Introduction */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-6 text-brand-dark">
-            Governance & Leadership
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Finance Teque Nigeria Limited is governed by a six-member Board of
-            Directors with shareholder representation. The Board is responsible
-            for formulating corporate goals, targets, and plans, as well as
-            reviewing the company's performance. Our day-to-day operations are
-            managed by an experienced team of qualified professionals across
-            various departments.
-          </p>
+        <PageTransition>
+          {/* Leadership Introduction */}
+          <FadeIn mode="mount">
+            <section className="py-16 bg-white">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 className="text-3xl font-bold mb-6 text-brand-dark">
+                  Governance & Leadership
+                </h2>
+                <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
+                  Finance Teque Nigeria Limited is governed by a six-member
+                  Board of Directors with shareholder representation. The Board
+                  is responsible for formulating corporate goals, targets, and
+                  plans, as well as reviewing the company's performance. Our
+                  day-to-day operations are managed by an experienced team of
+                  qualified professionals across various departments.
+                </p>
 
-          <Tabs defaultValue="board" className="w-full max-w-7xl mx-auto mt-8">
-            <TabsList className="flex w-full mb-8 h-12 gap-2 rounded-lg bg-gray-100 p-1">
-              <TabsTrigger
-                value="board"
-                className="flex-1 text-base md:text-lg rounded-md data-[state=active]:bg-brand-primary data-[state=active]:text-white transition-colors"
-              >
-                Board of Directors
-              </TabsTrigger>
-              <TabsTrigger
-                value="management"
-                className="flex-1 text-base md:text-lg rounded-md data-[state=active]:bg-brand-primary data-[state=active]:text-white transition-colors"
-              >
-                Management Team
-              </TabsTrigger>
-            </TabsList>
+                <Tabs
+                  defaultValue="board"
+                  className="w-full max-w-7xl mx-auto mt-8"
+                >
+                  <TabsList className="flex w-full mb-8 h-12 gap-2 rounded-lg bg-gray-100 p-1">
+                    <TabsTrigger
+                      value="board"
+                      className="flex-1 text-base md:text-lg rounded-md data-[state=active]:bg-brand-primary data-[state=active]:text-white transition-colors"
+                    >
+                      Board of Directors
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="management"
+                      className="flex-1 text-base md:text-lg rounded-md data-[state=active]:bg-brand-primary data-[state=active]:text-white transition-colors"
+                    >
+                      Management Team
+                    </TabsTrigger>
+                  </TabsList>
+                
+                      <TabsContent value="board" className="mt-6">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                          {boardMembers.map((member) => (
+                            <Card
+                              key={member.id}
+                              className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group text-start"
+                              onClick={() => {
+                                setSelectedMember(member);
+                                setOpenModal(true);
+                              }}
+                            >
+                              <CardContent className="p-0">
+                                <div className="relative overflow-hidden">
+                                  <MotionImage
+                                    src={member.imageUrl}
+                                    alt={member.name}
+                                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300 rounded-t-2xl"
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, y: 6 }}
+                                    viewport={{ once: true, amount: 0.2 }}
+                                  />
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <div className="flex space-x-3">
+                                      {member.linkedin !== "" && (
+                                        <a
+                                          href={member.linkedin}
+                                          className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                                        >
+                                          <Linkedin className="h-5 w-5" />
+                                        </a>
+                                      )}
+                                      {member.twitter !== "" && (
+                                        <a
+                                          href={member.twitter}
+                                          className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                                        >
+                                          <Twitter className="h-5 w-5" />
+                                        </a>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
 
-            <TabsContent value="board" className="mt-6">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {boardMembers.map((member) => (
-                  <Card
-                    key={member.id}
-                    className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group text-start"
-                    onClick={() => {
-                      setSelectedMember(member);
-                      setOpenModal(true);
-                    }}
-                  >
-                    <CardContent className="p-0">
-                      <div className="relative overflow-hidden">
-                        <ImageWithFallback
-                          src={member.imageUrl}
-                          alt={member.name}
-                          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300 rounded-t-2xl"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="flex space-x-3">
-                            {member.linkedin !== "" && (
-                              <a
-                                href={member.linkedin}
-                                className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
-                              >
-                                <Linkedin className="h-5 w-5" />
-                              </a>
-                            )}
-                            {member.twitter !== "" && (
-                              <a
-                                href={member.twitter}
-                                className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
-                              >
-                                <Twitter className="h-5 w-5" />
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="p-6">
-                        <h3 className="text-xl font-bold mb-1">
-                          {member.name}
-                        </h3>
-                        <p className="text-brand-primary font-medium mb-3">
-                          {member.position}
-                        </p>
-                        {/* {member.education && (
+                                <div className="p-6">
+                                  <h3 className="text-xl font-bold mb-1">
+                                    {member.name}
+                                  </h3>
+                                  <p className="text-brand-primary font-medium mb-3">
+                                    {member.position}
+                                  </p>
+                                  {/* {member.education && (
                           <p className="text-sm text-muted-foreground mb-3">{member.education}</p>
                         )} */}
-                        <p className="text-sm line-clamp-4">
-                          {member.bio.length >= 150
-                            ? member.bio.slice(0, 150)
-                            : member.bio}
-                          ...
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="management" className="mt-6">
-              <div className="grid md:grid-cols-2 gap-8">
-                {managementTeam.map((member) => (
-                  <Card
-                    key={member.id}
-                    className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group text-start pb-0"
-                    onClick={() => {
-                      setSelectedMember(member);
-                      setOpenModal(true);
-                    }}
-                  >
-                    <CardContent className="[&:last-child]:pb-0 p-0 flex flex-col lg:flex-row">
-                      <div className="relative overflow-hidden w-full h-auto rounded-t-2xl lg:rounded-tl-2xl lg:rounded-bl-2xl">
-                        <ImageWithFallback
-                          src={member.imageUrl}
-                          alt={member.name}
-                          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="flex space-x-3">
-                            {member.linkedin !== "" && (
-                              <a
-                                href={member.linkedin}
-                                className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
-                              >
-                                <Linkedin className="h-5 w-5" />
-                              </a>
-                            )}
-                            {member.twitter !== "" && (
-                              <a
-                                href={member.twitter}
-                                className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
-                              >
-                                <Twitter className="h-5 w-5" />
-                              </a>
-                            )}
-                          </div>
+                                  <p className="text-sm line-clamp-4">
+                                    {member.bio.length >= 150
+                                      ? member.bio.slice(0, 150)
+                                      : member.bio}
+                                    ...
+                                  </p>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
                         </div>
-                      </div>
+                      </TabsContent>
 
-                      <div className="p-6">
-                        <h3 className="text-xl font-bold mb-1">
-                          {member.name}
+                      <TabsContent value="management" className="mt-6">
+                        <div className="grid md:grid-cols-2 gap-8">
+                          {managementTeam.map((member) => (
+                            <Card
+                              key={member.id}
+                              className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group text-start pb-0"
+                              onClick={() => {
+                                setSelectedMember(member);
+                                setOpenModal(true);
+                              }}
+                            >
+                              <CardContent className="[&:last-child]:pb-0 p-0 flex flex-col lg:flex-row">
+                                <div className="relative overflow-hidden w-full h-auto rounded-t-2xl lg:rounded-tl-2xl lg:rounded-bl-2xl">
+                                  <MotionImage
+                                    src={member.imageUrl}
+                                    alt={member.name}
+                                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, y: 6 }}
+                                    viewport={{ once: true, amount: 0.2 }}
+                                  />
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <div className="flex space-x-3">
+                                      {member.linkedin !== "" && (
+                                        <a
+                                          href={member.linkedin}
+                                          className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                                        >
+                                          <Linkedin className="h-5 w-5" />
+                                        </a>
+                                      )}
+                                      {member.twitter !== "" && (
+                                        <a
+                                          href={member.twitter}
+                                          className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                                        >
+                                          <Twitter className="h-5 w-5" />
+                                        </a>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="p-6">
+                                  <h3 className="text-xl font-bold mb-1">
+                                    {member.name}
+                                  </h3>
+                                  <p className="text-brand-primary font-medium mb-3">
+                                    {member.position}
+                                  </p>
+                                  {member.education && (
+                                    <p className="text-sm text-muted-foreground mb-3">
+                                      {member.education}
+                                    </p>
+                                  )}
+                                  <p className="text-sm line-clamp-4">
+                                    {member.bio.length >= 150
+                                      ? member.bio.slice(0, 150)
+                                      : member.bio}
+                                    ...
+                                  </p>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      </TabsContent>
+                 
+                </Tabs>
+              </div>
+            </section>
+          </FadeIn>
+          {/* Company Structure */}
+          <FadeIn>
+            <section className="py-16 bg-gray-50">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold mb-6 text-brand-dark">
+                    Our Company Structure
+                  </h2>
+                  <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
+                    Finance Teque Nigeria Limited operates with a well-defined
+                    organizational structure designed to ensure effective
+                    governance and operational efficiency.
+                  </p>
+                </div>
+
+                <div className="relative max-w-4xl mx-auto">
+                  {/* Company structure diagram - simplified version */}
+                  <div className="grid grid-cols-1 gap-4">
+                    {/* Board level */}
+                    <div className="bg-brand-primary text-white p-4 rounded-lg text-center">
+                      <h3 className="font-bold">Board of Directors</h3>
+                      <p className="text-sm">
+                        Strategic Oversight & Governance
+                      </p>
+                    </div>
+
+                    {/* Arrow */}
+                    <div className="flex justify-center">
+                      <div className="h-8 w-0.5 bg-gray-300"></div>
+                    </div>
+
+                    {/* Managing Director */}
+                    <div className="bg-brand-secondary text-white p-4 rounded-lg text-center">
+                      <h3 className="font-bold">Managing Director</h3>
+                      <p className="text-sm">Executive Leadership</p>
+                    </div>
+
+                    {/* Arrow */}
+                    <div className="flex justify-center">
+                      <div className="h-8 w-0.5 bg-gray-300"></div>
+                    </div>
+
+                    {/* Department Heads */}
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                        <h3 className="font-bold text-brand-dark">
+                          Investment & Portfolio
                         </h3>
-                        <p className="text-brand-primary font-medium mb-3">
-                          {member.position}
-                        </p>
-                        {member.education && (
-                          <p className="text-sm text-muted-foreground mb-3">
-                            {member.education}
-                          </p>
-                        )}
-                        <p className="text-sm line-clamp-4">
-                          {member.bio.length >= 150
-                            ? member.bio.slice(0, 150)
-                            : member.bio}
-                          ...
+                        <p className="text-sm text-muted-foreground">
+                          Asset Management
                         </p>
                       </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </section>
-
-      {/* Company Structure */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-6 text-brand-dark">
-              Our Company Structure
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
-              Finance Teque Nigeria Limited operates with a well-defined
-              organizational structure designed to ensure effective governance
-              and operational efficiency.
-            </p>
-          </div>
-
-          <div className="relative max-w-4xl mx-auto">
-            {/* Company structure diagram - simplified version */}
-            <div className="grid grid-cols-1 gap-4">
-              {/* Board level */}
-              <div className="bg-brand-primary text-white p-4 rounded-lg text-center">
-                <h3 className="font-bold">Board of Directors</h3>
-                <p className="text-sm">Strategic Oversight & Governance</p>
-              </div>
-
-              {/* Arrow */}
-              <div className="flex justify-center">
-                <div className="h-8 w-0.5 bg-gray-300"></div>
-              </div>
-
-              {/* Managing Director */}
-              <div className="bg-brand-secondary text-white p-4 rounded-lg text-center">
-                <h3 className="font-bold">Managing Director</h3>
-                <p className="text-sm">Executive Leadership</p>
-              </div>
-
-              {/* Arrow */}
-              <div className="flex justify-center">
-                <div className="h-8 w-0.5 bg-gray-300"></div>
-              </div>
-
-              {/* Department Heads */}
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="bg-white p-4 rounded-lg text-center shadow-md">
-                  <h3 className="font-bold text-brand-dark">
-                    Investment & Portfolio
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Asset Management
-                  </p>
-                </div>
-                <div className="bg-white p-4 rounded-lg text-center shadow-md">
-                  <h3 className="font-bold text-brand-dark">Compliance</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Regulatory Adherence
-                  </p>
-                </div>
-                <div className="bg-white p-4 rounded-lg text-center shadow-md">
-                  <h3 className="font-bold text-brand-dark">Admin & HR</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Personnel Management
-                  </p>
+                      <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                        <h3 className="font-bold text-brand-dark">
+                          Compliance
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          Regulatory Adherence
+                        </p>
+                      </div>
+                      <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                        <h3 className="font-bold text-brand-dark">
+                          Admin & HR
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          Personnel Management
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            </section>
+          </FadeIn>
+          {/* Values Section */}
+          <FadeIn>
+            <section className="py-16 bg-white">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold mb-6 text-brand-dark">
+                    Our Core Values
+                  </h2>
+                  <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
+                    The principles that guide our leadership team and every
+                    member of Finance Teque
+                  </p>
+                </div>
 
-      {/* Values Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-6 text-brand-dark">
-              Our Core Values
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
-              The principles that guide our leadership team and every member of
-              Finance Teque
-            </p>
-          </div>
+                <div className="grid md:grid-cols-3 gap-8">
+                  <div className="text-center p-6">
+                    <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-8 w-8 text-brand-primary"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold mb-3">Integrity</h3>
+                    <p className="text-muted-foreground">
+                      We uphold the highest standards of honesty and ethical
+                      conduct in all our business dealings.
+                    </p>
+                  </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-brand-primary"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  />
-                </svg>
+                  <div className="text-center p-6">
+                    <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-8 w-8 text-brand-primary"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold mb-3">Innovation</h3>
+                    <p className="text-muted-foreground">
+                      We constantly seek new and better ways to serve our
+                      clients and adapt to changing market conditions.
+                    </p>
+                  </div>
+
+                  <div className="text-center p-6">
+                    <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-8 w-8 text-brand-primary"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold mb-3">Client-Centric</h3>
+                    <p className="text-muted-foreground">
+                      We put our clients' needs at the center of everything we
+                      do, striving to exceed expectations.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-3">Integrity</h3>
-              <p className="text-muted-foreground">
-                We uphold the highest standards of honesty and ethical conduct
-                in all our business dealings.
-              </p>
-            </div>
-
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-brand-primary"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+            </section>
+          </FadeIn>
+          {/* Join Our Team CTA */}
+          <FadeIn>
+            <section className="py-16 bg-gray-900 text-white">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 className="text-3xl font-bold mb-6">Join Our Team</h2>
+                <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+                  Are you passionate about finance and looking to make an
+                  impact? We're always looking for talented individuals to join
+                  our team.
+                </p>
+                <MotionButton
+                  variant={"outline"}
+                  whileHover={{ scale: 1.05, y: -1 }}
+                  whileTap={{ scale: 0.98, y: 0 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  // href="/careers"
+                  className=" bg-white text-brand-primary font-semibold px-8 py-5 rounded-md hover:bg-gray-100 transition-colors"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
+                  View Open Positions
+                </MotionButton>
               </div>
-              <h3 className="text-xl font-bold mb-3">Innovation</h3>
-              <p className="text-muted-foreground">
-                We constantly seek new and better ways to serve our clients and
-                adapt to changing market conditions.
-              </p>
-            </div>
-
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-brand-primary"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Client-Centric</h3>
-              <p className="text-muted-foreground">
-                We put our clients' needs at the center of everything we do,
-                striving to exceed expectations.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Join Our Team CTA */}
-      <section className="py-16 bg-gray-900 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-6">Join Our Team</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Are you passionate about finance and looking to make an impact?
-            We're always looking for talented individuals to join our team.
-          </p>
-          <a
-            // href="/careers"
-            className="inline-block bg-white text-brand-primary font-semibold px-8 py-3 rounded-md hover:bg-gray-100 transition-colors"
-          >
-            View Open Positions
-          </a>
-        </div>
-      </section>
-      {selectedMember && (
-        <Dialog open={openModal} onOpenChange={setOpenModal}>
-          <DialogContent className="max-w-lg">
-            <DialogHeader>
-              <DialogTitle>{selectedMember.name}</DialogTitle>
-              <DialogDescription>
-                <span className="block font-medium text-brand-primary mb-2">
-                  {selectedMember.position}
-                </span>
-                {selectedMember.education && (
-                  <span className="block text-sm text-muted-foreground mb-2">
-                    {selectedMember.education}
+            </section>
+          </FadeIn>
+        </PageTransition>
+        {selectedMember && (
+          <Dialog open={openModal} onOpenChange={setOpenModal}>
+            <DialogContent className="max-w-lg">
+              <DialogHeader>
+                <DialogTitle>{selectedMember.name}</DialogTitle>
+                <DialogDescription>
+                  <span className="block font-medium text-brand-primary mb-2">
+                    {selectedMember.position}
                   </span>
-                )}
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex flex-col items-center">
-              <ImageWithFallback
-                src={selectedMember.imageUrl}
-                alt={selectedMember.name}
-                className="w-40 h-40 object-cover rounded-full mb-4"
-              />
-              <p className="text-sm mb-4">{selectedMember.bio}</p>
-              <div className="flex space-x-3">
-                {selectedMember.linkedin && (
-                  <a
-                    href={selectedMember.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Linkedin className="h-6 w-6 text-brand-primary" />
-                  </a>
-                )}
-                {selectedMember.twitter && (
-                  <a
-                    href={selectedMember.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Twitter className="h-6 w-6 text-brand-primary" />
-                  </a>
-                )}
+                  {selectedMember.education && (
+                    <span className="block text-sm text-muted-foreground mb-2">
+                      {selectedMember.education}
+                    </span>
+                  )}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex flex-col items-center">
+                <ImageWithFallback
+                  src={selectedMember.imageUrl}
+                  alt={selectedMember.name}
+                  className="w-40 h-40 object-cover rounded-full mb-4"
+                />
+                <p className="text-sm mb-4">{selectedMember.bio}</p>
+                <div className="flex space-x-3">
+                  {selectedMember.linkedin && (
+                    <a
+                      href={selectedMember.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Linkedin className="h-6 w-6 text-brand-primary" />
+                    </a>
+                  )}
+                  {selectedMember.twitter && (
+                    <a
+                      href={selectedMember.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Twitter className="h-6 w-6 text-brand-primary" />
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-            <DialogClose asChild>
-              <button className="mt-6 cursor-pointer px-4 py-2 bg-brand-primary text-white rounded">
-                Close
-              </button>
-            </DialogClose>
-          </DialogContent>
-        </Dialog>
-      )}
+              <DialogClose asChild>
+                <MotionButton
+                  whileHover={{ scale: 1.05, y: -1 }}
+                  whileTap={{ scale: 0.98, y: 0 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  className="mt-6 cursor-pointer px-4 py-2 bg-brand-primary text-white rounded"
+                >
+                  Close
+                </MotionButton>
+              </DialogClose>
+            </DialogContent>
+          </Dialog>
+        )}
 
-      <Toaster className="text-base" position="top-right" duration={3000} />
-    </div>
+        <Toaster className="text-base" position="top-right" duration={3000} />
+      </div>
+    </>
   );
 }
 

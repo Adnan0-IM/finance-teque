@@ -5,7 +5,6 @@ import { z } from "zod";
 import { useNavigate, useLocation, Link } from "react-router";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { ArrowRight } from "lucide-react";
+import { MotionButton } from "@/components/animations/MotionizedButton";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -86,6 +86,7 @@ export function LoginPage() {
                       <Input
                         placeholder="name@example.com"
                         className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                        autoComplete="email"
                         {...field}
                       />
                     </FormControl>
@@ -106,6 +107,7 @@ export function LoginPage() {
                       <Input
                         type="password"
                         placeholder="••••••••"
+                        autoComplete="current-password"
                         className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
                         {...field}
                       />
@@ -115,14 +117,21 @@ export function LoginPage() {
                 )}
               />
 
-              <Button
+              <MotionButton
+                whileHover={{ scale: 1.05, y: -1 }}
+                whileTap={{ scale: 0.98, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 500,
+                  damping: 30,
+                }}
                 type="submit"
                 className="w-full h-11 py-5 text-base bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 transition-all duration-200"
                 disabled={isLoading}
               >
                 {isLoading ? "Logging in..." : "Login"}
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              </MotionButton>
             </form>
           </Form>
 

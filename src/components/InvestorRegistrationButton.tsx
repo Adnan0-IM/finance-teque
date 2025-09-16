@@ -1,15 +1,14 @@
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
 import { buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import type { VariantProps } from "class-variance-authority";
-
+import { MotionButton } from "./animations/MotionizedButton";
 
 type ButtonProps = React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-  }
+    asChild?: boolean;
+  };
 type InvestorRegistrationButtonProps = ButtonProps & {
   children?: React.ReactNode;
 };
@@ -17,7 +16,6 @@ type InvestorRegistrationButtonProps = ButtonProps & {
 export default function InvestorRegistrationButton({
   className,
   children = "Get Started",
-  ...props
 }: InvestorRegistrationButtonProps) {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -33,9 +31,15 @@ export default function InvestorRegistrationButton({
   };
 
   return (
-    <Button className={`text-base py-5 ${className}`} onClick={handleClick} {...props}>
+    <MotionButton
+      whileHover={{ scale: 1.05, y: -1 }}
+      whileTap={{ scale: 0.98, y: 0 }}
+      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+      className={`text-base py-5 ${className}`}
+      onClick={handleClick}
+    >
       {children}
       <ArrowRight className="ml-2 h-4 w-4" />
-    </Button>
+    </MotionButton>
   );
 }

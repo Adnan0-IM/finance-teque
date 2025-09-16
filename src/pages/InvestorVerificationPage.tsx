@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router";
+import {motion, AnimatePresence} from "framer-motion"
 
 // Create a custom FormField wrapper component to ensure consistent spacing
 interface StableFormFieldProps {
@@ -376,7 +377,15 @@ export function InvestorVerificationPage() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Step 1: Bio Data */}
               {currentStep === 0 && (
-                <div className="space-y-4">
+                <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentStep}
+                  initial={{ opacity: 0, x: 24 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -24 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
                   <h2 className="text-lg sm:text-xl font-semibold">
                     Personal Information
                   </h2>
@@ -446,12 +455,22 @@ export function InvestorVerificationPage() {
                     control={form.control}
                     placeholder="123 Main Street, Ikeja, Lagos"
                   />
-                </div>
+                </motion.div>
+
+                </AnimatePresence>
               )}
 
               {/* Step 2: Next of Kin */}
               {currentStep === 1 && (
-                <div className="space-y-4">
+                <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentStep}
+                  initial={{ opacity: 0, x: 24 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -24 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
                   <h2 className="text-lg sm:text-xl font-semibold">
                     Next of Kin Details
                   </h2>
@@ -493,12 +512,22 @@ export function InvestorVerificationPage() {
                     control={form.control}
                     placeholder="123 Main Street, Ikeja, Lagos"
                   />
-                </div>
+                </motion.div>
+
+                </AnimatePresence>
               )}
 
               {/* Step 3: Account Details */}
               {currentStep === 2 && (
-                <div className="space-y-4">
+                <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentStep}
+                  initial={{ opacity: 0, x: 24 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -24 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
                   <h2 className="text-lg sm:text-xl font-semibold">
                     Bank Account Information
                   </h2>
@@ -538,12 +567,23 @@ export function InvestorVerificationPage() {
                       placeholder="12345678901"
                     />
                   </div>
-                </div>
+                </motion.div>
+
+                </AnimatePresence>
               )}
 
               {/* Step 4: KYC Documents */}
               {currentStep === 3 && (
-                <div className="space-y-4">
+                <AnimatePresence mode="wait">
+
+                <motion.div
+                  key={currentStep}
+                  initial={{ opacity: 0, x: 24 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -24 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
                   <h2 className="text-lg sm:text-xl font-semibold">
                     Required Documents
                   </h2>
@@ -594,7 +634,9 @@ export function InvestorVerificationPage() {
                       business days.
                     </p>
                   </div>
-                </div>
+                </motion.div>
+
+                </AnimatePresence>
               )}
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between pt-4">
