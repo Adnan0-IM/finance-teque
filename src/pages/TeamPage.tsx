@@ -18,7 +18,7 @@ import { MotionButton } from "@/components/animations/MotionizedButton";
 import PageTransition from "@/components/animations/PageTransition";
 import { FadeIn } from "../components/animations/FadeIn";
 import { MotionImage } from "../components/animations/MotionizedImage";
-import {  motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { sectionVariant } from "@/utils/motionVariants";
 
 export function TeamPage() {
@@ -219,143 +219,142 @@ export function TeamPage() {
                       Management Team
                     </TabsTrigger>
                   </TabsList>
-                
-                      <TabsContent value="board" className="mt-6">
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                          {boardMembers.map((member) => (
-                            <Card
-                              key={member.id}
-                              className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group text-start"
-                              onClick={() => {
-                                setSelectedMember(member);
-                                setOpenModal(true);
-                              }}
-                            >
-                              <CardContent className="p-0">
-                                <div className="relative overflow-hidden">
-                                  <MotionImage
-                                    src={member.imageUrl}
-                                    alt={member.name}
-                                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300 rounded-t-2xl"
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    initial={{ opacity: 0, y: 6 }}
-                                    viewport={{ once: true, amount: 0.2 }}
-                                  />
-                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <div className="flex space-x-3">
-                                      {member.linkedin !== "" && (
-                                        <a
-                                          href={member.linkedin}
-                                          className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
-                                        >
-                                          <Linkedin className="h-5 w-5" />
-                                        </a>
-                                      )}
-                                      {member.twitter !== "" && (
-                                        <a
-                                          href={member.twitter}
-                                          className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
-                                        >
-                                          <Twitter className="h-5 w-5" />
-                                        </a>
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
 
-                                <div className="p-6">
-                                  <h3 className="text-xl font-bold mb-1">
-                                    {member.name}
-                                  </h3>
-                                  <p className="text-brand-primary font-medium mb-3">
-                                    {member.position}
-                                  </p>
-                                  {/* {member.education && (
+                  <TabsContent value="board" className="mt-6">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                      {boardMembers.map((member) => (
+                        <Card
+                          key={member.id}
+                          className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group text-start"
+                          onClick={() => {
+                            setSelectedMember(member);
+                            setOpenModal(true);
+                          }}
+                        >
+                          <CardContent className="p-0">
+                            <div className="relative overflow-hidden">
+                              <MotionImage
+                                src={member.imageUrl}
+                                alt={member.name}
+                                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300 rounded-t-2xl"
+                                whileInView={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, y: 6 }}
+                                viewport={{ once: true, amount: 0.2 }}
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                              <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div className="flex space-x-3">
+                                  {member.linkedin !== "" && (
+                                    <a
+                                      href={member.linkedin}
+                                      className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                                    >
+                                      <Linkedin className="h-5 w-5" />
+                                    </a>
+                                  )}
+                                  {member.twitter !== "" && (
+                                    <a
+                                      href={member.twitter}
+                                      className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                                    >
+                                      <Twitter className="h-5 w-5" />
+                                    </a>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="p-6">
+                              <h3 className="text-xl font-bold mb-1">
+                                {member.name}
+                              </h3>
+                              <p className="text-brand-primary font-medium mb-3">
+                                {member.position}
+                              </p>
+                              {/* {member.education && (
                           <p className="text-sm text-muted-foreground mb-3">{member.education}</p>
                         )} */}
-                                  <p className="text-sm line-clamp-4">
-                                    {member.bio.length >= 150
-                                      ? member.bio.slice(0, 150)
-                                      : member.bio}
-                                    ...
-                                  </p>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          ))}
-                        </div>
-                      </TabsContent>
+                              <p className="text-sm line-clamp-4">
+                                {member.bio.length >= 150
+                                  ? member.bio.slice(0, 150)
+                                  : member.bio}
+                                ...
+                              </p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </TabsContent>
 
-                      <TabsContent value="management" className="mt-6">
-                        <div className="grid md:grid-cols-2 gap-8">
-                          {managementTeam.map((member) => (
-                            <Card
-                              key={member.id}
-                              className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group text-start pb-0"
-                              onClick={() => {
-                                setSelectedMember(member);
-                                setOpenModal(true);
-                              }}
-                            >
-                              <CardContent className="[&:last-child]:pb-0 p-0 flex flex-col lg:flex-row">
-                                <div className="relative overflow-hidden w-full h-auto rounded-t-2xl lg:rounded-tl-2xl lg:rounded-bl-2xl">
-                                  <MotionImage
-                                    src={member.imageUrl}
-                                    alt={member.name}
-                                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    initial={{ opacity: 0, y: 6 }}
-                                    viewport={{ once: true, amount: 0.2 }}
-                                  />
-                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <div className="flex space-x-3">
-                                      {member.linkedin !== "" && (
-                                        <a
-                                          href={member.linkedin}
-                                          className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
-                                        >
-                                          <Linkedin className="h-5 w-5" />
-                                        </a>
-                                      )}
-                                      {member.twitter !== "" && (
-                                        <a
-                                          href={member.twitter}
-                                          className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
-                                        >
-                                          <Twitter className="h-5 w-5" />
-                                        </a>
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="p-6">
-                                  <h3 className="text-xl font-bold mb-1">
-                                    {member.name}
-                                  </h3>
-                                  <p className="text-brand-primary font-medium mb-3">
-                                    {member.position}
-                                  </p>
-                                  {member.education && (
-                                    <p className="text-sm text-muted-foreground mb-3">
-                                      {member.education}
-                                    </p>
+                  <TabsContent value="management" className="mt-6">
+                    <div className="grid md:grid-cols-2 gap-8">
+                      {managementTeam.map((member) => (
+                        <Card
+                          key={member.id}
+                          className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group text-start pb-0"
+                          onClick={() => {
+                            setSelectedMember(member);
+                            setOpenModal(true);
+                          }}
+                        >
+                          <CardContent className="[&:last-child]:pb-0 p-0 flex flex-col lg:flex-row">
+                            <div className="relative overflow-hidden w-full h-auto rounded-t-2xl lg:rounded-tl-2xl lg:rounded-bl-2xl">
+                              <MotionImage
+                                src={member.imageUrl}
+                                alt={member.name}
+                                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                                whileInView={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, y: 6 }}
+                                viewport={{ once: true, amount: 0.2 }}
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                              <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div className="flex space-x-3">
+                                  {member.linkedin !== "" && (
+                                    <a
+                                      href={member.linkedin}
+                                      className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                                    >
+                                      <Linkedin className="h-5 w-5" />
+                                    </a>
                                   )}
-                                  <p className="text-sm line-clamp-4">
-                                    {member.bio.length >= 150
-                                      ? member.bio.slice(0, 150)
-                                      : member.bio}
-                                    ...
-                                  </p>
+                                  {member.twitter !== "" && (
+                                    <a
+                                      href={member.twitter}
+                                      className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-primary-foreground hover:bg-white/30 transition-colors"
+                                    >
+                                      <Twitter className="h-5 w-5" />
+                                    </a>
+                                  )}
                                 </div>
-                              </CardContent>
-                            </Card>
-                          ))}
-                        </div>
-                      </TabsContent>
-                 
+                              </div>
+                            </div>
+
+                            <div className="p-6">
+                              <h3 className="text-xl font-bold mb-1">
+                                {member.name}
+                              </h3>
+                              <p className="text-brand-primary font-medium mb-3">
+                                {member.position}
+                              </p>
+                              {member.education && (
+                                <p className="text-sm text-muted-foreground mb-3">
+                                  {member.education}
+                                </p>
+                              )}
+                              <p className="text-sm line-clamp-4">
+                                {member.bio.length >= 150
+                                  ? member.bio.slice(0, 150)
+                                  : member.bio}
+                                ...
+                              </p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </TabsContent>
                 </Tabs>
               </div>
             </section>
@@ -375,7 +374,7 @@ export function TeamPage() {
                   </p>
                 </div>
 
-                <div className="relative max-w-4xl mx-auto">
+                <div className="relative max-w-6xl mx-auto">
                   {/* Company structure diagram - simplified version */}
                   <div className="grid grid-cols-1 gap-4">
                     {/* Board level */}
@@ -403,7 +402,7 @@ export function TeamPage() {
                     </div>
 
                     {/* Department Heads */}
-                    <div className="grid md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                       <div className="bg-white p-4 rounded-lg text-center shadow-md">
                         <h3 className="font-bold text-brand-dark">
                           Investment & Portfolio
@@ -414,18 +413,24 @@ export function TeamPage() {
                       </div>
                       <div className="bg-white p-4 rounded-lg text-center shadow-md">
                         <h3 className="font-bold text-brand-dark">
-                          Compliance
+                          Compliance & Risk Management
                         </h3>
                         <p className="text-sm text-muted-foreground">
-                          Regulatory Adherence
+                          Risk & Regulatory Oversight
                         </p>
                       </div>
                       <div className="bg-white p-4 rounded-lg text-center shadow-md">
                         <h3 className="font-bold text-brand-dark">
-                          Admin & HR
+                          Admin & Operations
                         </h3>
                         <p className="text-sm text-muted-foreground">
-                          Personnel Management
+                          Processes & Support
+                        </p>
+                      </div>
+                      <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                        <h3 className="font-bold text-brand-dark">Finance</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Treasury & Reporting
                         </p>
                       </div>
                     </div>
