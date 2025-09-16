@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router";
-import {motion, AnimatePresence} from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion";
 
 // Create a custom FormField wrapper component to ensure consistent spacing
 interface StableFormFieldProps {
@@ -38,6 +38,7 @@ interface StableFormFieldProps {
   description?: string;
   accept?: string;
   isFileInput?: boolean;
+  autoComplete?: string;
 }
 
 const StableFormField: React.FC<StableFormFieldProps> = ({
@@ -51,6 +52,7 @@ const StableFormField: React.FC<StableFormFieldProps> = ({
   description,
   accept,
   isFileInput = false,
+  autoComplete,
 }) => {
   return (
     <FormField
@@ -71,6 +73,7 @@ const StableFormField: React.FC<StableFormFieldProps> = ({
               <div className="mt-2">
                 <Input
                   type="file"
+                  autoComplete={autoComplete}
                   accept={accept}
                   onChange={(e) => {
                     const file = e.target.files?.[0];
@@ -84,6 +87,7 @@ const StableFormField: React.FC<StableFormFieldProps> = ({
               <Input
                 placeholder={placeholder}
                 type={type}
+                autoComplete={autoComplete}
                 className={`h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition ${className}`}
                 onChange={onChange}
                 value={value || ""}
@@ -378,264 +382,277 @@ export function InvestorVerificationPage() {
               {/* Step 1: Bio Data */}
               {currentStep === 0 && (
                 <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentStep}
-                  initial={{ opacity: 0, x: 24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -24 }}
-                  transition={{ duration: 0.25 }}
-                  className="space-y-4"
-                >
-                  <h2 className="text-lg sm:text-xl font-semibold">
-                    Personal Information
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-4">
-                    <StableFormField
-                      label="First Name"
-                      name="firstName"
-                      control={form.control}
-                      placeholder="John"
-                    />
+                  <motion.div
+                    key={currentStep}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -24 }}
+                    transition={{ duration: 0.25 }}
+                    className="space-y-4"
+                  >
+                    <h2 className="text-lg sm:text-xl font-semibold">
+                      Personal Information
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-4">
+                      <StableFormField
+                        label="First Name"
+                        name="firstName"
+                        control={form.control}
+                        autoComplete="name"
+                        placeholder="John"
+                      />
+
+                      <StableFormField
+                        label="Surname"
+                        name="surname"
+                        control={form.control}
+                        autoComplete="surname"
+                        placeholder="Doe"
+                      />
+
+                      <StableFormField
+                        label="Phone Number"
+                        name="phoneNumber"
+                        control={form.control}
+                        autoComplete="tel"
+                        placeholder="+2348000000000 or 08000000000"
+                        type="tel"
+                      />
+
+                      <StableFormField
+                        label="Email Address"
+                        name="email"
+                        control={form.control}
+                        autoComplete="email"
+                        placeholder="name@example.com"
+                        type="email"
+                      />
+
+                      <StableFormField
+                        label="Date of Birth"
+                        name="dateOfBirth"
+                        autoComplete="dob"
+                        control={form.control}
+                        type="date"
+                      />
+
+                      <StableFormField
+                        label="Local Government"
+                        name="localGovernment"
+                        autoComplete="lga-name"
+                        control={form.control}
+                        placeholder="Ikeja"
+                      />
+
+                      <StableFormField
+                        label="State of Residence"
+                        name="stateOfResidence"
+                        autoComplete="state-name"
+                        control={form.control}
+                        placeholder="Lagos"
+                      />
+
+                      <StableFormField
+                        label="NIN Number"
+                        name="ninNumber"
+                        autoComplete="nin-number"
+                        control={form.control}
+                        placeholder="12345678901"
+                      />
+                    </div>
 
                     <StableFormField
-                      label="Surname"
-                      name="surname"
+                      label="Residential Address"
+                      name="residentialAddress"
+                      autoComplete="resident-address"
                       control={form.control}
-                      placeholder="Doe"
+                      placeholder="123 Main Street, Ikeja, Lagos"
                     />
-
-                    <StableFormField
-                      label="Phone Number"
-                      name="phoneNumber"
-                      control={form.control}
-                      placeholder="+2348000000000 or 08000000000"
-                      type="tel"
-                    />
-
-                    <StableFormField
-                      label="Email Address"
-                      name="email"
-                      control={form.control}
-                      placeholder="name@example.com"
-                      type="email"
-                    />
-
-                    <StableFormField
-                      label="Date of Birth"
-                      name="dateOfBirth"
-                      control={form.control}
-                      type="date"
-                    />
-
-                    <StableFormField
-                      label="Local Government"
-                      name="localGovernment"
-                      control={form.control}
-                      placeholder="Ikeja"
-                    />
-
-                    <StableFormField
-                      label="State of Residence"
-                      name="stateOfResidence"
-                      control={form.control}
-                      placeholder="Lagos"
-                    />
-
-                    <StableFormField
-                      label="NIN Number"
-                      name="ninNumber"
-                      control={form.control}
-                      placeholder="12345678901"
-                    />
-                  </div>
-
-                  <StableFormField
-                    label="Residential Address"
-                    name="residentialAddress"
-                    control={form.control}
-                    placeholder="123 Main Street, Ikeja, Lagos"
-                  />
-                </motion.div>
-
+                  </motion.div>
                 </AnimatePresence>
               )}
 
               {/* Step 2: Next of Kin */}
               {currentStep === 1 && (
                 <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentStep}
-                  initial={{ opacity: 0, x: 24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -24 }}
-                  transition={{ duration: 0.25 }}
-                  className="space-y-4"
-                >
-                  <h2 className="text-lg sm:text-xl font-semibold">
-                    Next of Kin Details
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
-                    <StableFormField
-                      label="Full Name"
-                      name="kinFullName"
-                      control={form.control}
-                      placeholder="Jane Doe"
-                    />
+                  <motion.div
+                    key={currentStep}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -24 }}
+                    transition={{ duration: 0.25 }}
+                    className="space-y-4"
+                  >
+                    <h2 className="text-lg sm:text-xl font-semibold">
+                      Next of Kin Details
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
+                      <StableFormField
+                        label="Full Name"
+                        name="kinFullName"
+                        autoComplete="name"
+                        control={form.control}
+                        placeholder="Jane Doe"
+                      />
+
+                      <StableFormField
+                        label="Phone Number"
+                        name="kinPhoneNumber"
+                        autoComplete="tel"
+                        control={form.control}
+                        placeholder="+2348000000000 or 08000000000"
+                        type="tel"
+                      />
+
+                      <StableFormField
+                        label="Email Address"
+                        name="kinEmail"
+                        autoComplete="email"
+                        control={form.control}
+                        placeholder="name@example.com"
+                        type="email"
+                      />
+
+                      <StableFormField
+                        label="Relationship"
+                        name="kinRelationship"
+                        control={form.control}
+                        autoComplete="relationship"
+                        placeholder="Spouse / Sibling / Parent"
+                      />
+                    </div>
 
                     <StableFormField
-                      label="Phone Number"
-                      name="kinPhoneNumber"
+                      label="Residential Address"
+                      name="kinResidentialAddress"
+                      autoComplete="address"
                       control={form.control}
-                      placeholder="+2348000000000 or 08000000000"
-                      type="tel"
+                      placeholder="123 Main Street, Ikeja, Lagos"
                     />
-
-                    <StableFormField
-                      label="Email Address"
-                      name="kinEmail"
-                      control={form.control}
-                      placeholder="name@example.com"
-                      type="email"
-                    />
-
-                    <StableFormField
-                      label="Relationship"
-                      name="kinRelationship"
-                      control={form.control}
-                      placeholder="Spouse / Sibling / Parent"
-                    />
-                  </div>
-
-                  <StableFormField
-                    label="Residential Address"
-                    name="kinResidentialAddress"
-                    control={form.control}
-                    placeholder="123 Main Street, Ikeja, Lagos"
-                  />
-                </motion.div>
-
+                  </motion.div>
                 </AnimatePresence>
               )}
 
               {/* Step 3: Account Details */}
               {currentStep === 2 && (
                 <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentStep}
-                  initial={{ opacity: 0, x: 24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -24 }}
-                  transition={{ duration: 0.25 }}
-                  className="space-y-4"
-                >
-                  <h2 className="text-lg sm:text-xl font-semibold">
-                    Bank Account Information
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
-                    <StableFormField
-                      label="Account Name"
-                      name="accountName"
-                      control={form.control}
-                      placeholder="John Doe"
-                    />
+                  <motion.div
+                    key={currentStep}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -24 }}
+                    transition={{ duration: 0.25 }}
+                    className="space-y-4"
+                  >
+                    <h2 className="text-lg sm:text-xl font-semibold">
+                      Bank Account Information
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
+                      <StableFormField
+                        label="Account Name"
+                        name="accountName"
+                        autoComplete="account-name"
+                        control={form.control}
+                        placeholder="John Doe"
+                      />
 
-                    <StableFormField
-                      label="Account Number"
-                      name="accountNumber"
-                      control={form.control}
-                      placeholder="0123456789"
-                    />
+                      <StableFormField
+                        label="Account Number"
+                        name="accountNumber"
+                        autoComplete="account-number"
+                        control={form.control}
+                        placeholder="0123456789"
+                      />
 
-                    <StableFormField
-                      label="Bank Name"
-                      name="bankName"
-                      control={form.control}
-                      placeholder="First Bank of Nigeria"
-                    />
+                      <StableFormField
+                        label="Bank Name"
+                        name="bankName"
+                        autoComplete="bank-name"
+                        control={form.control}
+                        placeholder="First Bank of Nigeria"
+                      />
 
-                    <StableFormField
-                      label="Account Type"
-                      name="accountType"
-                      control={form.control}
-                      placeholder="Savings / Current"
-                    />
+                      <StableFormField
+                        label="Account Type"
+                        name="accountType"
+                        control={form.control}
+                        placeholder="Savings / Current"
+                      />
 
-                    <StableFormField
-                      label="BVN Number"
-                      name="bvnNumber"
-                      control={form.control}
-                      placeholder="12345678901"
-                    />
-                  </div>
-                </motion.div>
-
+                      <StableFormField
+                        label="BVN Number"
+                        name="bvnNumber"
+                        autoComplete="bvn-number"
+                        control={form.control}
+                        placeholder="12345678901"
+                      />
+                    </div>
+                  </motion.div>
                 </AnimatePresence>
               )}
 
               {/* Step 4: KYC Documents */}
               {currentStep === 3 && (
                 <AnimatePresence mode="wait">
-
-                <motion.div
-                  key={currentStep}
-                  initial={{ opacity: 0, x: 24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -24 }}
-                  transition={{ duration: 0.25 }}
-                  className="space-y-4"
-                >
-                  <h2 className="text-lg sm:text-xl font-semibold">
-                    Required Documents
-                  </h2>
-                  <p className="text-xs sm:text-sm text-muted-foreground mb-4">
-                    Please upload clear images or PDF files of the following
-                    documents:
-                  </p>
-
-                  <div className="space-y-4 sm:space-y-6">
-                    <div className="border rounded-lg p-3 sm:p-4">
-                      <StableFormField
-                        label="1. Means of Identification"
-                        name="identificationDocument"
-                        control={form.control}
-                        description="National ID, Voter's Card, or International Passport"
-                        isFileInput={true}
-                        accept=".jpg,.jpeg,.png,.pdf"
-                      />
-                    </div>
-
-                    <div className="border rounded-lg p-3 sm:p-4">
-                      <StableFormField
-                        label="2. Passport Photograph"
-                        name="passportPhoto"
-                        control={form.control}
-                        description="Recent, with clear background"
-                        isFileInput={true}
-                        accept=".jpg,.jpeg,.png"
-                      />
-                    </div>
-
-                    <div className="border rounded-lg p-3 sm:p-4">
-                      <StableFormField
-                        label="3. Utility Bill"
-                        name="utilityBill"
-                        control={form.control}
-                        description="Not older than 3 months"
-                        isFileInput={true}
-                        accept=".jpg,.jpeg,.png,.pdf"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="mt-4 p-3 sm:p-4 bg-blue-50 rounded-lg">
-                    <p className="text-xs sm:text-sm text-blue-700">
-                      <strong>Note:</strong> All documents must be clear, valid,
-                      and unaltered. Verification process typically takes 1-2
-                      business days.
+                  <motion.div
+                    key={currentStep}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -24 }}
+                    transition={{ duration: 0.25 }}
+                    className="space-y-4"
+                  >
+                    <h2 className="text-lg sm:text-xl font-semibold">
+                      Required Documents
+                    </h2>
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-4">
+                      Please upload clear images or PDF files of the following
+                      documents:
                     </p>
-                  </div>
-                </motion.div>
 
+                    <div className="space-y-4 sm:space-y-6">
+                      <div className="border rounded-lg p-3 sm:p-4">
+                        <StableFormField
+                          label="1. Means of Identification"
+                          name="identificationDocument"
+                          control={form.control}
+                          description="National ID, Voter's Card, or International Passport"
+                          isFileInput={true}
+                          accept=".jpg,.jpeg,.png,.pdf"
+                        />
+                      </div>
+
+                      <div className="border rounded-lg p-3 sm:p-4">
+                        <StableFormField
+                          label="2. Passport Photograph"
+                          name="passportPhoto"
+                          control={form.control}
+                          description="Recent, with clear background"
+                          isFileInput={true}
+                          accept=".jpg,.jpeg,.png"
+                        />
+                      </div>
+
+                      <div className="border rounded-lg p-3 sm:p-4">
+                        <StableFormField
+                          label="3. Utility Bill"
+                          name="utilityBill"
+                          control={form.control}
+                          description="Not older than 3 months"
+                          isFileInput={true}
+                          accept=".jpg,.jpeg,.png,.pdf"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="mt-4 p-3 sm:p-4 bg-blue-50 rounded-lg">
+                      <p className="text-xs sm:text-sm text-blue-700">
+                        <strong>Note:</strong> All documents must be clear,
+                        valid, and unaltered. Verification process typically
+                        takes 1-2 business days.
+                      </p>
+                    </div>
+                  </motion.div>
                 </AnimatePresence>
               )}
 
