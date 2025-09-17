@@ -25,6 +25,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/contexts/AuthContext";
 
 // Create a custom FormField wrapper component to ensure consistent spacing
 interface StableFormFieldProps {
@@ -207,6 +208,7 @@ const formSchema = z.object({
 export function InvestorVerificationPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
+  const { submitVerification } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -280,33 +282,16 @@ export function InvestorVerificationPage() {
     }
   };
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
-    // Send data to your API
-
-    toast.success("Verification submitted successfully!");
-    form.reset({
-      firstName: "",
-      surname: "",
-      phoneNumber: "",
-      email: "",
-      dateOfBirth: "",
-      localGovernment: "",
-      residentialAddress: "",
-      ninNumber: "",
-      stateOfResidence: "",
-      kinFullName: "",
-      kinPhoneNumber: "",
-      kinEmail: "",
-      kinResidentialAddress: "",
-      kinRelationship: "",
-      accountName: "",
-      accountNumber: "",
-      bankName: "",
-      bvnNumber: "",
-      accountType: "",
-    });
-    navigate("/dashboard");
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      await submitVerification(data);
+      toast.success("Verification submitted successfully!");
+      form.reset();
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Verification submission error:", error);
+      toast.error("Failed to submit verification data. Please try again.");
+    }
   };
 
   return (

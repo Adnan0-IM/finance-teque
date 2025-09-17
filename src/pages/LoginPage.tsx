@@ -48,7 +48,7 @@ export function LoginPage() {
     try {
       await login(data.email, data.password);
       toast.success("Logged in successfully!");
-      navigate("/investor-verification");
+      navigate("/dashboard");
     } catch (error) {
       toast.error("Login failed. Please check your credentials.");
       console.log(error);

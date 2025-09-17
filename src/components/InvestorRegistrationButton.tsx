@@ -23,10 +23,10 @@ export default function InvestorRegistrationButton({
   const handleClick = () => {
     if (user) {
       // If user is already logged in, take them to the verification form
-      navigate("/investor-verification");
+      navigate("/dashboard");
     } else {
       // If not logged in, take them to registration with a return URL parameter
-      navigate("/register?returnTo=investor-verification");
+      navigate("/register");
     }
   };
 

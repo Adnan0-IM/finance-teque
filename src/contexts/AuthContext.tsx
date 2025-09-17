@@ -1,28 +1,42 @@
-import  {
+import {
   createContext,
   useContext,
   useState,
   useEffect,
   type ReactNode,
 } from "react";
+import axios from "axios";
+
+const API_URL = "http://localhost:5000/api";
 
 type User = {
   id: string;
   email: string;
   name: string;
   isVerified: boolean;
-  role?: "investor" | "startup" | "admin"
+  role?: "investor" | "startup" | "admin";
+  phone?: string;
 } | null;
 
 interface AuthContextType {
   user: User;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string) => Promise<void>;
+  register: (
+    email: string,
+    password: string,
+    name: string,
+    phone: string
+  ) => Promise<void>;
   logout: () => Promise<void>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  submitVerification: (verificationData: any) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Configure axios to include credentials
+axios.defaults.withCredentials = true;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>(null);
@@ -32,13 +46,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const checkUserLoggedIn = async () => {
       try {
-        // In a real app, this would verify the user's session with your backend
-        const savedUser = localStorage.getItem("finance_teque_user");
-        if (savedUser) {
-          setUser(JSON.parse(savedUser));
+        // Get stored token
+        const token = localStorage.getItem("finance_teque_token");
+
+        if (!token) {
+          setLoading(false);
+          return;
+        }
+
+        // Set auth header
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+        // Fetch current user
+        const response = await axios.get(`${API_URL}/auth/me`);
+
+        if (response.data.success) {
+          setUser(response.data.data);
         }
       } catch (error) {
         console.error("Failed to restore authentication state:", error);
+        localStorage.removeItem("finance_teque_token");
       } finally {
         setLoading(false);
       }
@@ -50,45 +77,52 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      // In a real app, this would call your authentication API
-      // For demo purposes, we'll simulate a successful login
-      const mockUser = {
-        id: "123456",
+      const response = await axios.post(`${API_URL}/auth/login`, {
         email,
-        name: email.split("@")[0],
-        isVerified: false,
-        password: password.length,
-        role: "investor"
-      };
+        password,
+      });
 
-      // Save to localStorage (in a real app, you'd use secure cookies or tokens)
-      localStorage.setItem("finance_teque_user", JSON.stringify(mockUser));
-      setUser(mockUser as User);
+      const { token, user } = response.data;
+
+      // Save token to localStorage
+      localStorage.setItem("finance_teque_token", token);
+
+      // Set auth header for future requests
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      setUser(user);
     } catch (error) {
-      console.error("Login faile:", error);
+      console.error("Login failed:", error);
       throw new Error("Invalid email or password");
     } finally {
       setLoading(false);
     }
   };
 
-  const register = async (email: string, password: string, name: string) => {
+  const register = async (
+    email: string,
+    password: string,
+    name: string,
+    phone: string
+  ) => {
     setLoading(true);
     try {
-      // In a real app, this would call your registration API
-      // For demo purposes, we'll simulate a successful registration
-      const mockUser = {
-        id: Date.now().toString(),
-        email,
+      const response = await axios.post(`${API_URL}/auth/register`, {
         name,
-        isVerified: false,
-        password: password.length,
-        role: "investor"
-      };
+        email,
+        password,
+        phone,
+      });
 
-      // Save to localStorage (in a real app, you'd use secure cookies or tokens)
-      localStorage.setItem("finance_teque_user", JSON.stringify(mockUser));
-      setUser(mockUser as User );
+      const { token, user } = response.data;
+
+      // Save token to localStorage
+      localStorage.setItem("finance_teque_token", token);
+
+      // Set auth header for future requests
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      setUser(user);
     } catch (error) {
       console.error("Registration failed:", error);
       throw new Error("Registration failed. Please try again.");
@@ -100,8 +134,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     setLoading(true);
     try {
-      // In a real app, this would call your logout API
-      localStorage.removeItem("finance_teque_user");
+      // Call logout endpoint to clear cookie
+      await axios.get(`${API_URL}/auth/logout`);
+
+      // Remove token from localStorage
+      localStorage.removeItem("finance_teque_token");
+
+      // Remove auth header
+      delete axios.defaults.headers.common["Authorization"];
+
       setUser(null);
     } catch (error) {
       console.error("Logout failed:", error);
@@ -110,13 +151,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const submitVerification = async (verificationData: any) => {
+    try {
+      const response = await axios.post(
+        `${API_URL}/verification`,
+        verificationData
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Verification submission failed:", error);
+      throw new Error("Failed to submit verification data");
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        register,
+        logout,
+        submitVerification,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {

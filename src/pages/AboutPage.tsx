@@ -409,7 +409,7 @@ export function AboutPage() {
                       </div>
                       <div className="flex-1 pl-8">
                         <span className="text-xl font-bold text-brand-primary">
-                          2012
+                          2019
                         </span>
                       </div>
                     </div>
@@ -417,7 +417,7 @@ export function AboutPage() {
                     <div className="flex items-center">
                       <div className="flex-1 text-right pr-8">
                         <span className="text-xl font-bold text-brand-primary">
-                          2015
+                          2021
                         </span>
                       </div>
                       <div className="w-12 h-12 bg-brand-primary rounded-full flex items-center justify-center z-10">
@@ -455,7 +455,7 @@ export function AboutPage() {
                       </div>
                       <div className="flex-1 pl-8">
                         <span className="text-xl font-bold text-brand-primary">
-                          2018
+                          2023
                         </span>
                       </div>
                     </div>
@@ -463,7 +463,7 @@ export function AboutPage() {
                     <div className="flex items-center">
                       <div className="flex-1 text-right pr-8">
                         <span className="text-xl font-bold text-brand-primary">
-                          2021
+                          2024
                         </span>
                       </div>
                       <div className="w-12 h-12 bg-brand-primary rounded-full flex items-center justify-center z-10">
@@ -501,7 +501,7 @@ export function AboutPage() {
                       </div>
                       <div className="flex-1 pl-8">
                         <span className="text-xl font-bold text-brand-primary">
-                          2024
+                          2025
                         </span>
                       </div>
                     </div>

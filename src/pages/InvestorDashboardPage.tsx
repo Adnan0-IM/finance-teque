@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
-import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowUpRight, ArrowDownRight, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,6 +16,7 @@ import {
 import { Toaster, toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageTransition from "@/components/animations/PageTransition";
+import DashboardNavigation from "@/components/DashboardNavigation";
 
 // Minimal types for API responses
 interface PortfolioSummary {
@@ -123,27 +123,29 @@ export function InvestorDashboardPage() {
   if (loading || !portfolioSummary) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
-        <main className="max-w-6xl mx-auto px-4 py-18">
-          <div className="mb-6">
-            <Skeleton className="h-10 w-64 mb-2" />
-            <Skeleton className="h-5 w-48" />
-          </div>
+        <DashboardNavigation />
+        <div className="md:pl-64 pt-16">
+          <main className="max-w-6xl mx-auto px-4 py-6">
+            <div className="mb-6">
+              <Skeleton className="h-10 w-64 mb-2" />
+              <Skeleton className="h-5 w-48" />
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            {[1, 2, 3].map((i) => (
-              <Card key={i}>
-                <CardContent className="pt-6">
-                  <Skeleton className="h-4 w-32 mb-2" />
-                  <Skeleton className="h-8 w-24" />
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              {[1, 2, 3].map((i) => (
+                <Card key={i}>
+                  <CardContent className="pt-6">
+                    <Skeleton className="h-4 w-32 mb-2" />
+                    <Skeleton className="h-8 w-24" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-          <Skeleton className="h-10 w-full mb-6" />
-          <Skeleton className="h-64 w-full" />
-        </main>
+            <Skeleton className="h-10 w-full mb-6" />
+            <Skeleton className="h-64 w-full" />
+          </main>
+        </div>
       </div>
     );
   }
@@ -152,23 +154,27 @@ export function InvestorDashboardPage() {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
-        <main className="max-w-6xl mx-auto px-4 py-18">
-          <div className="bg-white p-6 rounded-lg shadow text-center">
-            <p className="text-red-500 mb-4">Failed to load dashboard data</p>
-            <Button onClick={() => window.location.reload()}>Try Again</Button>
-          </div>
-        </main>
+        <DashboardNavigation />
+        <div className="md:pl-64 pt-16">
+          <main className="max-w-6xl mx-auto px-4 py-6">
+            <div className="bg-white p-6 rounded-lg shadow text-center">
+              <p className="text-red-500 mb-4">Failed to load dashboard data</p>
+              <Button onClick={() => window.location.reload()}>
+                Try Again
+              </Button>
+            </div>
+          </main>
+        </div>
       </div>
     );
   }
 
   return (
     <>
-      <Navigation />
       <PageTransition>
-        <div className="min-h-screen bg-gray-50">
-          <main className="max-w-6xl mx-auto px-6 py-18">
+        <DashboardNavigation />
+        <div className="min-h-screen bg-gray-50  md:pl-64">
+          <main className="max-w-6xl mx-auto px-6 py-6">
             <div className="mb-6">
               <h1 className="text-2xl font-bold text-gray-900">
                 Investment Summary
@@ -185,7 +191,7 @@ export function InvestorDashboardPage() {
                     Portfolio Value
                   </p>
                   <h3 className="text-2xl font-bold mt-1">
-                    {portfolioSummary.totalValue}
+                    {portfolioSummary?.totalValue}
                   </h3>
                 </CardContent>
               </Card>
@@ -196,8 +202,8 @@ export function InvestorDashboardPage() {
                     Gain/Loss
                   </p>
                   <h3 className="text-2xl font-bold mt-1 flex items-center">
-                    {portfolioSummary.totalGain}
-                    {portfolioSummary.isPositive ? (
+                    {portfolioSummary?.totalGain}
+                    {portfolioSummary?.isPositive ? (
                       <ArrowUpRight className="ml-1 h-5 w-5 text-green-500" />
                     ) : (
                       <ArrowDownRight className="ml-1 h-5 w-5 text-red-500" />
@@ -213,12 +219,12 @@ export function InvestorDashboardPage() {
                   </p>
                   <h3
                     className={`text-2xl font-bold mt-1 ${
-                      portfolioSummary.isPositive
+                      portfolioSummary?.isPositive
                         ? "text-green-600"
                         : "text-red-600"
                     }`}
                   >
-                    {portfolioSummary.gainPercentage}
+                    {portfolioSummary?.gainPercentage}
                   </h3>
                 </CardContent>
               </Card>
@@ -257,7 +263,7 @@ export function InvestorDashboardPage() {
                             Total Portfolio Value
                           </span>
                           <span className="font-medium">
-                            {portfolioSummary.totalValue}
+                            {portfolioSummary?.totalValue}
                           </span>
                         </div>
                         <div className="flex justify-between border-b pb-2">
@@ -265,7 +271,7 @@ export function InvestorDashboardPage() {
                             Total Invested
                           </span>
                           <span className="font-medium">
-                            {portfolioSummary.invested}
+                            {portfolioSummary?.invested}
                           </span>
                         </div>
                         <div className="flex justify-between border-b pb-2">
@@ -274,12 +280,12 @@ export function InvestorDashboardPage() {
                           </span>
                           <span
                             className={`font-medium ${
-                              portfolioSummary.isPositive
+                              portfolioSummary?.isPositive
                                 ? "text-green-600"
                                 : "text-red-600"
                             }`}
                           >
-                            {portfolioSummary.totalGain}
+                            {portfolioSummary?.totalGain}
                           </span>
                         </div>
                         <div className="flex justify-between">
@@ -288,12 +294,12 @@ export function InvestorDashboardPage() {
                           </span>
                           <span
                             className={`font-medium ${
-                              portfolioSummary.isPositive
+                              portfolioSummary?.isPositive
                                 ? "text-green-600"
                                 : "text-red-600"
                             }`}
                           >
-                            {portfolioSummary.gainPercentage}
+                            {portfolioSummary?.gainPercentage}
                           </span>
                         </div>
                       </div>
