@@ -2,57 +2,49 @@ import { Menu, X } from "lucide-react";
 
 import logo from "../assets/logo.png";
 import { useState } from "react";
-import { Button } from "./ui/button";
 import { NavLink } from "react-router";
-import { useAuth } from "../contexts/AuthContext";
 import InvestorRegistrationButton from "./InvestorRegistrationButton";
 import MobileMenuMotion from "./animations/MobileMenuMotion";
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navLinks = [
     { title: "About", path: "/about" },
-    { title: "Asset Financing", path: "/asset-financing" },
+    { title: "Business Investment", path: "/asset-financing" },
     { title: "Investment Plans", path: "/plans" },
     { title: "Team", path: "/team" },
     { title: "Contact", path: "/contact" },
   ];
-  const { user, logout } = useAuth();
 
-  // window.addEventListener("scroll", () => {
-  //   const windowScrollY = window.scrollY;
-  //   if (windowScrollY > 50) {
-  //     document
-  //       .querySelector("nav")
-  //       ?.classList.add("bg-white/95", "backdrop-blur-sm", "shadow-md");
-  //     document.querySelector("nav")?.classList.remove("bg-white/95");
-  //   } else {
-  //     document
-  //       .querySelector("nav")
-  //       ?.classList.remove("bg-white/95", "backdrop-blur-sm", "shadow-md");
-  //     document.querySelector("nav")?.classList.add("bg-white/95");
-  //   }
-  // });
+
   return (
     <>
       <nav className="fixed top-0 w-full  z-50 bg-white/95 backdrop-blur-sm border-b border-border transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
+          <div className="flex justify-between items-center min-h-16 py-2">
+            <div className="flex items-center space-x-3 lg:max-w-[30%]">
               <img
                 src={logo}
                 alt="Finance Teque Logo"
-                className="h-10 w-auto"
+                className="h-9 w-auto md:h-10"
               />
               <NavLink
-                to={"/"}
-                className="text-xl font-bold text-brand-dark hover:opacity-80 transition-opacity"
+                to="/"
+                aria-label="Finance Teque home"
+                className="group flex flex-col leading-tight "
               >
-                Finance Teque
+                <span className="text-lg md:text-xl font-bold text-brand-dark group-hover:opacity-80 transition-opacity">
+                  Finance Teque Nigeria Limited
+                </span>
+                <span className="hidden sm:block text-[10px] md:text-xs text-muted-foreground">
+
+                  Venture Capital Managers • Licensed by the Securities and
+                  Exchange Commission (SEC), Nigeria
+                </span>
               </NavLink>
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center md:space-x-4 lg:space-x-8">
+            <div className="hidden lg:flex items-center md:space-x-4 lg:space-x-8">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.title}
@@ -70,28 +62,13 @@ const Navigation = () => {
               ))}
             </div>
 
-            {user ? (
-              <div className=" items-center gap-4 hidden md:flex">
-                <span className="text-sm text-muted-foreground">
-                  Hello, {user.name}
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={logout}
-                  className="hover:text-gray-900 hover:bg-gray-100 bg-gray-900 text-white transition-colors"
-                >
-                  Logout
-                </Button>
-              </div>
-            ) : (
-              <InvestorRegistrationButton className="hidden md:inline-flex" />
-            )}
+           
+              <InvestorRegistrationButton className="hidden lg:inline-flex" />
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="cursor-pointer md:hidden p-2 rounded-md text-foreground hover:bg-gray-100 transition-colors"
+              className="cursor-pointer lg:hidden p-2 rounded-md text-foreground hover:bg-gray-100 transition-colors"
               aria-label="Open mobile menu"
             >
               <Menu className="h-6 w-6" />
@@ -103,7 +80,7 @@ const Navigation = () => {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <MobileMenuMotion>
-          <div className="fixed inset-0 z-50 md:hidden">
+          <div className="fixed inset-0 z-50 lg:hidden">
             {/* Backdrop */}
             <div
               className="fixed inset-0 bg-black/20 backdrop-blur-sm"
@@ -170,22 +147,10 @@ const Navigation = () => {
                 </div>
 
                 {/* Mobile Get Started Button */}
-                {user ? (
-                  <div className="p-6 border-t border-border">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={logout}
-                      className="w-full text-lg py-6  hover:bg-gray-900/90 hover:text-gray-100  bg-gray-900 text-white transition-colors"
-                    >
-                      Logout
-                    </Button>
-                  </div>
-                ) : (
+               
                   <div className="p-6 border-t border-border">
                     <InvestorRegistrationButton className="w-full text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white" />
                   </div>
-                )}
               </div>
             </div>
           </div>

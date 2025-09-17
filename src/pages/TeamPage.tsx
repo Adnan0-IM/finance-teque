@@ -108,8 +108,8 @@ export function TeamPage() {
         "B.Sc. Accountancy, Bayero University Kano | Master in Business and Commercial Law (M.B.C.L)",
       expertise: "Accountancy, Auditing, Advisory Services",
       bio: "Alhaji Suleiman Abubakar is a partner in Ibrahim Abdullahi & Co Chartered Accountant with over 10 years of experience. He was the Head of Finance at Top up Africa and Rumbu Sacks Nig Ltd. He is a fellow member of the Institute of Chartered Accountants of Nigeria (ICAN) and a student member of the Chartered Institute of Stockbrokers (CIS).",
-      linkedin: "#",
-      twitter: "#",
+      linkedin: "",
+      twitter: "",
     },
     {
       id: 2,
@@ -120,8 +120,8 @@ export function TeamPage() {
         "B.Sc. Banking and Finance, Kano State Polytechnic | Master's in Development Studies, Federal University Dutse",
       expertise: "Investment Management, Portfolio Analysis",
       bio: "Mr. Umar has held various positions as an Accounts Officer and has worked with ARM Pension Manager in Kano. He has participated in several professional training programs, including the ARM Internal Audit Training and Sales Effectiveness and Customer Experience Management Program.",
-      linkedin: "#",
-      twitter: "#",
+      linkedin: "",
+      twitter: "",
     },
     {
       id: 3,
@@ -132,8 +132,8 @@ export function TeamPage() {
         "B.Sc. Accounting, Bayero University Kano | Master's in Accounting and Financial Management",
       expertise: "Tax Auditing, Compliance, Financial Management",
       bio: "Mr. Aminu has gained substantial experience in various sectors, including his role as a Tax Auditor at Crystal Partners Investment Limited, where he focused on tax audits and the recovery of personal income tax and withholding tax liabilities. He also contributed to the NASSCO social investment program.",
-      linkedin: "#",
-      twitter: "#",
+      linkedin: "",
+      twitter: "",
     },
     {
       id: 4,
@@ -143,9 +143,20 @@ export function TeamPage() {
       education: "B.Sc. Business Administration | MBA, Bayero University",
       expertise: "Administrative Management, HR, Business Development",
       bio: "Amina is a seasoned professional with over 20 years of experience in administrative management, business development, and customer service. Her career spans various industries, including eight years in banking and international development, where she has served as a short-term expert for organizations such as the EU, Ipas, Mafita (DFID), and the Enterprise Development Centre.",
-      linkedin: "#",
-      twitter: "#",
+      linkedin: "",
+      twitter: "",
     },
+  {
+    id: 5,
+    name: "Rabiu Abdu",
+    position: "Head of Finance",
+    imageUrl: "/team/management/rabiu-abdu.jpeg", // You'll need to add this image to your assets
+    education: "B.Sc. Business Education (Accounting), Ahmadu Bello University, Zaria",
+    expertise: "Financial Planning, Reporting, Investment Strategies",
+    bio: "Mr. Rabiu Abdu holds a Bachelor's Degree in Business Education with Accounting specialization from Ahmadu Bello University, Zaria. He previously served as Sales and Production Manager at T&J Block Industry, where he managed operations, resources, and financial processes to support business growth. Beyond his corporate role, Mr. Rabiu has contributed to the academic field by tutoring accounting and finance across various institutions. Currently, as Head of Finance at Finance Teque Nigeria Limited, Mr. Rabiu oversees financial planning, reporting and investment strategies, combining industry experience and academic expertise to support the company's vision of sustainable growth.",
+    linkedin: "",
+    twitter: "",
+  },
   ];
 
   return (
@@ -431,6 +442,14 @@ export function TeamPage() {
                         <h3 className="font-bold text-brand-dark">Finance</h3>
                         <p className="text-sm text-muted-foreground">
                           Treasury & Reporting
+                        </p>
+                      </div>
+                      <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                        <h3 className="font-bold text-brand-dark">
+                          Business & Marketing Development
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                         Expansion & Client Acquisition
                         </p>
                       </div>
                     </div>

@@ -12,6 +12,7 @@ import {
   Instagram,
   Send,
   Youtube,
+  Linkedin,
 } from "lucide-react";
 import dubaiCityscape from "../assets/business-banner@2x.jpg";
 
@@ -287,7 +288,15 @@ export function ContactPage() {
                           <Instagram className="h-6 w-6" />
                           <span className="font-medium">Instagram</span>
                         </a>
-
+ <a
+                          href="https://www.linkedin.com/in/finance-teque-nigeria-limited-2ab022331/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center space-x-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+                        >
+                          <Linkedin className="h-6 w-6" />
+                          <span className="font-medium">Facebook</span>
+                        </a>
                         <a
                           href="https://x.com/FinanceTeque"
                           target="_blank"

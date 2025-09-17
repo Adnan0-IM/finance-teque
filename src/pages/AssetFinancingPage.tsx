@@ -48,12 +48,12 @@ export function AssetFinancingPage() {
 
           <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Empowering Your Business with Asset Financing
+              Empowering Your Business Through Venture Capital Financing 
             </h1>
             <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
               At Finance Teque Nigeria Limited, we believe the right asset at
               the right time can redefine your business success. Whether you're
-              just starting out or expanding, our asset financing solutions are
+              just starting out or expanding, our business solutions are
               designed to meet your needs.
             </p>
           </div>
@@ -68,10 +68,10 @@ export function AssetFinancingPage() {
                   Tailored Solutions
                 </h3>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-brand-dark">
-                  Our Four Specialized Financing Tracks
+                  Our Four Specialized Products
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                  We offer customized asset financing solutions for businesses
+                  We offer customized business solutions for businesses
                   at every growth stage
                 </p>
               </div>
@@ -169,7 +169,7 @@ export function AssetFinancingPage() {
                     Why Choose Us?
                   </h2>
                   <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                    Finance Teque provides flexible asset financing solutions
+                    Finance Teque provides flexible business solutions
                     with competitive advantages
                   </p>
                 </div>
@@ -303,7 +303,7 @@ export function AssetFinancingPage() {
           </FadeIn>
           {/* Success Stories Section */}
 
-          <FadeIn>
+          {/* <FadeIn>
             <section className="py-20 bg-gray-50">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
@@ -314,7 +314,7 @@ export function AssetFinancingPage() {
                     Businesses We've Empowered
                   </h2>
                   <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                    See how our asset financing solutions have helped businesses
+                    See how our business solutions have helped businesses
                     grow
                   </p>
                 </div>
@@ -393,7 +393,7 @@ export function AssetFinancingPage() {
                 </div>
               </div>
             </section>
-          </FadeIn>
+          </FadeIn> */}
 
           {/* CTA Section */}
           <FadeIn>
