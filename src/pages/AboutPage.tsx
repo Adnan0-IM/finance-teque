@@ -475,7 +475,7 @@ export function AboutPage() {
                             Global Expansion
                           </h4>
                           <p className="text-muted-foreground">
-                            Expanded operations to 15+ countries, offering our
+                            Expanded operations, offering our
                             ethical investment solutions to a global client
                             base.
                           </p>

@@ -288,14 +288,14 @@ export function ContactPage() {
                           <Instagram className="h-6 w-6" />
                           <span className="font-medium">Instagram</span>
                         </a>
- <a
+                        <a
                           href="https://www.linkedin.com/in/finance-teque-nigeria-limited-2ab022331/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center space-x-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
                         >
                           <Linkedin className="h-6 w-6" />
-                          <span className="font-medium">Facebook</span>
+                          <span className="font-medium">Linkedin</span>
                         </a>
                         <a
                           href="https://x.com/FinanceTeque"
@@ -317,7 +317,7 @@ export function ContactPage() {
                           <span className="font-medium">X</span>
                         </a>
                         <a
-                          href="#"
+                          href="https://www.facebook.com/financeteq/about"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center space-x-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"

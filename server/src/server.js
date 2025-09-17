@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/auth");
 const verificationRoutes = require("./routes/verification");
+const path = require("path");
 
 // Load env vars
 dotenv.config();
@@ -35,9 +36,20 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/verification", verificationRoutes);
 
-// Basic route
+// Serve static files
+app.use(express.static(path.join(__dirname, "../..", "dist")));
+
+// Instead of using a wildcard, let's use a specific route for the SPA
 app.get("/", (req, res) => {
-  res.send("Finance Teque API is running");
+  res.sendFile(path.join(__dirname, "../..", "dist", "index.html"));
+});
+
+// Handle other routes for SPA
+app.use((req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    return next();
+  }
+  res.sendFile(path.join(__dirname, "../..", "dist", "index.html"));
 });
 
 const PORT = process.env.PORT || 5000;
