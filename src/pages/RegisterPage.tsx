@@ -75,9 +75,9 @@ export function RegisterPage() {
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
     try {
-      await register(data.email, data.password, data.name);
+      await register(data.email, data.password, data.name, data.phone);
       toast.success("Account created successfully!");
-      navigate("/investor-verification");
+      navigate("/dashboard");
     } catch (error) {
       toast.error("Registration failed. Please try again.");
       console.log(error);
