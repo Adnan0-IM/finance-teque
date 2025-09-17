@@ -106,7 +106,7 @@ const HomePage = () => {
                       navigate("/asset-financing");
                     }}
                   >
-                    Apply for Asset Financing{" "}
+                    Apply for Business Financing{" "}
                     <motion.span
                       aria-hidden
                       initial={false}
@@ -198,7 +198,7 @@ const HomePage = () => {
                       equities and as such seeks to provide superior long-term
                       protection against inflation to investors with a high-risk
                       appetite. The high risk of equities is lowered by also
-                      investing in asset financing investment, which provide a
+                      investing in business financing investment, which provide a
                       fairly predictable income stream and easy access to your
                       money.
                     </p>
