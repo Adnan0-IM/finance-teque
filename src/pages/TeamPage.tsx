@@ -76,7 +76,7 @@ export function TeamPage() {
       id: 5,
       name: "Salamatu Musa Nasir",
       position: "Director",
-      imageUrl: "/team/board/salamatu-musa-nasir.jpg",
+      imageUrl: "/team/board/salamatu-musa-nasir.jpeg",
       education:
         "NCE, Federal College of Education | Pursuing B.Ed, Bayero University, Kano",
       expertise: "Education, Administration",

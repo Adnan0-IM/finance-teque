@@ -110,14 +110,20 @@ exports.getMe = async (req, res) => {
 // @route   GET /api/auth/logout
 // @access  Private
 exports.logout = async (req, res) => {
-  res.cookie("token", "none", {
+  const options = {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
-  });
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    path: "/",
+  };
+
+  res.cookie("token", "none", options);
 
   res.status(200).json({
     success: true,
     data: {},
+    message: "Successfully logged out",
   });
 };
 
@@ -132,7 +138,14 @@ const sendTokenResponse = (user, statusCode, res) => {
     ),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    path: "/",
   };
+
+  // Log token in development
+  if (process.env.NODE_ENV !== "production") {
+    console.log("Generated token:", token);
+  }
 
   res
     .status(statusCode)

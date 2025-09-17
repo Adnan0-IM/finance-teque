@@ -27,8 +27,13 @@ app.use(cookieParser());
 // Enable CORS
 app.use(
   cors({
-    origin: "http://localhost:5173", // Your frontend URL
+    origin:
+      process.env.NODE_ENV === "production"
+        ? ["https://finance-teque.vercel.app", "https://financetequecv.com"]
+        : "http://localhost:5173",
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -37,11 +42,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/verification", verificationRoutes);
 
 // Serve static files
-app.use(express.static(path.join(__dirname, "../..", "dist")));
+app.use(express.static(path.join(__dirname, "../", "dist")));
 
 // Instead of using a wildcard, let's use a specific route for the SPA
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../..", "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "../", "dist", "index.html"));
 });
 
 // Handle other routes for SPA
@@ -49,7 +54,7 @@ app.use((req, res, next) => {
   if (req.path.startsWith("/api")) {
     return next();
   }
-  res.sendFile(path.join(__dirname, "../..", "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "../", "dist", "index.html"));
 });
 
 const PORT = process.env.PORT || 5000;
