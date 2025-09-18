@@ -384,7 +384,7 @@ export function TeamPage() {
                   </p>
                 </div>
 
-                <div className="relative max-w-6xl mx-auto">
+                <div className="relative max-w-6xl mx-auto ">
                   {/* Company structure diagram - simplified version */}
                   <div className="grid grid-cols-1 gap-4">
                     {/* Board level */}
@@ -412,8 +412,8 @@ export function TeamPage() {
                     </div>
 
                     {/* Department Heads */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 justify-self-center ">
+                      <div className="bg-white p-4 rounded-lg text-center shadow-md lg:col-start-1 lg:col-end-3">
                         <h3 className="font-bold text-brand-dark">
                           Investment & Portfolio
                         </h3>
@@ -421,7 +421,7 @@ export function TeamPage() {
                           Asset Management
                         </p>
                       </div>
-                      <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                      <div className="bg-white p-4 rounded-lg text-center shadow-md lg:col-start-3 lg:col-end-5 ">
                         <h3 className="font-bold text-brand-dark">
                           Compliance & Risk Management
                         </h3>
@@ -429,7 +429,7 @@ export function TeamPage() {
                           Risk & Regulatory Oversight
                         </p>
                       </div>
-                      <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                      <div className="bg-white p-4 rounded-lg text-center shadow-md lg:col-start-5 lg:col-end-7">
                         <h3 className="font-bold text-brand-dark">
                           Admin & Operations
                         </h3>
@@ -437,13 +437,13 @@ export function TeamPage() {
                           Processes & Support
                         </p>
                       </div>
-                      <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                      <div className="bg-white p-4 rounded-lg text-center shadow-md lg:col-start-2 lg:col-end-4 ">
                         <h3 className="font-bold text-brand-dark">Finance</h3>
                         <p className="text-sm text-muted-foreground">
                           Treasury & Reporting
                         </p>
                       </div>
-                      <div className="bg-white p-4 rounded-lg text-center shadow-md">
+                      <div className="bg-white p-4 rounded-lg text-center shadow-md sm:col-span-2 lg:col-start-4 lg:col-end-6">
                         <h3 className="font-bold text-brand-dark">
                           Business & Marketing Development
                         </h3>
