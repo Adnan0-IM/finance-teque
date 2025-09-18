@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, EyeIcon, EyeOff } from "lucide-react";
 import { MotionButton } from "@/components/animations/MotionizedButton";
 
 const loginSchema = z.object({
@@ -26,6 +26,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -49,7 +50,7 @@ export function LoginPage() {
       toast.success("Logged in successfully!");
       navigate("/dashboard");
     } catch (error) {
-        toast.error(
+      toast.error(
         <p className="text-base text-red-500">{(error as Error).message}</p>
       );
       console.log(error);
@@ -105,13 +106,19 @@ export function LoginPage() {
                       Password
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="••••••••"
-                        autoComplete="current-password"
-                        className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
-                        {...field}
-                      />
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="••••••••"
+                          autoComplete="current-password"
+                          className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                          {...field}
+                        />
+                        <button type="button" onClick={()=> setShowPassword(!showPassword)} className="absolute right-2 top-3">
+
+                        {showPassword ? <EyeIcon /> : <EyeOff />}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormMessage className="text-xs text-destructive" />
                   </FormItem>

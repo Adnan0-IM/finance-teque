@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/contexts/AuthContext";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, EyeIcon, EyeOff } from "lucide-react";
 import { MotionButton } from "@/components/animations/MotionizedButton";
 
 const registerSchema = z
@@ -52,6 +52,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
   const { register } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -173,13 +174,22 @@ export function RegisterPage() {
                       Password
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="••••••••"
-                        autoComplete="new-password"
-                        className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
-                        {...field}
-                      />
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="••••••••"
+                          autoComplete="new-password"
+                          className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                          {...field}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-2 top-3"
+                        >
+                          {showPassword ? <EyeIcon /> : <EyeOff />}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormMessage className="text-xs text-destructive" />
                   </FormItem>
@@ -194,12 +204,22 @@ export function RegisterPage() {
                       Confirm Password
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="••••••••"
-                        className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
-                        {...field}
-                      />
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="••••••••"
+                          autoComplete="new-password"
+                          className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                          {...field}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-2 top-3"
+                        >
+                          {showPassword ? <EyeIcon /> : <EyeOff />}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormMessage className="text-xs text-destructive" />
                   </FormItem>
