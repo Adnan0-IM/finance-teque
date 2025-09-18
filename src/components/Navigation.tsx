@@ -15,7 +15,6 @@ const Navigation = () => {
     { title: "Contact", path: "/contact" },
   ];
 
-
   return (
     <>
       <nav className="fixed top-0 w-full  z-50 bg-white/95 backdrop-blur-sm border-b border-border transition-colors">
@@ -25,7 +24,7 @@ const Navigation = () => {
               <img
                 src={logo}
                 alt="Finance Teque Logo"
-                className="h-9 w-auto md:h-10"
+                className="h-9 w-auto md:h-10 lg:h-11"
               />
               <NavLink
                 to="/"
@@ -35,9 +34,8 @@ const Navigation = () => {
                 <span className="text-lg md:text-xl font-bold text-brand-dark group-hover:opacity-80 transition-opacity">
                   Finance Teque Nigeria Limited
                 </span>
-                <span className="hidden sm:block text-[10px] md:text-xs text-muted-foreground">
-
-                  Venture Capital Managers • Licensed by the Securities and
+                <span className="hidden sm:block text-[10px] md:text-xs text-muted-foreground font-bold">
+                  (Venture Capital Manager) <br /> Licensed by Securities and
                   Exchange Commission (SEC), Nigeria
                 </span>
               </NavLink>
@@ -50,7 +48,7 @@ const Navigation = () => {
                   key={link.title}
                   to={link.path}
                   className={({ isActive }) =>
-                    `transition-colors text-lg ${
+                    `transition-colors text-xl font-medium ${
                       isActive
                         ? "text-brand-primary font-medium"
                         : "text-foreground hover:text-primary"
@@ -62,8 +60,7 @@ const Navigation = () => {
               ))}
             </div>
 
-           
-              <InvestorRegistrationButton className="hidden lg:inline-flex" />
+            <InvestorRegistrationButton className="hidden lg:inline-flex" />
 
             {/* Mobile Menu Button */}
             <button
@@ -147,10 +144,10 @@ const Navigation = () => {
                 </div>
 
                 {/* Mobile Get Started Button */}
-               
-                  <div className="p-6 border-t border-border">
-                    <InvestorRegistrationButton className="w-full text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white" />
-                  </div>
+
+                <div className="p-6 border-t border-border">
+                  <InvestorRegistrationButton className="w-full text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white" />
+                </div>
               </div>
             </div>
           </div>

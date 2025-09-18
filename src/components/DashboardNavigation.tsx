@@ -68,27 +68,26 @@ const DashboardNavigation = () => {
         <div className="flex items-center justify-between h-16 px-4 md:px-6">
           {/* Logo and Brand */}
 
-            <div className="flex items-center space-x-3 ">
-              <img
-                src={logo}
-                alt="Finance Teque Logo"
-                className="h-9 w-auto md:h-10"
-              />
-              <NavLink
-                to="/"
-                aria-label="Finance Teque home"
-                className="group flex flex-col leading-tight "
-              >
-                <span className="text-lg md:text-xl font-bold text-brand-dark group-hover:opacity-80 transition-opacity">
-                  Finance Teque Nigeria Limited
-                </span>
-                <span className="hidden sm:block text-[10px] md:text-xs text-muted-foreground">
-
-                  Venture Capital Managers • Licensed by the Securities and
-                  Exchange Commission (SEC), Nigeria
-                </span>
-              </NavLink>
-            </div>
+          <div className="flex items-center space-x-3 ">
+            <img
+              src={logo}
+              alt="Finance Teque Logo"
+              className="h-9 w-auto md:h-10 lg:h-11"
+            />
+            <NavLink
+              to="/"
+              aria-label="Finance Teque home"
+              className="group flex flex-col leading-tight "
+            >
+              <span className="text-lg md:text-xl font-bold text-brand-dark group-hover:opacity-80 transition-opacity">
+                Finance Teque Nigeria Limited
+              </span>
+              <span className="hidden sm:block text-[10px] md:text-xs text-muted-foreground font-bold">
+                (Venture Capital Manager) <br /> Licensed by Securities and
+                Exchange Commission (SEC), Nigeria
+              </span>
+            </NavLink>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
