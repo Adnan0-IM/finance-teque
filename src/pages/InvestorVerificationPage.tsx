@@ -12,7 +12,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import {
   ArrowRight,
@@ -681,7 +680,6 @@ export function InvestorVerificationPage() {
           </Form>
         </div>
       </div>
-      <Toaster position="top-right" duration={3000} />
     </div>
   );
 }

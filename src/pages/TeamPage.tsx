@@ -1,7 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
-import { Toaster } from "@/components/ui/sonner";
 import dubaiCityscape from "@/assets/business-banner@2x.jpg";
 import { Linkedin, Twitter } from "lucide-react";
 import { ImageWithFallback } from "@/components/ImageWithFallback";
@@ -630,7 +629,6 @@ export function TeamPage() {
           </Dialog>
         )}
 
-        <Toaster className="text-base" position="top-right" duration={3000} />
       </div>
     </>
   );

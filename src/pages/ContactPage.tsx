@@ -18,7 +18,6 @@ import dubaiCityscape from "../assets/business-banner@2x.jpg";
 
 import Navigation from "@/components/Navigation";
 import ModalButton from "@/components/ModalButton";
-import { Toaster } from "@/components/ui/sonner";
 import { MotionButton } from "@/components/animations/MotionizedButton";
 import PageTransition from "@/components/animations/PageTransition";
 import { FadeIn } from "../components/animations/FadeIn";
@@ -498,7 +497,6 @@ export function ContactPage() {
             </section>
           </FadeIn>
         </PageTransition>
-        <Toaster className="text-base" position="top-right" duration={3000} />
       </div>
     </>
   );

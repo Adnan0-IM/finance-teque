@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import dubaiCityscape from "@/assets/business-banner@2x.jpg";
 import { Link, useNavigate } from "react-router";
-import { Toaster } from "@/components/ui/sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import PageTransition from "@/components/animations/PageTransition";
 import { FadeIn } from "@/components/animations/FadeIn";
@@ -452,7 +451,6 @@ export function AssetFinancingPage() {
             </section>
           </FadeIn>
         </PageTransition>
-        <Toaster className="text-base" position="top-right" duration={3000} />
       </div>
     </>
   );

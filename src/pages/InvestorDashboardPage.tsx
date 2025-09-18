@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageTransition from "@/components/animations/PageTransition";
 import DashboardNavigation from "@/components/DashboardNavigation";
@@ -439,7 +439,6 @@ export function InvestorDashboardPage() {
               </Button>
             </div>
           </main>
-          <Toaster position="top-right" duration={3000} />
         </div>
       </PageTransition>
     </>

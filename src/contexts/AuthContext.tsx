@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 
 const API_URL =
-  import.meta.env.MODE === "production" ? "/api" : "http://localhost:5000/api";
+  import.meta.env.MODE === "production" ? "/api" : "http://localhost:3000/api";
 
 type User = {
   id: string;
@@ -38,6 +38,27 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Configure axios to include credentials
 axios.defaults.withCredentials = true;
+
+// Extract a useful error message from Axios/server responses
+const getApiErrorMessage = (err: unknown): string => {
+  if (axios.isAxiosError(err)) {
+    const data = err.response?.data as
+      | {
+          message?: string;
+          error?: string;
+          success?: boolean;
+          errors?: string[];
+        }
+      | undefined;
+    if (data?.message) return data.message;
+    if (data?.error) return data.error;
+    if (Array.isArray(data?.errors) && data.errors.length)
+      return data.errors[0];
+    if (err.message) return err.message;
+  }
+  if (err instanceof Error) return err.message;
+  return "An unexpected error occurred";
+};
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>(null);
@@ -93,8 +114,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       setUser(user);
     } catch (error) {
+      const message = getApiErrorMessage(error);
       console.error("Login failed:", error);
-      throw new Error("Invalid email or password");
+      throw new Error(message || "Invalid email or password");
     } finally {
       setLoading(false);
     }
@@ -116,7 +138,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       const { token, user } = response.data;
-
       // Save token to localStorage
       localStorage.setItem("finance_teque_token", token);
 
@@ -125,8 +146,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       setUser(user);
     } catch (error) {
+      const message = getApiErrorMessage(error);
       console.error("Registration failed:", error);
-      throw new Error("Registration failed. Please try again.");
+      throw new Error(message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -146,7 +168,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       setUser(null);
     } catch (error) {
-      console.error("Logout failed:", error);
+      const message = getApiErrorMessage(error);
+      console.error("Logout failed:", message, error);
     } finally {
       setLoading(false);
     }
@@ -162,8 +185,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       return response.data;
     } catch (error) {
+      const message = getApiErrorMessage(error);
       console.error("Verification submission failed:", error);
-      throw new Error("Failed to submit verification data");
+      throw new Error(message || "Failed to submit verification data");
     }
   };
 

@@ -5,7 +5,6 @@ import { BarChart3, Star, Info } from "lucide-react";
 import dubaiCityscape from "../assets/business-banner@2x.jpg";
 import Navigation from "@/components/Navigation";
 import ModalButton from "@/components/ModalButton";
-import { Toaster } from "sonner";
 import { investmentPlans } from "../data/investmentPlans";
 import InvestorRegistrationButton from "@/components/InvestorRegistrationButton";
 import { useLocation } from "react-router";
@@ -442,7 +441,6 @@ export function InvestmentPlansPage() {
             </section>
           </FadeIn>
         </PageTransition>
-        <Toaster className="text-base" position="top-right" duration={3000} />
       </div>
     </>
   );

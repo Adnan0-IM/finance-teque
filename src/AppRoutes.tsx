@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router";
 import NotFoundPage from "./components/NotFound";
 import { AnimatePresence, motion } from "framer-motion";
 import { Suspense, lazy } from "react";
+import { Toaster } from "sonner";
 
 // Lazy loaded components with correct handling for default and named exports
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -257,6 +258,8 @@ export default function AppRoutes() {
             }
           />
         </Routes>
+
+        <Toaster richColors position="top-right" duration={3000} />
       </motion.div>
     </AnimatePresence>
   );

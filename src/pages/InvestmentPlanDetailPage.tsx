@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, Users, Download } from "lucide-react";
 import ModalButton from "@/components/ModalButton";
-import { Toaster } from "sonner";
 import { investmentPlans, type InvestmentPlan } from "../data/investmentPlans";
 import PageTransition from "@/components/animations/PageTransition";
 import { FadeIn } from "../components/animations/FadeIn";
@@ -550,7 +549,6 @@ export default function InvestmentPlanDetailPage() {
               </div>
             </section>
           </FadeIn>
-          <Toaster className="text-base" position="top-right" duration={3000} />
         </div>
       </PageTransition>
     </>

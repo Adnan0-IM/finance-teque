@@ -14,7 +14,6 @@ import dubaiCityscapeRed from "../assets/lookingforsupportimage.jpg";
 import agricultureImage from "../assets/agric.jpg";
 import Navigation from "@/components/Navigation";
 import { Link } from "react-router";
-import { Toaster } from "@/components/ui/sonner";
 import ModalButton from "@/components/ModalButton";
 import { MotionButton } from "@/components/animations/MotionizedButton";
 import PageTransition from "@/components/animations/PageTransition";
@@ -543,13 +542,7 @@ export function AboutPage() {
             </section>
           </FadeIn>
         </PageTransition>
-        <Toaster
-          className="text-base "
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-          }}
-        />
+       
       </div>
     </>
   );

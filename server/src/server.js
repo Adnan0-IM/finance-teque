@@ -29,7 +29,7 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? ["https://finance-teque.vercel.app", "https://financetequecv.com"]
+        ? ["https://finance-teque.vercel.app", "https://financetequecv.com" , "http://localhost:5173"]
         : "http://localhost:5173",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -45,7 +45,7 @@ app.use("/api/verification", verificationRoutes);
 app.use(express.static(path.join(__dirname, "../", "dist")));
 
 // Instead of using a wildcard, let's use a specific route for the SPA
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   res.sendFile(path.join(__dirname, "../", "dist", "index.html"));
 });
 
@@ -56,6 +56,10 @@ app.use((req, res, next) => {
   }
   res.sendFile(path.join(__dirname, "../", "dist", "index.html"));
 });
+
+app.get("/api/healthz", (_, res) => {
+  res.send({status: "ok", timeStamp: Date.now()})
+})
 
 const PORT = process.env.PORT || 5000;
 

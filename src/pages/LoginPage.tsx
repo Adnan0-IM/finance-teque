@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate, useLocation, Link } from "react-router";
 import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
 import {
   Form,
   FormControl,
@@ -50,7 +49,9 @@ export function LoginPage() {
       toast.success("Logged in successfully!");
       navigate("/dashboard");
     } catch (error) {
-      toast.error("Login failed. Please check your credentials.");
+        toast.error(
+        <p className="text-base text-red-500">{(error as Error).message}</p>
+      );
       console.log(error);
     } finally {
       setIsLoading(false);
@@ -156,7 +157,6 @@ export function LoginPage() {
           </div>
         </div>
       </div>
-      <Toaster position="top-right" duration={3000} />
     </div>
   );
 }
