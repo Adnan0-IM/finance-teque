@@ -412,7 +412,7 @@ export function TeamPage() {
                     </div>
 
                     {/* Department Heads */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 justify-self-center ">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 px-4 lg:px-8 ">
                       <div className="bg-white p-4 rounded-lg text-center shadow-md lg:col-start-1 lg:col-end-3">
                         <h3 className="font-bold text-brand-dark">
                           Investment & Portfolio
