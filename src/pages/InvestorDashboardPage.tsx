@@ -218,7 +218,7 @@ export function InvestorDashboardPage() {
                     Return Rate
                   </p>
                   <h3
-                    className={`text-2xl font-bold mt-1 ${
+                    className={`text-2xl font-bold mt-1 ₦{
                       portfolioSummary?.isPositive
                         ? "text-green-600"
                         : "text-red-600"
@@ -279,7 +279,7 @@ export function InvestorDashboardPage() {
                             Total Gain/Loss
                           </span>
                           <span
-                            className={`font-medium ${
+                            className={`font-medium ₦{
                               portfolioSummary?.isPositive
                                 ? "text-green-600"
                                 : "text-red-600"
@@ -293,7 +293,7 @@ export function InvestorDashboardPage() {
                             Return Rate
                           </span>
                           <span
-                            className={`font-medium ${
+                            className={`font-medium ₦{
                               portfolioSummary?.isPositive
                                 ? "text-green-600"
                                 : "text-red-600"
@@ -394,17 +394,17 @@ export function InvestorDashboardPage() {
                                 ).toLocaleDateString()}
                               </TableCell>
                               <TableCell>{transaction.type}</TableCell>
-                              <TableCell>{`${transaction.type} - ${
+                              <TableCell>{`₦{transaction.type} - ₦{
                                 transaction.date.split("-")[1] === "10"
                                   ? "Oct"
                                   : transaction.date.split("-")[1] === "09"
                                   ? "Sep"
                                   : "Nov"
-                              } ${transaction.date.split("-")[2]}, ${
+                              } ₦{transaction.date.split("-")[2]}, ₦{
                                 transaction.date.split("-")[0]
                               }`}</TableCell>
                               <TableCell
-                                className={`text-right ${
+                                className={`text-right ₦{
                                   transaction.type === "Withdrawal"
                                     ? "text-red-600"
                                     : "text-green-600"
