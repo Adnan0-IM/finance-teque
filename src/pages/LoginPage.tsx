@@ -26,14 +26,11 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get return URL from query parameters
-  //   const searchParams = new URLSearchParams(location.search);
-  //   const returnTo = searchParams.get("returnTo") || "/dashboard";
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -48,7 +45,7 @@ export function LoginPage() {
     try {
       await login(data.email, data.password);
       toast.success("Logged in successfully!");
-      navigate("/dashboard");
+      navigate("/investor-verification");
     } catch (error) {
       toast.error(
         <p className="text-base text-red-500">{(error as Error).message}</p>
@@ -114,7 +111,7 @@ export function LoginPage() {
                           className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
                           {...field}
                         />
-                        <button type="button" onClick={()=> setShowPassword(!showPassword)} className="absolute right-2 top-3">
+                        <button type="button" onClick={()=> setShowPassword(!showPassword)} className="absolute right-2 sm:right-4 top-3 sm:size-4 text-muted-foreground hover:text-foreground transition-colors">
 
                         {showPassword ? <EyeIcon /> : <EyeOff />}
                         </button>

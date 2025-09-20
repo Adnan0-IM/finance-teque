@@ -24,13 +24,12 @@ const registerSchema = z
     email: z.string().email("Please enter a valid email address"),
     phone: z
       .string()
-      .min(10, { message: "Phone number must be at least 10 digits" })
+      .min(10, {
+        message: "Phone number must be at least 10 digits (e.g., 8012345678)",
+      })
       .max(15, { message: "Phone number must not exceed 15 digits" })
       .refine((val) => /^\d+$/.test(val), {
         message: "Phone number must contain only digits",
-      })
-      .refine((val) => val.charAt(0) !== "0", {
-        message: "Phone number should not start with 0",
       }),
     password: z
       .string()
@@ -52,7 +51,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,7 +76,7 @@ export function RegisterPage() {
     try {
       await register(data.email, data.password, data.name, data.phone);
       toast.success("Account created successfully!");
-      navigate("/dashboard");
+      navigate("/login");
     } catch (error) {
       toast.error(
         <p className="text-base text-red-500">{(error as Error).message}</p>
@@ -159,6 +158,14 @@ export function RegisterPage() {
                         className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
                         autoComplete="tel"
                         {...field}
+                        onChange={(e) => {
+                          let value = e.target.value;
+                          // Remove all non-digits
+                          value = value.replace(/\D/g, "");
+                          // Remove leading zero
+                          if (value.startsWith("0")) value = value.slice(1);
+                          field.onChange(value);
+                        }}
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-destructive" />
@@ -185,7 +192,7 @@ export function RegisterPage() {
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-2 top-3"
+                          className="absolute right-2 sm:right-4 top-3 sm:size-4 text-muted-foreground hover:text-foreground transition-colors"
                         >
                           {showPassword ? <EyeIcon /> : <EyeOff />}
                         </button>
@@ -215,7 +222,7 @@ export function RegisterPage() {
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-2 top-3"
+                          className="absolute right-2 sm:right-4 top-3  sm:size-4 text-muted-foreground hover:text-foreground transition-colors"
                         >
                           {showPassword ? <EyeIcon /> : <EyeOff />}
                         </button>
