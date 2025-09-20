@@ -30,6 +30,8 @@ interface AuthContextType {
   logout: () => Promise<void>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   submitVerification: (verificationData: any) => Promise<void>;
+  verifyEmail: (email: string, code: string) => Promise<void>;
+  resendCode: (email: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -147,6 +149,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const verifyEmail = async (email: string, code: string) => {
+    setLoading(true);
+    try {
+      await axios.post(`${API_URL}/auth/verify-email`, { email, code });
+    } catch (error) {
+      const message = getApiErrorMessage(error);
+      throw new Error(message || "Verification failed. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resendCode = async (email: string) => {
+    try {
+      await axios.post(`${API_URL}/auth/resend-code`, { email });
+    } catch (error) {
+      const message = getApiErrorMessage(error);
+      throw new Error(message || "Failed to resend code. Try again.");
+    }
+  };
+
   const logout = async () => {
     setLoading(true);
     try {
@@ -224,6 +247,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         register,
         logout,
         submitVerification,
+        verifyEmail,
+        resendCode,
       }}
     >
       {children}

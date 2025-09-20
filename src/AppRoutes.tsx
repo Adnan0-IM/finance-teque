@@ -35,6 +35,11 @@ const RegisterPage = lazy(() =>
     default: module.RegisterPage,
   }))
 );
+const VerifyEmailPage = lazy(() =>
+  import("./pages/VerifyEmailPage").then((module) => ({
+    default: module.default,
+  }))
+);
 const InvestorVerificationPage = lazy(() =>
   import("./pages/InvestorVerificationPage").then((module) => ({
     default: module.InvestorVerificationPage,
@@ -45,8 +50,6 @@ const InvestorDashboardPage = lazy(() =>
     default: module.InvestorDashboardPage,
   }))
 );
-
-
 
 export default function AppRoutes() {
   return (
@@ -63,11 +66,7 @@ export default function AppRoutes() {
           <Route
             path="/"
             element={
-              <Suspense
-                fallback={
-                 <Loader/> 
-                }
-              >
+              <Suspense fallback={<Loader />}>
                 <HomePage />
               </Suspense>
             }
@@ -75,13 +74,7 @@ export default function AppRoutes() {
           <Route
             path="/about"
             element={
-              <Suspense
-                fallback={
-               
-                 <Loader/> 
-
-                }
-              >
+              <Suspense fallback={<Loader />}>
                 <AboutPage />
               </Suspense>
             }
@@ -89,13 +82,7 @@ export default function AppRoutes() {
           <Route
             path="/asset-financing"
             element={
-              <Suspense
-                fallback={
-               
-                 <Loader/> 
-
-                }
-              >
+              <Suspense fallback={<Loader />}>
                 <AssetFinancingPage />
               </Suspense>
             }
@@ -103,13 +90,7 @@ export default function AppRoutes() {
           <Route
             path="/plans"
             element={
-              <Suspense
-                fallback={
-               
-                 <Loader/> 
-
-                }
-              >
+              <Suspense fallback={<Loader />}>
                 <InvestmentPlansPage />
               </Suspense>
             }
@@ -117,13 +98,7 @@ export default function AppRoutes() {
           <Route
             path="/plans/:planId"
             element={
-              <Suspense
-                fallback={
-               
-                 <Loader/> 
-
-                }
-              >
+              <Suspense fallback={<Loader />}>
                 <InvestmentPlanDetailPage />
               </Suspense>
             }
@@ -131,13 +106,7 @@ export default function AppRoutes() {
           <Route
             path="/team"
             element={
-              <Suspense
-                fallback={
-                
-                 <Loader/> 
-
-                }
-              >
+              <Suspense fallback={<Loader />}>
                 <TeamPage />
               </Suspense>
             }
@@ -145,13 +114,7 @@ export default function AppRoutes() {
           <Route
             path="/contact"
             element={
-              <Suspense
-                fallback={
-                 
-                 <Loader/> 
-
-                }
-              >
+              <Suspense fallback={<Loader />}>
                 <ContactPage />
               </Suspense>
             }
@@ -160,13 +123,7 @@ export default function AppRoutes() {
           <Route
             path="/login"
             element={
-              <Suspense
-                fallback={
-                
-                 <Loader/> 
-
-                }
-              >
+              <Suspense fallback={<Loader />}>
                 <LoginPage />
               </Suspense>
             }
@@ -174,14 +131,16 @@ export default function AppRoutes() {
           <Route
             path="/register"
             element={
-              <Suspense
-                fallback={
-                
-                 <Loader/> 
-
-                }
-              >
+              <Suspense fallback={<Loader />}>
                 <RegisterPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/verify-email"
+            element={
+              <Suspense fallback={<Loader />}>
+                <VerifyEmailPage />
               </Suspense>
             }
           />
@@ -190,13 +149,7 @@ export default function AppRoutes() {
             path="/investor-verification"
             element={
               <ProtectedRoute>
-                <Suspense
-                  fallback={
-                  
-                 <Loader/> 
-
-                  }
-                >
+                <Suspense fallback={<Loader />}>
                   <InvestorVerificationPage />
                 </Suspense>
               </ProtectedRoute>
@@ -208,17 +161,17 @@ export default function AppRoutes() {
             path="/dashboard"
             element={
               // <ProtectedRoute>
-                // {/* <RoleGuard allow={["investor"]}> */}
-                // <Suspense
-                //   fallback={
-                //  
-                 //<Loader/> 
+              // {/* <RoleGuard allow={["investor"]}> */}
+              // <Suspense
+              //   fallback={
+              //
+              //<Loader/>
 
-                //   }
-                // >
-                  <InvestorDashboardPage />
-                // </Suspense>
-                // {/* </RoleGuard> */}
+              //   }
+              // >
+              <InvestorDashboardPage />
+              // </Suspense>
+              // {/* </RoleGuard> */}
               // </ProtectedRoute>
             }
           />

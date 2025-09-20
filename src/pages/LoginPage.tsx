@@ -50,6 +50,9 @@ export function LoginPage() {
       toast.error(
         <p className="text-base text-red-500">{(error as Error).message}</p>
       );
+      if((error as Error).message === "Please verify your email before logging in."){
+        navigate(`/verify-email?email=${encodeURIComponent(data.email)}`);
+      }
       console.log(error);
     } finally {
       setIsLoading(false);
@@ -111,7 +114,7 @@ export function LoginPage() {
                           className="h-11 rounded-md border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
                           {...field}
                         />
-                        <button type="button" onClick={()=> setShowPassword(!showPassword)} className="absolute right-2 sm:right-4 top-3 sm:size-4 text-muted-foreground hover:text-foreground transition-colors">
+                        <button type="button" onClick={()=> setShowPassword(!showPassword)} className="absolute right-2 sm:right-5 top-3 sm:size-4 text-muted-foreground hover:text-foreground transition-colors">
 
                         {showPassword ? <EyeIcon /> : <EyeOff />}
                         </button>

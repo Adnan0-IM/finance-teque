@@ -75,8 +75,11 @@ export function RegisterPage() {
     setIsLoading(true);
     try {
       await register(data.email, data.password, data.name, data.phone);
+
       toast.success("Account created successfully!");
-      navigate("/login");
+
+      // Send user to verify page with their email prefilled
+      navigate(`/verify-email?email=${encodeURIComponent(data.email)}`);
     } catch (error) {
       toast.error(
         <p className="text-base text-red-500">{(error as Error).message}</p>
@@ -192,7 +195,7 @@ export function RegisterPage() {
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-2 sm:right-4 top-3 sm:size-4 text-muted-foreground hover:text-foreground transition-colors"
+                          className="absolute right-2 sm:right-5 top-3 sm:size-4 text-muted-foreground hover:text-foreground transition-colors"
                         >
                           {showPassword ? <EyeIcon /> : <EyeOff />}
                         </button>
@@ -222,7 +225,7 @@ export function RegisterPage() {
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-2 sm:right-4 top-3  sm:size-4 text-muted-foreground hover:text-foreground transition-colors"
+                          className="absolute right-2 sm:right-5 top-3  sm:size-4 text-muted-foreground hover:text-foreground transition-colors"
                         >
                           {showPassword ? <EyeIcon /> : <EyeOff />}
                         </button>
