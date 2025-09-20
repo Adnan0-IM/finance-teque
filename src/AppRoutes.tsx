@@ -2,6 +2,7 @@ import ProtectedRoute from "@/components/routing/ProtectedRoute";
 import RoleGuard from "@/components/routing/RoleGuard";
 import { Route, Routes } from "react-router";
 import NotFoundPage from "./components/NotFound";
+import Loader from "./components/Loader";
 import { AnimatePresence, motion } from "framer-motion";
 import { Suspense, lazy } from "react";
 import { Toaster } from "sonner";
@@ -45,6 +46,8 @@ const InvestorDashboardPage = lazy(() =>
   }))
 );
 
+
+
 export default function AppRoutes() {
   return (
     <AnimatePresence mode="wait">
@@ -62,9 +65,7 @@ export default function AppRoutes() {
             element={
               <Suspense
                 fallback={
-                  <div className="flex items-center justify-center min-h-screen">
-                    Loading...
-                  </div>
+                 <Loader/> 
                 }
               >
                 <HomePage />
@@ -76,9 +77,9 @@ export default function AppRoutes() {
             element={
               <Suspense
                 fallback={
-                  <div className="flex items-center justify-center min-h-screen">
-                    Loading...
-                  </div>
+               
+                 <Loader/> 
+
                 }
               >
                 <AboutPage />
@@ -90,9 +91,9 @@ export default function AppRoutes() {
             element={
               <Suspense
                 fallback={
-                  <div className="flex items-center justify-center min-h-screen">
-                    Loading...
-                  </div>
+               
+                 <Loader/> 
+
                 }
               >
                 <AssetFinancingPage />
@@ -104,9 +105,9 @@ export default function AppRoutes() {
             element={
               <Suspense
                 fallback={
-                  <div className="flex items-center justify-center min-h-screen">
-                    Loading...
-                  </div>
+               
+                 <Loader/> 
+
                 }
               >
                 <InvestmentPlansPage />
@@ -118,9 +119,9 @@ export default function AppRoutes() {
             element={
               <Suspense
                 fallback={
-                  <div className="flex items-center justify-center min-h-screen">
-                    Loading...
-                  </div>
+               
+                 <Loader/> 
+
                 }
               >
                 <InvestmentPlanDetailPage />
@@ -132,9 +133,9 @@ export default function AppRoutes() {
             element={
               <Suspense
                 fallback={
-                  <div className="flex items-center justify-center min-h-screen">
-                    Loading...
-                  </div>
+                
+                 <Loader/> 
+
                 }
               >
                 <TeamPage />
@@ -146,9 +147,9 @@ export default function AppRoutes() {
             element={
               <Suspense
                 fallback={
-                  <div className="flex items-center justify-center min-h-screen">
-                    Loading...
-                  </div>
+                 
+                 <Loader/> 
+
                 }
               >
                 <ContactPage />
@@ -161,9 +162,9 @@ export default function AppRoutes() {
             element={
               <Suspense
                 fallback={
-                  <div className="flex items-center justify-center min-h-screen">
-                    Loading...
-                  </div>
+                
+                 <Loader/> 
+
                 }
               >
                 <LoginPage />
@@ -175,9 +176,9 @@ export default function AppRoutes() {
             element={
               <Suspense
                 fallback={
-                  <div className="flex items-center justify-center min-h-screen">
-                    Loading...
-                  </div>
+                
+                 <Loader/> 
+
                 }
               >
                 <RegisterPage />
@@ -191,9 +192,9 @@ export default function AppRoutes() {
               <ProtectedRoute>
                 <Suspense
                   fallback={
-                    <div className="flex items-center justify-center min-h-screen">
-                      Loading...
-                    </div>
+                  
+                 <Loader/> 
+
                   }
                 >
                   <InvestorVerificationPage />
@@ -206,19 +207,19 @@ export default function AppRoutes() {
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoute>
-                {/* <RoleGuard allow={["investor"]}> */}
-                <Suspense
-                  fallback={
-                    <div className="flex items-center justify-center min-h-screen">
-                      Loading...
-                    </div>
-                  }
-                >
+              // <ProtectedRoute>
+                // {/* <RoleGuard allow={["investor"]}> */}
+                // <Suspense
+                //   fallback={
+                //  
+                 //<Loader/> 
+
+                //   }
+                // >
                   <InvestorDashboardPage />
-                </Suspense>
-                {/* </RoleGuard> */}
-              </ProtectedRoute>
+                // </Suspense>
+                // {/* </RoleGuard> */}
+              // </ProtectedRoute>
             }
           />
 

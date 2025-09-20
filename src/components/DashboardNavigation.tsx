@@ -204,14 +204,17 @@ const DashboardNavigation = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <MobileMenuMotion>
-            <div className="md:hidden fixed inset-0 z-50 bg-gray-50 bg-opacity-50">
-              <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg">
-                <div className="flex items-center justify-between h-16 px-4 border-b">
-                  <div className="flex items-center space-x-2">
-                    <Avatar className="h-8 w-8">
+            <div
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="md:hidden fixed inset-0 z-50 bg-gray-50 bg-opacity-50"
+            >
+              <div className="fixed inset-y-0 left-0 w-72 bg-white shadow-lg">
+                <div className="flex items-center justify-between h-20 px-4 border-b">
+                  <div className="flex items-center space-x-4">
+                    <Avatar className="size-10">
                       <AvatarFallback>{getInitials()}</AvatarFallback>
                     </Avatar>
-                    <span className="font-medium text-base truncate max-w-[150px]">
+                    <span className="font-medium text-lg truncate max-w-[150px]">
                       {user?.name}
                     </span>
                   </div>
@@ -222,7 +225,7 @@ const DashboardNavigation = () => {
                     <X className="size-6" />
                   </button>
                 </div>
-                <nav className="mt-5 px-2 space-y-1">
+                <nav className="mt-5 px-2 space-y-3">
                   {navLinks.map((item) => {
                     const Icon = item.icon;
                     return (
@@ -231,7 +234,7 @@ const DashboardNavigation = () => {
                         to={item.path}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className={({ isActive }) =>
-                          `group flex items-center px-3 py-3 text-base font-medium rounded-md ${
+                          `group flex items-center px-3 py-3 text-lg font-medium rounded-md ${
                             isActive
                               ? "bg-primary text-white"
                               : "text-gray-700 hover:bg-gray-100"
@@ -252,7 +255,7 @@ const DashboardNavigation = () => {
                   {/* Mobile Logout Button */}
                   <button
                     onClick={handleLogout}
-                    className="group flex items-center cursor-pointer px-3 py-2 text-base font-medium rounded-md text-red-600 hover:bg-red-50 w-full"
+                    className="group flex items-center cursor-pointer px-3 py-2 text-lg font-medium rounded-md text-red-600 hover:bg-red-50 w-full"
                   >
                     <LogOut className="mr-3 h-5 w-5 text-red-500" />
                     Log out
