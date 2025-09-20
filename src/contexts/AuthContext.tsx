@@ -6,9 +6,7 @@ import {
   type ReactNode,
 } from "react";
 import axios from "axios";
-
-const API_URL =
-  import.meta.env.MODE === "production" ? "/api" : "http://localhost:3000/api";
+import { API_URL } from "@/utils/constants";
 
 type User = {
   id: string;
@@ -137,12 +135,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         phone,
       });
 
-      const { token, user } = response.data;
-      // Save token to localStorage
-      localStorage.setItem("finance_teque_token", token);
-
-      // Set auth header for future requests
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const { user } = response.data;
 
       setUser(user);
     } catch (error) {
@@ -174,23 +167,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }
   };
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const submitVerification = async (verificationData: any) => {
-    try {
+    const {
+      identificationDocument,
+      passportPhoto,
+      utilityBill,
+      ...textFields
+    } = verificationData;
+
+    const submitTextfields = async (textFields: Record<string, unknown>) => {
+      // Send only text fields here (JSON)
+      const response = await axios.post(`${API_URL}/verification`, textFields);
+      return response.data;
+    };
+    const submitDocs = async (
+      identificationDocument: File,
+      passportPhoto: File,
+      utilityBill: File
+    ) => {
+      // 2. Submit files
+      const formData = new FormData();
+      formData.append("identificationDocument", identificationDocument);
+      formData.append("passportPhoto", passportPhoto);
+      formData.append("utilityBill", utilityBill);
+
+      // Use axios directly for file upload
       const response = await axios.post(
-        `${API_URL}/verification`,
-        verificationData
+        `${API_URL}/verification/documents`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
 
       return response.data;
+    };
+    try {
+      await submitTextfields(textFields);
+      await submitDocs(
+        identificationDocument as File,
+        passportPhoto as File,
+        utilityBill as File
+      );
     } catch (error) {
       const message = getApiErrorMessage(error);
-      console.error("Verification submission failed:", error);
       throw new Error(message || "Failed to submit verification data");
     }
   };
-
   return (
     <AuthContext.Provider
       value={{
