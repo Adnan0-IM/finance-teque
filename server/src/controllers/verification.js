@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const path = require("path");
 
 // @desc    Submit investor verification data
 // @route   POST /api/verification
@@ -79,6 +80,20 @@ exports.submitVerification = async (req, res) => {
   }
 };
 
+// Helper: convert multer's saved absolute path to web path under /uploads
+function toWebPath(absPath) {
+  if (!absPath) return absPath;
+  // Multer saved to server/src/uploads/verification/<filename>
+  // We want to expose as /uploads/verification/<filename>
+  const idx = absPath.lastIndexOf(`${path.sep}uploads${path.sep}`);
+  if (idx >= 0) {
+    const rel = absPath.substring(idx).split(path.sep).join("/");
+    return `/${rel}`;
+  }
+  // Fallback: return as-is if already a web path
+  return absPath;
+}
+
 // @desc    Upload verification documents
 // @route   POST /api/verification/documents
 // @access  Private
@@ -102,11 +117,15 @@ exports.uploadDocuments = async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
-    // Set individual nested fields (auto-creates missing subdocs)
+    // Save web-facing paths for frontend/admin consumption
+    const idWeb = toWebPath(idDocumentPath);
+    const ppWeb = toWebPath(passportPhotoPath);
+    const ubWeb = toWebPath(utilityBillPath);
+
     user.set({
-      "verification.documents.idDocument": idDocumentPath,
-      "verification.documents.passportPhoto": passportPhotoPath,
-      "verification.documents.utilityBill": utilityBillPath,
+      "verification.documents.idDocument": idWeb,
+      "verification.documents.passportPhoto": ppWeb,
+      "verification.documents.utilityBill": ubWeb,
     });
 
     await user.save();

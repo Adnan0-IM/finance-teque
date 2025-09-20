@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -17,6 +18,7 @@ const UserSchema = new mongoose.Schema(
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
         "Please add a valid email",
       ],
+      index: true,
     },
     phone: {
       type: String,
@@ -32,11 +34,15 @@ const UserSchema = new mongoose.Schema(
       type: String,
       enum: ["investor", "startup", "admin"],
       default: "investor",
+      index: true,
     },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
+
+    isVerified: { type: Boolean, default: false },
+    emailVerified: { type: Boolean, default: false },
+    // Fields for email verification flow
+    emailVerificationCodeHash: { type: String },
+    emailVerificationExpires: { type: Date },
+    emailVerificationLastSentAt: { type: Date },
     verification: {
       personal: {
         firstName: String,
@@ -71,6 +77,10 @@ const UserSchema = new mongoose.Schema(
         enum: ["pending", "approved", "rejected"],
         default: "pending",
       },
+      // review metadata for admin actions
+      rejectionReason: String,
+      reviewedAt: Date,
+      reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     },
     createdAt: {
       type: Date,
@@ -82,11 +92,12 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
+// Helpful index for admin filtering by verification status
+UserSchema.index({ "verification.status": 1, createdAt: -1 });
+
 // Encrypt password using bcrypt
 UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
-  }
+  if (!this.isModified("password")) return next();
 
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
@@ -103,6 +114,30 @@ UserSchema.methods.getSignedJwtToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET || "somesecret", {
     expiresIn: process.env.JWT_EXPIRE || "30d",
   });
+};
+
+// Helper methods for email verification
+UserSchema.methods.setEmailVerificationCode = function (
+  ttlMs = 10 * 60 * 1000
+) {
+  const code = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
+  const hash = crypto.createHash("sha256").update(code).digest("hex");
+  this.emailVerificationCodeHash = hash;
+  this.emailVerificationExpires = new Date(Date.now() + ttlMs);
+  return code; // return plain code so it can be emailed
+};
+
+UserSchema.methods.validateEmailVerificationCode = function (code) {
+  if (!this.emailVerificationCodeHash || !this.emailVerificationExpires)
+    return false;
+  if (this.emailVerificationExpires.getTime() < Date.now()) return false;
+  const hash = crypto.createHash("sha256").update(code).digest("hex");
+  return hash === this.emailVerificationCodeHash;
+};
+
+UserSchema.methods.clearEmailVerificationCode = function () {
+  this.emailVerificationCodeHash = undefined;
+  this.emailVerificationExpires = undefined;
 };
 
 module.exports = mongoose.model("User", UserSchema);
