@@ -24,8 +24,17 @@ exports.register = async (req, res) => {
       password,
       role: "investor",
     });
-
-    sendTokenResponse(user, 201, res);
+    res.status(201).json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isVerified: user.isVerified,
+        phone: user.phone,
+      },
+    });
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json({

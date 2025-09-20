@@ -26,44 +26,42 @@ exports.submitVerification = async (req, res) => {
       accountType,
     } = req.body;
 
-    // Find user
     const user = await User.findById(req.user.id);
 
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
-    // Update verification info
-    user.verification = {
-      ...user.verification,
-      personal: {
+    // Update nested paths without replacing the whole object
+    user.set({
+      "verification.personal": {
         firstName,
         surname,
+        phoneNumber,
         dateOfBirth,
         localGovernment,
         stateOfResidence,
         residentialAddress,
         ninNumber,
       },
-      nextOfKin: {
+      "verification.nextOfKin": {
         fullName: kinFullName,
         phoneNumber: kinPhoneNumber,
         email: kinEmail,
         residentialAddress: kinResidentialAddress,
         relationship: kinRelationship,
       },
-      bankDetails: {
+      "verification.bankDetails": {
         accountName,
         accountNumber,
         bankName,
         bvnNumber,
         accountType,
       },
-      status: "pending",
-    };
+      "verification.status": "pending",
+    });
 
     await user.save();
 
@@ -86,7 +84,6 @@ exports.submitVerification = async (req, res) => {
 // @access  Private
 exports.uploadDocuments = async (req, res) => {
   try {
-    // Document file paths would come from a file upload middleware
     const idDocumentPath = req.files?.identificationDocument?.[0]?.path;
     const passportPhotoPath = req.files?.passportPhoto?.[0]?.path;
     const utilityBillPath = req.files?.utilityBill?.[0]?.path;
@@ -99,19 +96,18 @@ exports.uploadDocuments = async (req, res) => {
     }
 
     const user = await User.findById(req.user.id);
-
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
-    user.verification.documents = {
-      idDocument: idDocumentPath,
-      passportPhoto: passportPhotoPath,
-      utilityBill: utilityBillPath,
-    };
+    // Set individual nested fields (auto-creates missing subdocs)
+    user.set({
+      "verification.documents.idDocument": idDocumentPath,
+      "verification.documents.passportPhoto": passportPhotoPath,
+      "verification.documents.utilityBill": utilityBillPath,
+    });
 
     await user.save();
 
