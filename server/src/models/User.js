@@ -33,7 +33,6 @@ const UserSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["investor", "startup", "admin"],
-      default: "investor",
       index: true,
     },
 
@@ -43,6 +42,9 @@ const UserSchema = new mongoose.Schema(
     emailVerificationCodeHash: { type: String },
     emailVerificationExpires: { type: Date },
     emailVerificationLastSentAt: { type: Date },
+    // Fields for password reset flow
+    resetPasswordToken: { type: String },
+    resetPasswordExpire: { type: Date },
     verification: {
       personal: {
         firstName: String,

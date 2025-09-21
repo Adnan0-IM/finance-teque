@@ -1,5 +1,9 @@
 const User = require("../models/User");
-const { sendVerificationEmail } = require("../services/mail");
+const crypto = require("crypto");
+const {
+  sendVerificationEmail,
+  sendResetPasswordEmail,
+} = require("../services/mail");
 
 // @desc    Register user
 // @route   POST /api/auth/register
@@ -23,7 +27,6 @@ exports.register = async (req, res) => {
       email,
       phone,
       password,
-      role: "investor",
     });
     // Generate a 6-digit code and send verification email
     const code = user.setEmailVerificationCode();
@@ -173,12 +176,10 @@ exports.resendVerificationCode = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       // Avoid user enumeration
-      return res
-        .status(200)
-        .json({
-          success: true,
-          message: "If the email exists, a code was sent",
-        });
+      return res.status(200).json({
+        success: true,
+        message: "If the email exists, a code was sent",
+      });
     }
 
     if (user.emailVerified) {
@@ -221,6 +222,43 @@ exports.resendVerificationCode = async (req, res) => {
   }
 };
 
+// @desc PUT set Current logged i user role
+// @route PUT /api/auth/role
+// @access Private
+exports.setRole = async (req, res) => {
+  try {
+    // user is already available in req due to the auth middleware
+    const { role } = req.body;
+    if (!role) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Role is required" });
+    }
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { role },
+      { new: true, runValidators: true }
+    );
+    res.status(200).json({
+      success: true,
+      data: {
+        id: user?._id,
+        name: user?.name,
+        email: user?.email,
+        role: user?.role,
+        isVerified: user?.isVerified,
+        phone: user?.phone,
+      },
+    });
+  } catch (error) {
+    console.error("Set role error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error setting user role",
+    });
+  }
+};
+
 // @desc    Get current logged in user
 // @route   GET /api/auth/me
 // @access  Private
@@ -249,6 +287,78 @@ exports.getMe = async (req, res) => {
   }
 };
 
+// @desc    Update current logged in user
+// @route   PUT /api/auth/updateMe
+// @access  Private
+exports.updateMe = async (req, res) => {
+  try {
+    // Only allow certain fields to be updated
+    const allowedUpdates = ["name", "phone"];
+    const payload = req.body?.data ?? req.body ?? {};
+    const updates = {};
+    for (const key of allowedUpdates) {
+      if (Object.prototype.hasOwnProperty.call(payload, key)) {
+        updates[key] = payload[key];
+      }
+    }
+
+    const user = await User.findByIdAndUpdate(req.user.id, updates, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: {
+        id: user?._id,
+        name: user?.name,
+        email: user?.email,
+        role: user?.role,
+        isVerified: user?.isVerified,
+        phone: user?.phone,
+      },
+    });
+  } catch (error) {
+    console.error("Update me error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error updating user profile",
+    });
+  }
+};
+
+
+// @desc    Delete current logged in user
+// @route   DELETE /api/auth/delete
+// @access  Private
+exports.deleteMe = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.user.id);
+
+    // Clear auth cookie
+    const options = {
+      expires: new Date(Date.now() + 10 * 1000),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    };
+
+    res.cookie("token", "none", options);
+
+    res.status(200).json({
+      success: true,
+      data: {},
+      message: "Successfully deleted account",
+    });
+  } catch (error) {
+    console.error("Delete me error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error deleting account",
+    });
+  }
+};
+
 // @desc    Log user out / clear cookie
 // @route   GET /api/auth/logout
 // @access  Private
@@ -268,6 +378,82 @@ exports.logout = async (req, res) => {
     data: {},
     message: "Successfully logged out",
   });
+};
+
+// @desc    Request password reset
+// @route   POST /api/auth/forgot-password
+// @access  Public
+exports.forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Email is required" });
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    // Avoid user enumeration
+    return res.status(200).json({
+      success: true,
+      message: "If the email exists, a reset link was sent",
+    });
+  }
+
+  // Generate reset token
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  user.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+  await user.save({ validateBeforeSave: false });
+
+  // Send email
+  try {
+    await sendResetPasswordEmail(user.email, resetToken);
+    res
+      .status(200)
+      .json({ success: true, message: "Reset link sent to email" });
+  } catch (err) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to send reset email" });
+  }
+};
+
+// @desc    Reset password
+// @route   POST /api/auth/reset-password
+// @access  Public
+exports.resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+  if (!token || !password) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Token and password are required" });
+  }
+
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+  const user = await User.findOne({
+    resetPasswordToken: hashedToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid or expired token" });
+  }
+
+  user.password = password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+  await user.save();
+
+  res.status(200).json({ success: true, message: "Password reset successful" });
 };
 
 // Helper function to get token from model, create cookie and send response
