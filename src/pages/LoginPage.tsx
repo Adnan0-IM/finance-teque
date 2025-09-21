@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { ArrowRight, EyeIcon, EyeOff } from "lucide-react";
 import { MotionButton } from "@/components/animations/MotionizedButton";
+import { FadeIn } from "@/components/animations/FadeIn";
+import PageTransition from "@/components/animations/PageTransition";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -45,7 +47,7 @@ export function LoginPage() {
     try {
       await login(data.email, data.password);
       toast.success("Logged in successfully!");
-      navigate("/investor-verification");
+      navigate("/choose-profile");
     } catch (error) {
       toast.error(
         <p className="text-base text-red-500">{(error as Error).message}</p>
@@ -60,6 +62,8 @@ export function LoginPage() {
   };
 
   return (
+   <PageTransition>
+          <FadeIn>
     <div className="min-h-screen bg-gray-50">
       {/* <Navigation /> */}
 
@@ -165,5 +169,6 @@ export function LoginPage() {
         </div>
       </div>
     </div>
+    </FadeIn></PageTransition>
   );
 }

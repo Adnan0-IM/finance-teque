@@ -17,6 +17,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/contexts/AuthContext";
 import { ArrowRight, EyeIcon, EyeOff } from "lucide-react";
 import { MotionButton } from "@/components/animations/MotionizedButton";
+import PageTransition from "@/components/animations/PageTransition";
+import { FadeIn } from "@/components/animations/FadeIn";
 
 const registerSchema = z
   .object({
@@ -93,7 +95,8 @@ export function RegisterPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* <Navigation /> */}
-
+   <PageTransition>
+          <FadeIn>
       <div className="flex min-h-[calc(100vh-64px)] items-center justify-center py-12">
         <div className="mx-auto max-w-md w-full p-6 sm:p-8 space-y-6 bg-white rounded-xl shadow-lg border border-gray-100">
           <div className="space-y-2 text-center">
@@ -293,6 +296,7 @@ export function RegisterPage() {
           </div>
         </div>
       </div>
+      </FadeIn></PageTransition>
     </div>
   );
 }

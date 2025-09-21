@@ -16,6 +16,8 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { ArrowRight } from "lucide-react";
 import { MotionButton } from "@/components/animations/MotionizedButton";
+import { FadeIn } from "@/components/animations/FadeIn";
+import PageTransition from "@/components/animations/PageTransition";
 
 const verifySchema = z.object({
   code: z
@@ -228,6 +230,8 @@ export default function VerifyEmailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <PageTransition>
+      <FadeIn>
       <div className="flex min-h-[calc(100vh-64px)] items-center justify-center py-18">
         <div className="mx-auto max-w-md w-full p-6 sm:p-8 space-y-6 bg-white rounded-xl shadow-lg border border-gray-100">
           <div className="space-y-2 text-center">
@@ -321,6 +325,8 @@ export default function VerifyEmailPage() {
           )}
         </div>
       </div>
+
+      </FadeIn></PageTransition>
     </div>
   );
 }

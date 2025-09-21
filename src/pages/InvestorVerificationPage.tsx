@@ -34,6 +34,9 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { FadeIn } from "@/components/animations/FadeIn";
+import PageTransition from "@/components/animations/PageTransition";
+// import DashboardNavigation from "@/components/DashboardNavigation";
 
 // Create a custom FormField wrapper component to ensure consistent spacing
 interface StableFormFieldProps {
@@ -546,486 +549,493 @@ export function InvestorVerificationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 sm:p-8">
-          <div className="mb-6 sm:mb-8 text-center">
-            <h1 className="text-2xl sm:text-3xl font-bold text-brand-primary">
-              Investor Verification
-            </h1>
-            <p className="text-sm sm:text-base text-muted-foreground mt-2">
-              Please complete all details to verify your account and start
-              investing
-            </p>
-          </div>
-
-          {/* Progress Steps - Hidden on very small screens, simplified on small screens */}
-          <div className="mb-6 sm:mb-8">
-            {/* Mobile step indicator */}
-            <div className="block sm:hidden text-center mb-4">
-              <p className="text-sm font-medium">
-                Step {currentStep + 1} of {steps.length}:{" "}
-                {steps[currentStep].name}
-              </p>
-            </div>
-
-            {/* Progress bar - always visible */}
-            <div className="relative h-2 bg-gray-200 rounded-full w-full mb-3">
-              <div
-                className="absolute top-0 left-0 h-2 bg-brand-primary rounded-full transition-all duration-500 ease-in-out"
-                style={{
-                  width: `${((currentStep + 1) / steps.length) * 100}%`,
-                }}
-              />
-            </div>
-
-            {/* Desktop/tablet step indicators */}
-            <div className="hidden sm:flex justify-between">
-              {steps.map((step, index) => {
-                const StepIcon = step.icon;
-                return (
-                  <div key={step.id} className="flex flex-col items-center">
-                    <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                        index < currentStep
-                          ? "bg-brand-primary text-white shadow-md"
-                          : index === currentStep
-                          ? "bg-brand-primary text-white ring-4 ring-brand-primary/20 shadow-md"
-                          : "bg-gray-200 text-gray-500"
-                      }`}
-                    >
-                      <StepIcon size={20} />
-                    </div>
-                    <span
-                      className={`text-sm mt-2 font-medium ${
-                        index <= currentStep
-                          ? "text-brand-primary"
-                          : "text-gray-500"
-                      }`}
-                    >
-                      {step.name}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Step 1: Bio Data */}
-              {currentStep === 0 && (
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentStep}
-                    initial={{ opacity: 0, x: 24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -24 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-4"
-                  >
-                    <h2 className="text-lg sm:text-xl font-semibold">
-                      Personal Information
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-4">
-                      <StableFormField
-                        label="First Name"
-                        name="firstName"
-                        control={form.control}
-                        autoComplete="name"
-                        placeholder="John"
-                      />
-
-                      <StableFormField
-                        label="Surname"
-                        name="surname"
-                        control={form.control}
-                        autoComplete="surname"
-                        placeholder="Doe"
-                      />
-
-                      <StableFormField
-                        label="Phone Number"
-                        name="phoneNumber"
-                        control={form.control}
-                        autoComplete="tel"
-                        placeholder="+234801827228"
-                        type="tel"
-                        isPhone={true}
-                      />
-
-                      <StableFormField
-                        label="Email Address"
-                        name="email"
-                        control={form.control}
-                        autoComplete="email"
-                        placeholder="name@example.com"
-                        type="email"
-                      />
-
-                      <StableFormField
-                        label="Date of Birth"
-                        name="dateOfBirth"
-                        autoComplete="dob"
-                        control={form.control}
-                        type="date"
-                      />
-
-                      <StableFormField
-                        label="Local Government"
-                        name="localGovernment"
-                        autoComplete="lga-name"
-                        control={form.control}
-                        placeholder="Ikeja"
-                      />
-
-                      <StableFormField
-                        label="State of Residence"
-                        name="stateOfResidence"
-                        autoComplete="state-name"
-                        control={form.control}
-                        placeholder="Lagos"
-                      />
-
-                      <StableFormField
-                        label="NIN Number"
-                        name="ninNumber"
-                        autoComplete="nin-number"
-                        control={form.control}
-                        placeholder="12345678901"
-                        isNinOrBvn={true}
-                      />
-                    </div>
-
-                    <StableFormField
-                      label="Residential Address"
-                      name="residentialAddress"
-                      autoComplete="resident-address"
-                      control={form.control}
-                      placeholder="123 Main Street, Ikeja, Lagos"
-                    />
-                  </motion.div>
-                </AnimatePresence>
-              )}
-
-              {/* Step 2: Next of Kin */}
-              {currentStep === 1 && (
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentStep}
-                    initial={{ opacity: 0, x: 24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -24 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-4"
-                  >
-                    <h2 className="text-lg sm:text-xl font-semibold">
-                      Next of Kin Details
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
-                      <StableFormField
-                        label="Full Name"
-                        name="kinFullName"
-                        autoComplete="name"
-                        control={form.control}
-                        placeholder="Jane Doe"
-                      />
-
-                      <StableFormField
-                        label="Phone Number"
-                        name="kinPhoneNumber"
-                        autoComplete="tel"
-                        control={form.control}
-                        placeholder="+2348073729324"
-                        type="tel"
-                        isPhone={true}
-                      />
-
-                      <StableFormField
-                        label="Email Address"
-                        name="kinEmail"
-                        autoComplete="email"
-                        control={form.control}
-                        placeholder="name@example.com"
-                        type="email"
-                      />
-
-                      {/* Step 2: Next of Kin - always render Select; show extra input when "Other" */}
-                      <FormField
-                        control={form.control}
-                        name="kinRelationship"
-                        render={({ field }) => (
-                          <FormItem className="">
-                            <FormLabel className="text-sm sm:text-base mb-2 leading-0  ">
-                              Relationship{" "}
-                              <span className="text-destructive">*</span>
-                            </FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="py-5  border sm:text-base border-gray-300">
-                                  <SelectValue placeholder="Select relationship" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {[
-                                  "Spouse",
-                                  "Sibling",
-                                  "Parent",
-                                  "Guardian",
-                                  "Friend",
-                                  "Other",
-                                ].map((opt) => (
-                                  <SelectItem
-                                    className="focus:bg-brand-primary"
-                                    key={opt}
-                                    value={opt}
-                                  >
-                                    {opt}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage className="text-xs sm:text-sm" />
-                          </FormItem>
-                        )}
-                      />
-
-                      {form.watch("kinRelationship") === "Other" && (
-                        <StableFormField
-                          label="Specify Relationship"
-                          name="kinRelationshipOther"
-                          control={form.control}
-                          placeholder="e.g., Cousin"
-                          className=""
-                        />
-                      )}
-                    </div>
-
-                    <StableFormField
-                      label="Residential Address"
-                      name="kinResidentialAddress"
-                      autoComplete="address"
-                      control={form.control}
-                      placeholder="123 Main Street, Ikeja, Lagos"
-                    />
-                  </motion.div>
-                </AnimatePresence>
-              )}
-
-              {/* Step 3: Account Details */}
-              {currentStep === 2 && (
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentStep}
-                    initial={{ opacity: 0, x: 24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -24 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-4"
-                  >
-                    <h2 className="text-lg sm:text-xl font-semibold">
-                      Bank Account Information
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
-                      <StableFormField
-                        label="Account Name"
-                        name="accountName"
-                        autoComplete="account-name"
-                        control={form.control}
-                        placeholder="John Doe"
-                      />
-
-                      <StableFormField
-                        label="Account Number"
-                        name="accountNumber"
-                        autoComplete="account-number"
-                        control={form.control}
-                        placeholder="0123456789"
-                        isNinOrBvn={true}
-                      />
-
-                      <StableFormField
-                        label="Bank Name"
-                        name="bankName"
-                        autoComplete="bank-name"
-                        control={form.control}
-                        placeholder="First Bank of Nigeria"
-                      />
-
-                      {/* Account Type as Select */}
-
-                      <FormField
-                        control={form.control}
-                        name="accountType"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-sm mb-3 leading-0 sm:text-base">
-                              Account Type{" "}
-                              <span className="text-destructive">*</span>
-                            </FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="py-5  border sm:text-base border-gray-300">
-                                  <SelectValue placeholder="Select account type" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {[
-                                  "Savings",
-                                  "Current",
-                                  "Domiciliary",
-                                  "Corporate",
-                                  "Other",
-                                ].map((opt) => (
-                                  <SelectItem
-                                    className="focus:bg-brand-primary"
-                                    key={opt}
-                                    value={opt}
-                                  >
-                                    {opt}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage className="text-xs sm:text-sm" />
-                          </FormItem>
-                        )}
-                      />
-
-                      {form.watch("accountType") === "Other" && (
-                        <StableFormField
-                          label="Specify Account Type"
-                          name="accountTypeOther"
-                          control={form.control}
-                          placeholder="e.g., Joint"
-                          className="md:col-span-1"
-                        />
-                      )}
-
-                      <StableFormField
-                        label="BVN Number"
-                        name="bvnNumber"
-                        autoComplete="bvn-number"
-                        control={form.control}
-                        placeholder="12345678901"
-                        isNinOrBvn={true}
-                      />
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              )}
-
-              {/* Step 4: KYC Documents */}
-              {currentStep === 3 && (
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentStep}
-                    initial={{ opacity: 0, x: 24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -24 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-4"
-                  >
-                    <h2 className="text-lg sm:text-xl font-semibold">
-                      Required Documents
-                    </h2>
-                    <p className="text-xs sm:text-sm text-muted-foreground mb-4">
-                      Please upload clear images or PDF files of the following
-                      documents:
-                    </p>
-
-                    <div className="space-y-4 sm:space-y-6">
-                      <div className="border rounded-lg p-3 sm:p-4">
-                        <StableFormField
-                          label="1. Means of Identification"
-                          name="identificationDocument"
-                          control={form.control}
-                          description="National ID, Voter's Card, or International Passport"
-                          isFileInput={true}
-                          accept=".jpg,.jpeg,.png,.pdf"
-                        />
-                      </div>
-
-                      <div className="border rounded-lg p-3 sm:p-4">
-                        <StableFormField
-                          label="2. Passport Photograph"
-                          name="passportPhoto"
-                          control={form.control}
-                          description="Recent, with clear background"
-                          isFileInput={true}
-                          accept=".jpg,.jpeg,.png"
-                        />
-                      </div>
-
-                      <div className="border rounded-lg p-3 sm:p-4">
-                        <StableFormField
-                          label="3. Utility Bill"
-                          name="utilityBill"
-                          control={form.control}
-                          description="Not older than 3 months"
-                          isFileInput={true}
-                          accept=".jpg,.jpeg,.png,.pdf"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="mt-4 p-3 sm:p-4 bg-blue-50 rounded-lg">
-                      <p className="text-xs sm:text-sm text-blue-700">
-                        <strong>Note:</strong> All documents must be clear,
-                        valid, and unaltered. Verification process typically
-                        takes 1-2 business days.
-                      </p>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              )}
-
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between pt-4">
-                {currentStep > 0 && (
-                  <Button
-                    type="button"
-                    onClick={prevStep}
-                    variant="outline"
-                    className="w-full sm:w-auto order-2 sm:order-1 border-gray-300 hover:text-gray-900 hover:bg-gray-50 focus:ring-2 focus:ring-brand-primary/30"
-                  >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Previous
-                  </Button>
-                )}
-
-                {currentStep < steps.length - 1 ? (
-                  <Button
-                    type="button"
-                    onClick={nextStep}
-                    className={`w-full sm:w-auto bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 ${
-                      currentStep > 0
-                        ? "order-1 sm:order-2 sm:ml-auto"
-                        : "order-1"
-                    }`}
-                  >
-                    Next
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                ) : (
-                  <Button
-                    type="submit"
-                    className="w-full sm:w-auto order-1 sm:order-2 sm:ml-auto bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50"
-                  >
-                    Submit Verification
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                )}
+    // <DashboardNavigation>
+      <PageTransition>
+        <FadeIn>
+          <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 sm:p-8">
+              <div className="mb-6 sm:mb-8 text-center">
+                <h1 className="text-2xl sm:text-3xl font-bold text-brand-primary">
+                  Investor Verification
+                </h1>
+                <p className="text-sm sm:text-base text-muted-foreground mt-2">
+                  Please complete all details to verify your account and start
+                  investing
+                </p>
               </div>
-            </form>
-          </Form>
-        </div>
-      </div>
-    </div>
+
+              {/* Progress Steps - Hidden on very small screens, simplified on small screens */}
+              <div className="mb-6 sm:mb-8">
+                {/* Mobile step indicator */}
+                <div className="block sm:hidden text-center mb-4">
+                  <p className="text-sm font-medium">
+                    Step {currentStep + 1} of {steps.length}:{" "}
+                    {steps[currentStep].name}
+                  </p>
+                </div>
+
+                {/* Progress bar - always visible */}
+                <div className="relative h-2 bg-gray-200 rounded-full w-full mb-3">
+                  <div
+                    className="absolute top-0 left-0 h-2 bg-brand-primary rounded-full transition-all duration-500 ease-in-out"
+                    style={{
+                      width: `${((currentStep + 1) / steps.length) * 100}%`,
+                    }}
+                  />
+                </div>
+
+                {/* Desktop/tablet step indicators */}
+                <div className="hidden sm:flex justify-between">
+                  {steps.map((step, index) => {
+                    const StepIcon = step.icon;
+                    return (
+                      <div key={step.id} className="flex flex-col items-center">
+                        <div
+                          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                            index < currentStep
+                              ? "bg-brand-primary text-white shadow-md"
+                              : index === currentStep
+                              ? "bg-brand-primary text-white ring-4 ring-brand-primary/20 shadow-md"
+                              : "bg-gray-200 text-gray-500"
+                          }`}
+                        >
+                          <StepIcon size={20} />
+                        </div>
+                        <span
+                          className={`text-sm mt-2 font-medium ${
+                            index <= currentStep
+                              ? "text-brand-primary"
+                              : "text-gray-500"
+                          }`}
+                        >
+                          {step.name}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-6"
+                >
+                  {/* Step 1: Bio Data */}
+                  {currentStep === 0 && (
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={currentStep}
+                        initial={{ opacity: 0, x: 24 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -24 }}
+                        transition={{ duration: 0.25 }}
+                        className="space-y-4"
+                      >
+                        <h2 className="text-lg sm:text-xl font-semibold">
+                          Personal Information
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-4">
+                          <StableFormField
+                            label="First Name"
+                            name="firstName"
+                            control={form.control}
+                            autoComplete="name"
+                            placeholder="John"
+                          />
+
+                          <StableFormField
+                            label="Surname"
+                            name="surname"
+                            control={form.control}
+                            autoComplete="surname"
+                            placeholder="Doe"
+                          />
+
+                          <StableFormField
+                            label="Phone Number"
+                            name="phoneNumber"
+                            control={form.control}
+                            autoComplete="tel"
+                            placeholder="+234801827228"
+                            type="tel"
+                            isPhone={true}
+                          />
+
+                          <StableFormField
+                            label="Email Address"
+                            name="email"
+                            control={form.control}
+                            autoComplete="email"
+                            placeholder="name@example.com"
+                            type="email"
+                          />
+
+                          <StableFormField
+                            label="Date of Birth"
+                            name="dateOfBirth"
+                            autoComplete="dob"
+                            control={form.control}
+                            type="date"
+                          />
+
+                          <StableFormField
+                            label="Local Government"
+                            name="localGovernment"
+                            autoComplete="lga-name"
+                            control={form.control}
+                            placeholder="Ikeja"
+                          />
+
+                          <StableFormField
+                            label="State of Residence"
+                            name="stateOfResidence"
+                            autoComplete="state-name"
+                            control={form.control}
+                            placeholder="Lagos"
+                          />
+
+                          <StableFormField
+                            label="NIN Number"
+                            name="ninNumber"
+                            autoComplete="nin-number"
+                            control={form.control}
+                            placeholder="12345678901"
+                            isNinOrBvn={true}
+                          />
+                        </div>
+
+                        <StableFormField
+                          label="Residential Address"
+                          name="residentialAddress"
+                          autoComplete="resident-address"
+                          control={form.control}
+                          placeholder="123 Main Street, Ikeja, Lagos"
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+                  )}
+
+                  {/* Step 2: Next of Kin */}
+                  {currentStep === 1 && (
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={currentStep}
+                        initial={{ opacity: 0, x: 24 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -24 }}
+                        transition={{ duration: 0.25 }}
+                        className="space-y-4"
+                      >
+                        <h2 className="text-lg sm:text-xl font-semibold">
+                          Next of Kin Details
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
+                          <StableFormField
+                            label="Full Name"
+                            name="kinFullName"
+                            autoComplete="name"
+                            control={form.control}
+                            placeholder="Jane Doe"
+                          />
+
+                          <StableFormField
+                            label="Phone Number"
+                            name="kinPhoneNumber"
+                            autoComplete="tel"
+                            control={form.control}
+                            placeholder="+2348073729324"
+                            type="tel"
+                            isPhone={true}
+                          />
+
+                          <StableFormField
+                            label="Email Address"
+                            name="kinEmail"
+                            autoComplete="email"
+                            control={form.control}
+                            placeholder="name@example.com"
+                            type="email"
+                          />
+
+                          {/* Step 2: Next of Kin - always render Select; show extra input when "Other" */}
+                          <FormField
+                            control={form.control}
+                            name="kinRelationship"
+                            render={({ field }) => (
+                              <FormItem className="">
+                                <FormLabel className="text-sm sm:text-base mb-2 leading-0  ">
+                                  Relationship{" "}
+                                  <span className="text-destructive">*</span>
+                                </FormLabel>
+                                <Select
+                                  onValueChange={field.onChange}
+                                  value={field.value}
+                                >
+                                  <FormControl>
+                                    <SelectTrigger className="py-5  border sm:text-base border-gray-300">
+                                      <SelectValue placeholder="Select relationship" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {[
+                                      "Spouse",
+                                      "Sibling",
+                                      "Parent",
+                                      "Guardian",
+                                      "Friend",
+                                      "Other",
+                                    ].map((opt) => (
+                                      <SelectItem
+                                        className="focus:bg-brand-primary"
+                                        key={opt}
+                                        value={opt}
+                                      >
+                                        {opt}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage className="text-xs sm:text-sm" />
+                              </FormItem>
+                            )}
+                          />
+
+                          {form.watch("kinRelationship") === "Other" && (
+                            <StableFormField
+                              label="Specify Relationship"
+                              name="kinRelationshipOther"
+                              control={form.control}
+                              placeholder="e.g., Cousin"
+                              className=""
+                            />
+                          )}
+                        </div>
+
+                        <StableFormField
+                          label="Residential Address"
+                          name="kinResidentialAddress"
+                          autoComplete="address"
+                          control={form.control}
+                          placeholder="123 Main Street, Ikeja, Lagos"
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+                  )}
+
+                  {/* Step 3: Account Details */}
+                  {currentStep === 2 && (
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={currentStep}
+                        initial={{ opacity: 0, x: 24 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -24 }}
+                        transition={{ duration: 0.25 }}
+                        className="space-y-4"
+                      >
+                        <h2 className="text-lg sm:text-xl font-semibold">
+                          Bank Account Information
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
+                          <StableFormField
+                            label="Account Name"
+                            name="accountName"
+                            autoComplete="account-name"
+                            control={form.control}
+                            placeholder="John Doe"
+                          />
+
+                          <StableFormField
+                            label="Account Number"
+                            name="accountNumber"
+                            autoComplete="account-number"
+                            control={form.control}
+                            placeholder="0123456789"
+                            isNinOrBvn={true}
+                          />
+
+                          <StableFormField
+                            label="Bank Name"
+                            name="bankName"
+                            autoComplete="bank-name"
+                            control={form.control}
+                            placeholder="First Bank of Nigeria"
+                          />
+
+                          {/* Account Type as Select */}
+
+                          <FormField
+                            control={form.control}
+                            name="accountType"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-sm mb-3 leading-0 sm:text-base">
+                                  Account Type{" "}
+                                  <span className="text-destructive">*</span>
+                                </FormLabel>
+                                <Select
+                                  onValueChange={field.onChange}
+                                  value={field.value}
+                                >
+                                  <FormControl>
+                                    <SelectTrigger className="py-5  border sm:text-base border-gray-300">
+                                      <SelectValue placeholder="Select account type" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {[
+                                      "Savings",
+                                      "Current",
+                                      "Domiciliary",
+                                      "Corporate",
+                                      "Other",
+                                    ].map((opt) => (
+                                      <SelectItem
+                                        className="focus:bg-brand-primary"
+                                        key={opt}
+                                        value={opt}
+                                      >
+                                        {opt}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage className="text-xs sm:text-sm" />
+                              </FormItem>
+                            )}
+                          />
+
+                          {form.watch("accountType") === "Other" && (
+                            <StableFormField
+                              label="Specify Account Type"
+                              name="accountTypeOther"
+                              control={form.control}
+                              placeholder="e.g., Joint"
+                              className="md:col-span-1"
+                            />
+                          )}
+
+                          <StableFormField
+                            label="BVN Number"
+                            name="bvnNumber"
+                            autoComplete="bvn-number"
+                            control={form.control}
+                            placeholder="12345678901"
+                            isNinOrBvn={true}
+                          />
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+                  )}
+
+                  {/* Step 4: KYC Documents */}
+                  {currentStep === 3 && (
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={currentStep}
+                        initial={{ opacity: 0, x: 24 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -24 }}
+                        transition={{ duration: 0.25 }}
+                        className="space-y-4"
+                      >
+                        <h2 className="text-lg sm:text-xl font-semibold">
+                          Required Documents
+                        </h2>
+                        <p className="text-xs sm:text-sm text-muted-foreground mb-4">
+                          Please upload clear images or PDF files of the
+                          following documents:
+                        </p>
+
+                        <div className="space-y-4 sm:space-y-6">
+                          <div className="border rounded-lg p-3 sm:p-4">
+                            <StableFormField
+                              label="1. Means of Identification"
+                              name="identificationDocument"
+                              control={form.control}
+                              description="National ID, Voter's Card, or International Passport"
+                              isFileInput={true}
+                              accept=".jpg,.jpeg,.png,.pdf"
+                            />
+                          </div>
+
+                          <div className="border rounded-lg p-3 sm:p-4">
+                            <StableFormField
+                              label="2. Passport Photograph"
+                              name="passportPhoto"
+                              control={form.control}
+                              description="Recent, with clear background"
+                              isFileInput={true}
+                              accept=".jpg,.jpeg,.png"
+                            />
+                          </div>
+
+                          <div className="border rounded-lg p-3 sm:p-4">
+                            <StableFormField
+                              label="3. Utility Bill"
+                              name="utilityBill"
+                              control={form.control}
+                              description="Not older than 3 months"
+                              isFileInput={true}
+                              accept=".jpg,.jpeg,.png,.pdf"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="mt-4 p-3 sm:p-4 bg-blue-50 rounded-lg">
+                          <p className="text-xs sm:text-sm text-blue-700">
+                            <strong>Note:</strong> All documents must be clear,
+                            valid, and unaltered. Verification process typically
+                            takes 1-2 business days.
+                          </p>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+                  )}
+
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between pt-4">
+                    {currentStep > 0 && (
+                      <Button
+                        type="button"
+                        onClick={prevStep}
+                        variant="outline"
+                        className="w-full sm:w-auto order-2 sm:order-1 border-gray-300 hover:text-gray-900 hover:bg-gray-50 focus:ring-2 focus:ring-brand-primary/30"
+                      >
+                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        Previous
+                      </Button>
+                    )}
+
+                    {currentStep < steps.length - 1 ? (
+                      <Button
+                        type="button"
+                        onClick={nextStep}
+                        className={`w-full sm:w-auto bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 ${
+                          currentStep > 0
+                            ? "order-1 sm:order-2 sm:ml-auto"
+                            : "order-1"
+                        }`}
+                      >
+                        Next
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    ) : (
+                      <Button
+                        type="submit"
+                        className="w-full sm:w-auto order-1 sm:order-2 sm:ml-auto bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50"
+                      >
+                        Submit Verification
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                </form>
+              </Form>
+            </div>
+          </div>
+        </FadeIn>
+      </PageTransition>
+    // </DashboardNavigation>
   );
 }

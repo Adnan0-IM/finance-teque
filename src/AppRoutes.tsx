@@ -6,8 +6,9 @@ import Loader from "./components/Loader";
 import { AnimatePresence, motion } from "framer-motion";
 import { Suspense, lazy } from "react";
 import { Toaster } from "sonner";
+import StartupApplicationPage from "./pages/StartupApplicationPage";
+import ProfileChoicePage from "./pages/ProfileChoicePage";
 
-// Lazy loaded components with correct handling for default and named exports
 const HomePage = lazy(() => import("./pages/HomePage"));
 const AboutPage = lazy(() =>
   import("./pages/AboutPage").then((module) => ({ default: module.AboutPage }))
@@ -35,8 +36,23 @@ const RegisterPage = lazy(() =>
     default: module.RegisterPage,
   }))
 );
+const ResetPasswordPage = lazy(() =>
+  import("./pages/ResetPasswordPage").then((module) => ({
+    default: module.default,
+  }))
+);
+const UpdateProfilePage = lazy(() =>
+  import("./pages/UpdateProfilePage").then((module) => ({
+    default: module.default,
+  }))
+);
 const VerifyEmailPage = lazy(() =>
   import("./pages/VerifyEmailPage").then((module) => ({
+    default: module.default,
+  }))
+);
+const ForgotPasswordPage = lazy(() =>
+  import("./pages/ForgotPasswordPage").then((module) => ({
     default: module.default,
   }))
 );
@@ -46,7 +62,7 @@ const InvestorVerificationPage = lazy(() =>
   }))
 );
 const InvestorDashboardPage = lazy(() =>
-  import("./pages/InvestorDashboardPage").then((module) => ({
+  import("./pages/Dashboard").then((module) => ({
     default: module.InvestorDashboardPage,
   }))
 );
@@ -137,6 +153,14 @@ export default function AppRoutes() {
             }
           />
           <Route
+            path="/forgot-password"
+            element={
+              <Suspense fallback={<Loader />}>
+                <ForgotPasswordPage />
+              </Suspense>
+            }
+          />
+          <Route
             path="/verify-email"
             element={
               <Suspense fallback={<Loader />}>
@@ -144,35 +168,35 @@ export default function AppRoutes() {
               </Suspense>
             }
           />
+          <Route
+            path="/reset-password"
+            element={
+              <Suspense fallback={<Loader />}>
+                <ResetPasswordPage />
+              </Suspense>
+            }
+          />
+
+          {/* Protected Routes  */}
+          <Route
+            path="/choose-profile"
+            element={
+              <ProtectedRoute>
+                <ProfileChoicePage />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/investor-verification"
             element={
               <ProtectedRoute>
-                <Suspense fallback={<Loader />}>
-                  <InvestorVerificationPage />
-                </Suspense>
+                <RoleGuard allow={["investor"]}>
+                  <Suspense fallback={<Loader />}>
+                    <InvestorVerificationPage />
+                  </Suspense>
+                </RoleGuard>
               </ProtectedRoute>
-            }
-          />
-          {/* Protected Routes  */}
-
-          <Route
-            path="/dashboard"
-            element={
-              // <ProtectedRoute>
-              // {/* <RoleGuard allow={["investor"]}> */}
-              // <Suspense
-              //   fallback={
-              //
-              //<Loader/>
-
-              //   }
-              // >
-              <InvestorDashboardPage />
-              // </Suspense>
-              // {/* </RoleGuard> */}
-              // </ProtectedRoute>
             }
           />
 
@@ -181,7 +205,7 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute>
                 <RoleGuard allow={["startup"]}>
-                  funding application comming soon
+                  <StartupApplicationPage />
                 </RoleGuard>
               </ProtectedRoute>
             }
@@ -189,12 +213,26 @@ export default function AppRoutes() {
 
           {/* Both investor and business users */}
           <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <RoleGuard allow={["investor", "startup"]}>
+                  <Suspense fallback={<Loader />}>
+                    <InvestorDashboardPage />
+                  </Suspense>
+                </RoleGuard>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="/profile"
             element={
               <ProtectedRoute>
                 <RoleGuard allow={["investor", "startup"]}>
-                  {/* <ProfilePage /> */}
-                  comming soon
+                  <Suspense fallback={<Loader />}>
+                    <UpdateProfilePage />
+                  </Suspense>
                 </RoleGuard>
               </ProtectedRoute>
             }

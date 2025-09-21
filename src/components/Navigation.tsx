@@ -4,9 +4,12 @@ import logo from "../assets/logo.png";
 import { useState } from "react";
 import { NavLink } from "react-router";
 import InvestorRegistrationButton from "./InvestorRegistrationButton";
+import { useAuth } from "@/contexts/AuthContext";
 import MobileMenuMotion from "./animations/MobileMenuMotion";
+import { MotionButton } from "./animations/MotionizedButton";
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user } = useAuth();
   const navLinks = [
     { title: "About", path: "/about" },
     { title: "Business Investment", path: "/asset-financing" },
@@ -58,9 +61,18 @@ const Navigation = () => {
                   {link.title}
                 </NavLink>
               ))}
+          
             </div>
-
-            <InvestorRegistrationButton className="hidden lg:inline-flex" />
+            {user ? (
+              <NavLink
+                to="/dashboard"
+                className="hidden lg:inline-flex items-center text-white bg-brand-primary hover:bg-brand-primary-dark px-4 py-2 rounded-md text-lg"
+              >
+                Dashboard
+              </NavLink>
+            ) : (
+              <InvestorRegistrationButton className="hidden lg:inline-flex" />
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -140,13 +152,29 @@ const Navigation = () => {
                         {link.title}
                       </NavLink>
                     ))}
+                    
                   </nav>
                 </div>
 
                 {/* Mobile Get Started Button */}
 
                 <div className="p-6 border-t border-border">
-                  <InvestorRegistrationButton className="w-full text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white" />
+                  {user ? (
+                    <NavLink
+                      to="/dashboard"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <MotionButton
+                      
+                      className="w-full  text-center text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white rounded-md"
+                      >
+
+                      Dashboard
+                      </MotionButton>
+                    </NavLink>
+                  ) : (
+                    <InvestorRegistrationButton className="w-full text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white" />
+                  )}
                 </div>
               </div>
             </div>
