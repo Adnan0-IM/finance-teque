@@ -5,7 +5,9 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/auth");
 const verificationRoutes = require("./routes/verification");
+const swaggerUi = require("swagger-ui-express");
 const path = require("path");
+const swaggerSpec = require("./swagger"); // <- add
 
 // Load env vars
 dotenv.config();
@@ -44,6 +46,20 @@ app.use(
 // Mount routes
 app.use("/api/auth", authRoutes);
 app.use("/api/verification", verificationRoutes);
+
+// Docs
+app.use(
+  "/api/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    swaggerOptions: {
+      requestInterceptor: (req) => {
+        req.credentials = "include"; // send cookies on "Try it out"
+        return req;
+      },
+    },
+  })
+);
 
 // NEW: mount admin routes
 const adminRoutes = require("./routes/admin");
@@ -100,4 +116,5 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(__dirname)
 });
