@@ -32,13 +32,26 @@ const DashboardNavigation = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const navLinks = [
+  const navLinksInvestor = [
     { title: "Dashboard", path: "/dashboard", icon: Home },
     { title: "Investments", path: "/dashboard/investments", icon: BarChart3 },
     { title: "Transactions", path: "/dashboard/transactions", icon: Wallet },
     { title: "Documents", path: "/dashboard/documents", icon: FileText },
     { title: "Settings", path: "/dashboard/settings", icon: Settings },
   ];
+
+  const navLinksFundRaiser = [
+    { title: "Dashboard", path: "/dashboard", icon: Home },
+    { title: "Applications", path: "/dashboard/applications", icon: BarChart3 },
+    { title: "Documents", path: "/dashboard/documents", icon: FileText },
+    { title: "Settings", path: "/dashboard/settings", icon: Settings },
+  ];
+  let navLinks = navLinksInvestor;
+  if (user?.role === "startup") {
+    navLinks = navLinksFundRaiser;
+  } else {
+    navLinks = navLinksInvestor;
+  }
 
   const handleLogout = async () => {
     try {

@@ -13,7 +13,7 @@ type User = {
   email: string;
   name: string;
   isVerified: boolean;
-  role?: "investor" | "startup" | "admin";
+  role?: "investor" | "startup" | "admin" | "none";
   phone?: string;
 } | null;
 
@@ -30,6 +30,8 @@ interface AuthContextType {
   logout: () => Promise<void>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   submitVerification: (verificationData: any) => Promise<void>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  verificationStatus: () => Promise<any>;
   verifyEmail: (email: string, code: string) => Promise<void>;
   resendCode: (email: string) => Promise<void>;
   updateMe: (data: { name?: string; phone?: string }) => Promise<void>;
@@ -67,22 +69,43 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>(null);
   const [loading, setLoading] = useState(true);
 
+  // Add axios interceptor to handle expired tokens
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        if (!error.config) {
+          return Promise.reject(error);
+        }
+
+        const originalRequest = error.config;
+
+        // Check if this is a request that should skip the retry logic
+        if (originalRequest.headers?.["X-Skip-Auth-Retry"] === "true") {
+          return Promise.reject(error);
+        }
+        // If unauthorized, clear session and redirect to login
+        if (error.response?.status === 401) {
+          try {
+            await logout();
+          } finally {
+            window.location.href = "/login?expired=true";
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, []);
+
   // Check if user is already logged in on component mount
   useEffect(() => {
     const checkUserLoggedIn = async () => {
       try {
-        // Get stored token
-        const token = localStorage.getItem("finance_teque_token");
-
-        if (!token) {
-          setLoading(false);
-          return;
-        }
-
-        // Set auth header
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-        // Fetch current user
+        // Fetch current user using cookie-based auth
         const response = await axios.get(`${API_URL}/auth/me`);
 
         if (response.data.success) {
@@ -90,7 +113,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       } catch (error) {
         console.error("Failed to restore authentication state:", error);
-        localStorage.removeItem("finance_teque_token");
+        // ensure logged-out state
+        setUser(null);
       } finally {
         setLoading(false);
       }
@@ -99,6 +123,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     checkUserLoggedIn();
   }, []);
 
+  // Modify your existing login function to handle the shorter expiration
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
@@ -107,13 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
       });
 
-      const { token, user } = response.data;
-
-      // Save token to localStorage
-      localStorage.setItem("finance_teque_token", token);
-
-      // Set auth header for future requests
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const { user } = response.data;
 
       setUser(user);
     } catch (error) {
@@ -222,12 +241,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Call logout endpoint to clear cookie
       await axios.get(`${API_URL}/auth/logout`);
 
-      // Remove token from localStorage
-      localStorage.removeItem("finance_teque_token");
-
-      // Remove auth header
-      delete axios.defaults.headers.common["Authorization"];
-
       setUser(null);
     } catch (error) {
       const message = getApiErrorMessage(error);
@@ -236,6 +249,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }
   };
+
+  // Keep-alive ping to maintain sliding session while the app is open
+  useEffect(() => {
+    if (!user) return;
+    const interval = setInterval(() => {
+      axios
+        .get(`${API_URL}/auth/me`, { headers: { "X-Skip-Auth-Retry": "true" } })
+        .catch(() => {
+          // Ignore errors; interceptor will handle 401
+        });
+    }, 10 * 60 * 1000); // every 10 minutes
+
+    return () => clearInterval(interval);
+  }, [user]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const submitVerification = async (verificationData: any) => {
     const {
@@ -284,6 +311,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error(message || "Failed to submit verification data");
     }
   };
+
+  const verificationStatus = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/verification/status`);
+      return response.data;
+    } catch (error) {
+      const message = getApiErrorMessage(error);
+      throw new Error(message || "Failed to fetch verification status");
+    }
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -293,6 +330,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         register,
         logout,
         submitVerification,
+        verificationStatus,
         verifyEmail,
         resendCode,
         updateMe,

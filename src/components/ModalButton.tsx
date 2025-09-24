@@ -6,9 +6,11 @@ import { MotionButton } from "./animations/MotionizedButton";
 const ModalButton = ({
   className,
   text,
+  showArrow = true,
 }: {
   className?: string;
   text: string;
+  showArrow?: boolean;
 }) => {
   const [showModal, setShowModal] = useState(false);
   return (
@@ -22,7 +24,7 @@ const ModalButton = ({
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
       >
         {text}
-        <ArrowRight className="ml-2 h-5 w-5" />
+        {showArrow && <ArrowRight className="ml-2 h-5 w-5" />}
       </MotionButton>
       <ConsultationModal showModal={showModal} setShowModal={setShowModal} />
     </div>

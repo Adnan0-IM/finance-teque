@@ -57,13 +57,15 @@ export function InvestorDashboardPage() {
       toast.error("Please log in to access your dashboard");
     }
 
+    if(user?.role === "none") {
+      navigate("/choose-profile", { replace: true });
+    } 
     if (user?.isVerified && user?.role === "startup") {
       setPage("startup");
     } else if (user?.isVerified && user?.role === "investor") {
       setPage("investor");
-    }else{
-      navigate("/choose-profile", { replace: true });
-    }
+    } 
+  
   }, [user, authLoading, navigate]);
 
   // Fetch dashboard data

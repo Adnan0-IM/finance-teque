@@ -42,7 +42,7 @@ const ResetPasswordPage = lazy(() =>
   }))
 );
 const UpdateProfilePage = lazy(() =>
-  import("./pages/UpdateProfilePage").then((module) => ({
+  import("./pages/ProfilePage").then((module) => ({
     default: module.default,
   }))
 );
