@@ -76,6 +76,7 @@ exports.submitVerification = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error during verification submission",
+      error: error.message,
     });
   }
 };
@@ -83,15 +84,16 @@ exports.submitVerification = async (req, res) => {
 // Helper: convert multer's saved absolute path to web path under /uploads
 function toWebPath(absPath) {
   if (!absPath) return absPath;
-  // Multer saved to server/src/uploads/verification/<filename>
-  // We want to expose as /uploads/verification/<filename>
-  const idx = absPath.lastIndexOf(`${path.sep}uploads${path.sep}`);
+  const marker = `${path.sep}uploads${path.sep}`;
+  const idx = absPath.lastIndexOf(marker);
   if (idx >= 0) {
-    const rel = absPath.substring(idx).split(path.sep).join("/");
-    return `/${rel}`;
+    // Normalize to a single leading slash web path: /uploads/...
+    const rel = absPath.slice(idx).split(path.sep).join("/");
+    return rel.startsWith("/") ? rel : `/${rel}`;
   }
-  // Fallback: return as-is if already a web path
-  return absPath;
+  // Fallback: ensure single leading slash
+  const web = absPath.split(path.sep).join("/");
+  return web.startsWith("/") ? web : `/${web}`;
 }
 
 // @desc    Upload verification documents
@@ -140,6 +142,7 @@ exports.uploadDocuments = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error during document upload",
+      error: error.message,
     });
   }
 };
@@ -163,6 +166,8 @@ exports.getVerificationStatus = async (req, res) => {
       data: {
         status: user.verification.status,
         isVerified: user.isVerified,
+        reviewedAt: user?.verification?.reviewedAt,
+        submittedAt: user?.verification?.submittedAt,
       },
     });
   } catch (error) {
@@ -170,6 +175,7 @@ exports.getVerificationStatus = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error retrieving verification status",
+      error: error.message,
     });
   }
 };

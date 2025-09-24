@@ -56,6 +56,7 @@ exports.register = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error during registration",
+      error: error.message,
     });
   }
 };
@@ -107,6 +108,7 @@ exports.login = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error during login",
+      error: error.message,
     });
   }
 };
@@ -148,14 +150,17 @@ exports.verifyEmail = async (req, res) => {
     user.clearEmailVerificationCode();
     await user.save({ validateBeforeSave: false });
 
-    res
-      .status(200)
-      .json({ success: true, message: "Email verified successfully" });
+    res.status(200).json({
+      success: true,
+      message: "Email verified successfully, you can now login to your account",
+    });
   } catch (error) {
     console.error("Verify email error:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Server error verifying email" });
+    res.status(500).json({
+      success: false,
+      message: "Server error verifying email",
+      error: error.message,
+    });
   }
 };
 
@@ -216,9 +221,11 @@ exports.resendVerificationCode = async (req, res) => {
     res.status(200).json({ success: true, message: "Verification code sent" });
   } catch (error) {
     console.error("Resend code error:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Server error resending code" });
+    res.status(500).json({
+      success: false,
+      message: "Server error resending code",
+      error: error.message,
+    });
   }
 };
 
@@ -226,14 +233,21 @@ exports.resendVerificationCode = async (req, res) => {
 // @route PUT /api/auth/role
 // @access Private
 exports.setRole = async (req, res) => {
+  // allowed roles ["investor", "startup"]
+  // user is already available in req due to the auth middleware
+  const { role } = req.body;
+  if (role !== "investor" && role !== "startup")
+    return res.status(403).json({
+      success: false,
+      message: "investor and startup are the only accepted roles",
+    });
   try {
-    // user is already available in req due to the auth middleware
-    const { role } = req.body;
     if (!role) {
       return res
         .status(400)
         .json({ success: false, message: "Role is required" });
     }
+
     const user = await User.findByIdAndUpdate(
       req.user.id,
       { role },
@@ -255,6 +269,7 @@ exports.setRole = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error setting user role",
+      error: error.message,
     });
   }
 };
@@ -283,6 +298,7 @@ exports.getMe = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error retrieving user profile",
+      error: error.message,
     });
   }
 };
@@ -323,10 +339,10 @@ exports.updateMe = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error updating user profile",
+      error: error.message,
     });
   }
 };
-
 
 // @desc    Delete current logged in user
 // @route   DELETE /api/auth/delete
@@ -355,6 +371,7 @@ exports.deleteMe = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error deleting account",
+      error: error.message,
     });
   }
 };
@@ -375,7 +392,6 @@ exports.logout = async (req, res) => {
 
   res.status(200).json({
     success: true,
-    data: {},
     message: "Successfully logged out",
   });
 };
@@ -419,9 +435,11 @@ exports.forgotPassword = async (req, res) => {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
     await user.save({ validateBeforeSave: false });
-    res
-      .status(500)
-      .json({ success: false, message: "Failed to send reset email" });
+    res.status(500).json({
+      success: false,
+      message: "Failed to send reset email",
+      error: err.message,
+    });
   }
 };
 
@@ -461,10 +479,36 @@ const sendTokenResponse = (user, statusCode, res) => {
   // Create token
   const token = user.getSignedJwtToken();
 
+  // Parse cookie expiration time
+  let cookieExpire = process.env.JWT_COOKIE_EXPIRE || "7d"; // Default to 7 days
+  let expireMs = 7 * 24 * 60 * 60 * 1000; // Default: 7 days in milliseconds
+
+  if (typeof cookieExpire === "string") {
+    // Parse time format like "7d" or "1h"
+    const match = cookieExpire.match(/^(\d+)([dhms])$/);
+    if (match) {
+      const value = parseInt(match[1], 10);
+      const unit = match[2];
+
+      switch (unit) {
+        case "d": // days
+          expireMs = value * 24 * 60 * 60 * 1000;
+          break;
+        case "h": // hours
+          expireMs = value * 60 * 60 * 1000;
+          break;
+        case "m": // minutes
+          expireMs = value * 60 * 1000;
+          break;
+        case "s": // seconds
+          expireMs = value * 1000;
+          break;
+      }
+    }
+  }
+
   const options = {
-    expires: new Date(
-      Date.now() + (process.env.JWT_COOKIE_EXPIRE || 30) * 24 * 60 * 60 * 1000
-    ),
+    expires: new Date(Date.now() + expireMs),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",

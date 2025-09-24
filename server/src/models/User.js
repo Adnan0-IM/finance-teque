@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["investor", "startup", "admin"],
+      enum: ["investor", "startup", "admin", "none"],
       index: true,
     },
 
@@ -83,6 +83,7 @@ const UserSchema = new mongoose.Schema(
       rejectionReason: String,
       reviewedAt: Date,
       reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      submittedAt: Date,
     },
     createdAt: {
       type: Date,
