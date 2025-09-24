@@ -19,7 +19,6 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
-    "express-oas-generator": "^1.0.48",
     "express-rate-limit": "^8.1.0",
     "express-slow-down": "^3.0.0",
     "express-validator": "^7.2.1",
@@ -27,7 +26,6 @@
     "mongoose": "^8.18.1",
     "mongoose-to-swagger": "^1.5.1",
     "multer": "^2.0.2",
-    "swagger-autogen": "^2.23.7",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },

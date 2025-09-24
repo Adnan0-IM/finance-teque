@@ -216,7 +216,7 @@ export default function AppRoutes() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <RoleGuard allow={["investor", "startup"]}>
+                <RoleGuard allow={["investor", "startup", "none"]}>
                   <Suspense fallback={<Loader />}>
                     <InvestorDashboardPage />
                   </Suspense>
@@ -229,7 +229,7 @@ export default function AppRoutes() {
             path="/profile"
             element={
               <ProtectedRoute>
-                <RoleGuard allow={["investor", "startup"]}>
+                <RoleGuard allow={["investor", "startup", "none"]}>
                   <Suspense fallback={<Loader />}>
                     <UpdateProfilePage />
                   </Suspense>

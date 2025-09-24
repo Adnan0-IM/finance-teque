@@ -69,38 +69,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>(null);
   const [loading, setLoading] = useState(true);
 
-  // Add axios interceptor to handle expired tokens
-  useEffect(() => {
-    const interceptor = axios.interceptors.response.use(
-      (response) => response,
-      async (error) => {
-        if (!error.config) {
-          return Promise.reject(error);
-        }
-
-        const originalRequest = error.config;
-
-        // Check if this is a request that should skip the retry logic
-        if (originalRequest.headers?.["X-Skip-Auth-Retry"] === "true") {
-          return Promise.reject(error);
-        }
-        // If unauthorized, clear session and redirect to login
-        if (error.response?.status === 401) {
-          try {
-            await logout();
-          } finally {
-            window.location.href = "/login?expired=true";
-          }
-        }
-        return Promise.reject(error);
-      }
-    );
-
-    return () => {
-      axios.interceptors.response.eject(interceptor);
-    };
-  }, []);
-
   // Check if user is already logged in on component mount
   useEffect(() => {
     const checkUserLoggedIn = async () => {
@@ -123,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     checkUserLoggedIn();
   }, []);
 
-  // Modify your existing login function to handle the shorter expiration
+  // Login function
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
@@ -133,7 +101,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       const { user } = response.data;
-
       setUser(user);
     } catch (error) {
       const message = getApiErrorMessage(error);
@@ -191,6 +158,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error(message || "Failed to resend code. Try again.");
     }
   };
+
   const setRole = async (role: string) => {
     setLoading(true);
     try {
@@ -198,10 +166,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (response.data?.success && response.data?.data) {
         setUser(response.data.data);
       }
-      console.log(response);
     } catch (error) {
       const message = getApiErrorMessage(error);
-      console.log(message);
       throw new Error(message || "Failed to set user role");
     } finally {
       setLoading(false);
@@ -235,12 +201,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error(message || "Failed to update profile");
     }
   };
+
   const logout = async () => {
     setLoading(true);
     try {
       // Call logout endpoint to clear cookie
       await axios.get(`${API_URL}/auth/logout`);
-
       setUser(null);
     } catch (error) {
       const message = getApiErrorMessage(error);
@@ -249,20 +215,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }
   };
-
-  // Keep-alive ping to maintain sliding session while the app is open
-  useEffect(() => {
-    if (!user) return;
-    const interval = setInterval(() => {
-      axios
-        .get(`${API_URL}/auth/me`, { headers: { "X-Skip-Auth-Retry": "true" } })
-        .catch(() => {
-          // Ignore errors; interceptor will handle 401
-        });
-    }, 10 * 60 * 1000); // every 10 minutes
-
-    return () => clearInterval(interval);
-  }, [user]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const submitVerification = async (verificationData: any) => {
     const {

@@ -2,7 +2,7 @@ import { Navigate } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
 import type { ReactNode } from "react";
 
-type Role = "investor" | "startup" | "admin";
+type Role = "investor" | "startup" | "admin" | "none";
 
 export default function RoleGuard({
   allow,
