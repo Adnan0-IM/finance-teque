@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/features/auth/contexts/AuthContext";
 import { buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import type { VariantProps } from "class-variance-authority";
