@@ -4,7 +4,7 @@ import logo from "../assets/logo.png";
 import { useState } from "react";
 import { NavLink } from "react-router";
 import InvestorRegistrationButton from "./InvestorRegistrationButton";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/features/auth/contexts/AuthContext";
 import MobileMenuMotion from "./animations/MobileMenuMotion";
 import { MotionButton } from "./animations/MotionizedButton";
 const Navigation = () => {
@@ -61,7 +61,6 @@ const Navigation = () => {
                   {link.title}
                 </NavLink>
               ))}
-          
             </div>
             {user ? (
               <NavLink
@@ -152,7 +151,6 @@ const Navigation = () => {
                         {link.title}
                       </NavLink>
                     ))}
-                    
                   </nav>
                 </div>
 
@@ -164,12 +162,8 @@ const Navigation = () => {
                       to="/dashboard"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      <MotionButton
-                      
-                      className="w-full  text-center text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white rounded-md"
-                      >
-
-                      Dashboard
+                      <MotionButton className="w-full  text-center text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white rounded-md">
+                        Dashboard
                       </MotionButton>
                     </NavLink>
                   ) : (

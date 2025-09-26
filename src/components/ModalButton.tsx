@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
-import ConsultationModal from "./ConsultationModal";
 import { MotionButton } from "./animations/MotionizedButton";
+import ConsultationModal from "./modals/ConsultationModal";
 
 const ModalButton = ({
   className,
