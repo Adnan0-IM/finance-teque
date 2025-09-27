@@ -46,6 +46,10 @@ export function LoginPage() {
     try {
       await login(data.email, data.password);
       toast.success("Logged in successfully!");
+      if(data.email.includes("financetequecv.com")){
+        navigate("/admin");
+        return;
+      }
       navigate("/choose-profile");
     } catch (error) {
       toast.error(

@@ -45,7 +45,10 @@ export function VerificationSuccessPage() {
               </div>
 
               <p className="text-xs text-gray-500 mt-6">
-                Need help? Contact support@finance-teque.com
+                Need help? Contact{" "}
+                <a className="hover:text-brand-primary transition-colors" href="mailto:support@financetequecv.com">
+                  support@financetequecv.com
+                </a>
               </p>
             </div>
           </div>

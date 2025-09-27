@@ -161,10 +161,10 @@ export function InvestorVerificationPage() {
   const onSubmit = async (data: FormValues) => {
     try {
       await submitVerification(data);
+      navigate("/verification-success");
       toast.success("Verification submitted successfully!");
       form.reset();
       clearSavedProgress();
-      navigate("/verification-success");
     } catch (error) {
       console.error("Verification submission error:", error);
       toast.error("Failed to submit verification data. Please try again.");
