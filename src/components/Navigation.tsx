@@ -1,4 +1,4 @@
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 
 import logo from "../assets/logo.png";
 import { useState } from "react";
@@ -7,9 +7,11 @@ import InvestorRegistrationButton from "./InvestorRegistrationButton";
 import { useAuth } from "@/features/auth/contexts/AuthContext";
 import MobileMenuMotion from "./animations/MobileMenuMotion";
 import { MotionButton } from "./animations/MotionizedButton";
+import { useInvestor } from "@/features/investors/contexts/InvestorContext";
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useAuth();
+  const { verificationSubmitted } = useInvestor();
   const navLinks = [
     { title: "About", path: "/about" },
     { title: "Business Investment", path: "/asset-financing" },
@@ -63,20 +65,18 @@ const Navigation = () => {
               ))}
             </div>
             {user ? (
-              <NavLink
-                to="/dashboard"
-                
-              >
+              <NavLink to="/dashboard">
                 <MotionButton
-               disabled={!user?.isVerified} 
-                className="hidden lg:inline-flex items-center text-white bg-brand-primary hover:bg-brand-primary-dark px-4 py-2 rounded-md text-lg"
+                  
+                  className="hidden lg:inline-flex items-center text-white bg-brand-primary hover:bg-brand-primary-dark px-4 py-2 rounded-md text-lg"
                 >
-                {!user?.isVerified && user?.name.length > 5 && (
-                  <span className="text-sm text-muted-foreground">
-                    (Verification in review)
-                  </span>
-                )}
+                  {!verificationSubmitted && !user.isVerified && user.role !== "admin"
+                    ? "Start Investing"
+                    : user.role !== "admin" && "Your verification is in review"}
+                  {!verificationSubmitted && !user.isVerified && user.role !== "admin" && <ArrowRight />}
+                  {user.isVerified && "Dashboard"}
 
+                  {user.isVerified && <ArrowRight />}
                 </MotionButton>
               </NavLink>
             ) : (
@@ -173,9 +173,15 @@ const Navigation = () => {
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <MotionButton className="w-full  text-center text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white rounded-md">
-                        {user?.isVerified
-                          ? user?.name
-                          : "Your verification is in review"}
+                        {!verificationSubmitted && !user.isVerified && user.role !== "admin"
+                          ? "Start Investing"
+                          : user.role !== "admin" && "Your verification is in review"}
+                        {!verificationSubmitted && !user.isVerified && user.role !== "admin" && (
+                          <ArrowRight />
+                        )}
+
+                        {user.isVerified && "Dashboard"}
+                        {user.isVerified && <ArrowRight />}
                       </MotionButton>
                     </NavLink>
                   ) : (
