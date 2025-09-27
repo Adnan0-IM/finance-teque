@@ -60,15 +60,18 @@ const ForgotPasswordPage = lazy(() =>
   }))
 );
 const InvestorVerificationPage = lazy(() =>
-  import("../features/investors/pages/InvestorVerification").then(
-    (module) => ({
-      default: module.InvestorVerificationPage,
-    })
-  )
+  import("../features/investors/pages/InvestorVerification").then((module) => ({
+    default: module.InvestorVerificationPage,
+  }))
 );
-const InvestorDashboardPage = lazy(() =>
+const VerificationSuccessPage = lazy(() =>
+  import("../features/investors/pages/VerificationSuccess").then((module) => ({
+    default: module.VerificationSuccessPage,
+  }))
+);
+const DashboardPage = lazy(() =>
   import("../features/shared/pages/Dashboard").then((module) => ({
-    default: module.InvestorDashboardPage,
+    default: module.DashboardPage,
   }))
 );
 
@@ -181,6 +184,16 @@ export default function AppRoutes() {
               </Suspense>
             }
           />
+          <Route
+            path="/verification-success"
+            element={
+              <ProtectedRoute>
+                <Suspense fallback={<Loader />}>
+                  <VerificationSuccessPage />
+                </Suspense>
+              </ProtectedRoute>
+            }
+          />
 
           {/* Protected Routes  */}
           <Route
@@ -221,9 +234,9 @@ export default function AppRoutes() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <RoleGuard allow={["investor", "startup", "none"]}>
+                <RoleGuard allow={["investor", "startup"]}>
                   <Suspense fallback={<Loader />}>
-                    <InvestorDashboardPage />
+                    <DashboardPage />
                   </Suspense>
                 </RoleGuard>
               </ProtectedRoute>

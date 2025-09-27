@@ -27,6 +27,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { useAuth } from "@/features/auth/contexts/AuthContext";
+import { useInvestor, type StatusResponse } from "@/features/investors/contexts/InvestorContext";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   AlertDialog,
@@ -53,23 +54,21 @@ const updateSchema = z.object({
 
 type UpdateFormValues = z.infer<typeof updateSchema>;
 
-type StatusResponse = {
-  status: "approved" | "pending" | "rejected";
-  isVerified: boolean;
-  rejectionReason?: string;
-  reviewedAt?: string;
-  submittedAt?: string;
-};
+
 
 export function ProfilePage() {
   const navigate = useNavigate();
-  const { user, updateMe, verificationStatus, deleteMe, logout } = useAuth();
+  const { user, updateMe, deleteMe, logout } = useAuth();
+  const { verificationStatus } = useInvestor();
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
   const [response, setResponse] = useState<StatusResponse>({
-    status: "pending",
-    isVerified: false,
+    success: false,
+    data: {
+      status: "pending",
+      isVerified: false,
+    },
   });
 
   const form = useForm<UpdateFormValues>({
@@ -92,7 +91,7 @@ export function ProfilePage() {
     const fetchVerificationStatus = async () => {
       try {
         const response = await verificationStatus();
-        setResponse(response.data);
+        setResponse(response);
       } catch (error) {
         console.error("Failed to fetch verification status:", error);
       }
@@ -159,20 +158,20 @@ export function ProfilePage() {
                 </p>
                 <Badge
                   variant={
-                    response.status === "approved"
+                    response.data.status === "approved"
                       ? "default"
-                      : response.status === "pending"
+                      : response.data.status === "pending"
                       ? "secondary"
                       : "outline"
                   }
                   className="mt-1 font-medium"
                 >
-                  {response.status === "approved" ? (
+                  {response.data.status === "approved" ? (
                     <span className="flex items-center">
                       <ShieldCheck className="w-3.5 h-3.5 mr-1" /> Verified
                       Account
                     </span>
-                  ) : response.status === "pending" ? (
+                  ) : response.data.status === "pending" ? (
                     <span className="flex items-center">
                       <Clock className="w-3.5 h-3.5 mr-1" /> Verification
                       Pending
@@ -235,8 +234,8 @@ export function ProfilePage() {
                 {!user?.isVerified && (
                   <Button
                     variant="outline"
-                    className="w-full justify-between border-gray-200 hover:border-brand-primary hover:bg-brand-light"
-                    onClick={() => navigate("/verification")}
+                    className="w-full justify-between border-gray-200 hover:text-gray-900 hover:border-brand-primary hover:bg-brand-light"
+                    onClick={() => navigate("/investor-verification")}
                   >
                     <span className="flex items-center">
                       <ShieldCheck className="w-4 h-4 mr-2" />
@@ -434,11 +433,11 @@ export function ProfilePage() {
               )}
             </div>
 
-            {/* KYC Verification Status */}
+            {/* KYC Verification data.status */}
             <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
               <div className="p-6 border-b border-gray-100">
                 <h3 className="text-lg font-semibold text-gray-800">
-                  Verification Status
+                  Verification data.status
                 </h3>
               </div>
 
@@ -446,14 +445,14 @@ export function ProfilePage() {
                 <div
                   className={cn(
                     "rounded-lg border p-5",
-                    response.status === "approved"
+                    response.data.status === "approved"
                       ? "bg-green-50 border-green-100"
-                      : response.status === "pending"
+                      : response.data.status === "pending"
                       ? "bg-yellow-50 border-yellow-100"
                       : "bg-gray-50 border-gray-100"
                   )}
                 >
-                  {response.status === "approved" ? (
+                  {response.data.status === "approved" ? (
                     <div className="flex items-start gap-4">
                       <div className="rounded-full bg-green-100 p-2 mt-1">
                         <CheckCircle2 className="h-6 w-6 text-green-600" />
@@ -489,12 +488,12 @@ export function ProfilePage() {
                         <div className="mt-4 text-xs text-green-600">
                           Verified on:{" "}
                           {new Date(
-                            response?.reviewedAt || Date.now()
+                            response?.data?.reviewedAt || Date.now()
                           ).toLocaleDateString()}
                         </div>
                       </div>
                     </div>
-                  ) : response.status === "pending" ? (
+                  ) : response.data.status === "pending" ? (
                     <div className="flex items-start gap-4">
                       <div className="rounded-full bg-yellow-100 p-2 mt-1">
                         <Clock className="h-6 w-6 text-yellow-600" />
@@ -524,7 +523,7 @@ export function ProfilePage() {
                         <div className="mt-4 text-xs text-yellow-600">
                           Submitted on:{" "}
                           {new Date(
-                            response?.submittedAt || Date.now()
+                            response?.data?.submittedAt || Date.now()
                           ).toLocaleDateString()}
                         </div>
                       </div>
@@ -543,7 +542,7 @@ export function ProfilePage() {
                           platform features including investment opportunities.
                         </p>
                         <Button
-                          onClick={() => navigate("/verification")}
+                          onClick={() => navigate("/investor-verification")}
                           className="bg-brand-primary hover:bg-brand-primary-dark text-white mt-2"
                         >
                           Start Verification

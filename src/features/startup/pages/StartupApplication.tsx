@@ -12,6 +12,7 @@ export default function StartupApplicationPage() {
   useEffect(() => {
     if (user?.isVerified) navigate("/dashboard");
   }, [user, navigate]);
+
   return (
     <OnboardingLayout
       pageTitle="Apply for Startup Funding"

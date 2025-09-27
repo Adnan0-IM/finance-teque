@@ -94,7 +94,7 @@ export default function ProfileChoicePage() {
                   whileHover={{ scale: 1.05, y: -1 }}
                   whileTap={{ scale: 0.98, y: 0 }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  className="w-full group-hover:bg-brand-primary transition-colors"
+                  className="w-full py-5 group-hover:bg-brand-primary transition-colors"
                   onClick={() => choose("investor")}
                 >
                   Become an Investor <ArrowRight className="ml-2 h-4 w-4" />
@@ -133,10 +133,11 @@ export default function ProfileChoicePage() {
                 </ul>
 
                 <MotionButton
+                disabled={true}
                   whileHover={{ scale: 1.05, y: -1 }}
                   whileTap={{ scale: 0.98, y: 0 }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  className="w-full group-hover:bg-brand-primary transition-colors"
+                  className="w-full text-base py-5 group-hover:bg-brand-primary transition-colors"
                   onClick={() => choose("startup")}
                 >
                   Apply for Funding <ArrowRight className="ml-2 h-4 w-4" />

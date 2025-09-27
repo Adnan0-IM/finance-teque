@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/features/auth/contexts/AuthContext";
+import { useInvestor } from "@/features/investors/contexts/InvestorContext";
 import { FadeIn } from "@/components/animations/FadeIn";
 import PageTransition from "@/components/animations/PageTransition";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -30,12 +31,16 @@ import { KYCDocumentsStep } from "../components/steps/KYCDocumentsStep";
 export function InvestorVerificationPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
-  const { submitVerification, user } = useAuth();
+  const {  user } = useAuth();
+  const {submitVerification } = useInvestor();
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
 
   if (user?.isVerified) {
     navigate("/dashboard");
   }
+}, [user?.isVerified, navigate]);
 
   const [savedFormData, setSavedFormData] = useLocalStorage<
     Partial<FormValues>
@@ -166,7 +171,7 @@ export function InvestorVerificationPage() {
       toast.success("Verification submitted successfully!");
       form.reset();
       clearSavedProgress();
-      navigate("/dashboard");
+      navigate("/verification-success");
     } catch (error) {
       console.error("Verification submission error:", error);
       toast.error("Failed to submit verification data. Please try again.");

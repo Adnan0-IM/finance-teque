@@ -65,9 +65,19 @@ const Navigation = () => {
             {user ? (
               <NavLink
                 to="/dashboard"
-                className="hidden lg:inline-flex items-center text-white bg-brand-primary hover:bg-brand-primary-dark px-4 py-2 rounded-md text-lg"
+                
               >
-                Dashboard
+                <MotionButton
+               disabled={!user?.isVerified} 
+                className="hidden lg:inline-flex items-center text-white bg-brand-primary hover:bg-brand-primary-dark px-4 py-2 rounded-md text-lg"
+                >
+                {!user?.isVerified && user?.name.length > 5 && (
+                  <span className="text-sm text-muted-foreground">
+                    (Verification in review)
+                  </span>
+                )}
+
+                </MotionButton>
               </NavLink>
             ) : (
               <InvestorRegistrationButton className="hidden lg:inline-flex" />
@@ -163,7 +173,9 @@ const Navigation = () => {
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <MotionButton className="w-full  text-center text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white rounded-md">
-                        Dashboard
+                        {user?.isVerified
+                          ? user?.name
+                          : "Your verification is in review"}
                       </MotionButton>
                     </NavLink>
                   ) : (

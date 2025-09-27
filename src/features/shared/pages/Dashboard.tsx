@@ -18,6 +18,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import PageTransition from "@/components/animations/PageTransition";
 import { MotionButton } from "@/components/animations/MotionizedButton";
 import DashboardNavigation from "@/components/layout/DashboardLayout";
+import {
+  useInvestor,
+  type StatusResponse,
+} from "@/features/investors/contexts/InvestorContext";
 
 // Minimal types for API responses
 interface PortfolioSummary {
@@ -35,13 +39,21 @@ interface Transaction {
   status: string;
 }
 
-export function InvestorDashboardPage() {
+export function DashboardPage() {
   const { user, loading: authLoading } = useAuth();
+  const { verificationStatus } = useInvestor();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<string | null>(null);
+  const [response, setResponse] = useState<StatusResponse>({
+    success: false,
+    data: {
+      status: "",
+      isVerified: false,
+    },
+  });
 
   // State for dashboard data
   const [portfolioSummary, setPortfolioSummary] =
@@ -49,23 +61,47 @@ export function InvestorDashboardPage() {
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>(
     []
   );
+  useEffect(() => {
+    const fetchVerificationStatus = async () => {
+      try {
+        const response = await verificationStatus();
+        setResponse(response);
+      } catch (error) {
+        console.error("Failed to fetch verification status:", error);
+      }
+    };
 
+    fetchVerificationStatus();
+  }, [response, navigate, verificationStatus]);
   // Check if user is logged in
   useEffect(() => {
+    if (response.data.status === "rejected") {
+      navigate("/verification-success", { replace: true });
+      toast.warning("Your verification is still pending review");
+    }
     if (!authLoading && !user) {
       navigate("/login", { replace: true });
       toast.error("Please log in to access your dashboard");
     }
 
-    if (user?.role === "none") {
-      navigate("/choose-profile", { replace: true });
-    }
-    if (user?.isVerified && user?.role === "startup") {
+    // if (user && !user.isVerified) {
+    //   if (user.role === "investor") {
+    //     navigate("/investor-verification", { replace: true });
+    //   } else if (user.role === "startup") {
+    //     navigate("/apply-for-funding", { replace: true });
+    //   } else {
+    //     navigate("/choose-profile", { replace: true });
+    //   }
+    //   toast.error("Please complete your verification to access the dashboard");
+    //   return;
+    // }
+
+    if (user?.role === "startup") {
       setPage("startup");
-    } else if (user?.isVerified && user?.role === "investor") {
+    } else if (user?.role === "investor") {
       setPage("investor");
     }
-  }, [user, authLoading, navigate]);
+  }, [response, user, authLoading, navigate]);
 
   // Fetch dashboard data
   useEffect(() => {
