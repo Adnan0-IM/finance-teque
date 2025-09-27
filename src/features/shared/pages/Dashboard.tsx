@@ -18,10 +18,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import PageTransition from "@/components/animations/PageTransition";
 import { MotionButton } from "@/components/animations/MotionizedButton";
 import DashboardNavigation from "@/components/layout/DashboardLayout";
-import {
-  useInvestor,
-  type StatusResponse,
-} from "@/features/investors/contexts/InvestorContext";
 
 // Minimal types for API responses
 interface PortfolioSummary {
@@ -41,67 +37,28 @@ interface Transaction {
 
 export function DashboardPage() {
   const { user, loading: authLoading } = useAuth();
-  const { verificationStatus } = useInvestor();
   const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<string | null>(null);
-  const [response, setResponse] = useState<StatusResponse>({
-    success: false,
-    data: {
-      status: "",
-      isVerified: false,
-    },
-  });
-
-  // State for dashboard data
   const [portfolioSummary, setPortfolioSummary] =
     useState<PortfolioSummary | null>(null);
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>(
     []
   );
+
+  // Auth/role/verification gating
   useEffect(() => {
-    const fetchVerificationStatus = async () => {
-      try {
-        const response = await verificationStatus();
-        setResponse(response);
-      } catch (error) {
-        console.error("Failed to fetch verification status:", error);
-      }
-    };
+    if (authLoading || !user || page) return;
 
-    fetchVerificationStatus();
-  }, [response, navigate, verificationStatus]);
-  // Check if user is logged in
-  useEffect(() => {
-    if (response.data.status === "rejected") {
-      navigate("/verification-success", { replace: true });
-      toast.warning("Your verification is still pending review");
-    }
-    if (!authLoading && !user) {
-      navigate("/login", { replace: true });
-      toast.error("Please log in to access your dashboard");
-    }
-
-    // if (user && !user.isVerified) {
-    //   if (user.role === "investor") {
-    //     navigate("/investor-verification", { replace: true });
-    //   } else if (user.role === "startup") {
-    //     navigate("/apply-for-funding", { replace: true });
-    //   } else {
-    //     navigate("/choose-profile", { replace: true });
-    //   }
-    //   toast.error("Please complete your verification to access the dashboard");
-    //   return;
-    // }
-
-    if (user?.role === "startup") {
+    if (user.role === "investor") {
+      setPage(user.role);
+    } else {
       setPage("startup");
-    } else if (user?.role === "investor") {
-      setPage("investor");
     }
-  }, [response, user, authLoading, navigate]);
+  }, [user, authLoading, navigate, page]);
 
   // Fetch dashboard data
   useEffect(() => {
@@ -110,12 +67,8 @@ export function DashboardPage() {
     const fetchDashboardData = async () => {
       setLoading(true);
       setError(null);
-
       try {
-        // Simulating API delay
         await new Promise((resolve) => setTimeout(resolve, 800));
-
-        // Sample data - in a real app, this would come from an API
         const summaryData: PortfolioSummary = {
           totalValue: "₦1,250,000",
           invested: "₦1,000,000",
@@ -123,7 +76,6 @@ export function DashboardPage() {
           gainPercentage: "+25%",
           isPositive: true,
         };
-
         const transactionsData: Transaction[] = [
           {
             date: "2023-11-01",
@@ -150,8 +102,6 @@ export function DashboardPage() {
             status: "Completed",
           },
         ];
-
-        // Update state with fetched data
         setPortfolioSummary(summaryData);
         setRecentTransactions(transactionsData);
       } catch (err) {
@@ -294,11 +244,11 @@ export function DashboardPage() {
                       Return Rate
                     </p>
                     <h3
-                      className={`text-2xl font-bold mt-1 ₦{
-                      portfolioSummary?.isPositive
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
+                      className={`text-2xl font-bold mt-1 ${
+                        portfolioSummary?.isPositive
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }`}
                     >
                       {portfolioSummary?.gainPercentage}
                     </h3>
@@ -355,11 +305,11 @@ export function DashboardPage() {
                               Total Gain/Loss
                             </span>
                             <span
-                              className={`font-medium ₦{
-                              portfolioSummary?.isPositive
-                                ? "text-green-600"
-                                : "text-red-600"
-                            }`}
+                              className={`font-medium ${
+                                portfolioSummary?.isPositive
+                                  ? "text-green-600"
+                                  : "text-red-600"
+                              }`}
                             >
                               {portfolioSummary?.totalGain}
                             </span>
@@ -369,11 +319,11 @@ export function DashboardPage() {
                               Return Rate
                             </span>
                             <span
-                              className={`font-medium ₦{
-                              portfolioSummary?.isPositive
-                                ? "text-green-600"
-                                : "text-red-600"
-                            }`}
+                              className={`font-medium ${
+                                portfolioSummary?.isPositive
+                                  ? "text-green-600"
+                                  : "text-red-600"
+                              }`}
                             >
                               {portfolioSummary?.gainPercentage}
                             </span>
@@ -474,21 +424,21 @@ export function DashboardPage() {
                                   ).toLocaleDateString()}
                                 </TableCell>
                                 <TableCell>{transaction.type}</TableCell>
-                                <TableCell>{`₦{transaction.type} - ₦{
-                                transaction.date.split("-")[1] === "10"
-                                  ? "Oct"
-                                  : transaction.date.split("-")[1] === "09"
-                                  ? "Sep"
-                                  : "Nov"
-                              } ₦{transaction.date.split("-")[2]}, ₦{
-                                transaction.date.split("-")[0]
-                              }`}</TableCell>
+                                <TableCell>
+                                  {`${transaction.type} - ${new Date(
+                                    transaction.date
+                                  ).toLocaleDateString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  })}`}
+                                </TableCell>
                                 <TableCell
-                                  className={`text-right ₦{
-                                  transaction.type === "Withdrawal"
-                                    ? "text-red-600"
-                                    : "text-green-600"
-                                }`}
+                                  className={`text-right ${
+                                    transaction.type === "Withdrawal"
+                                      ? "text-red-600"
+                                      : "text-green-600"
+                                  }`}
                                 >
                                   {transaction.type === "Withdrawal"
                                     ? "-"

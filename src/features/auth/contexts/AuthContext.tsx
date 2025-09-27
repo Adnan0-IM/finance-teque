@@ -5,21 +5,14 @@ import {
   useEffect,
   type ReactNode,
 } from "react";
-import axios from "axios";
-import {api, getApiErrorMessage} from "@/lib/api";
+import { api, getApiErrorMessage } from "@/lib/api";
+import { AxiosError } from "axios";
+import type { User } from "@/types/users";
 
-
-type User = {
-  id: string;
-  email: string;
-  name: string;
-  isVerified: boolean;
-  role: "investor" | "startup" | "admin" | "none";
-  phone?: string;
-} | null;
+const TOKEN_KEY = "accessToken";
 
 interface AuthContextType {
-  user: User;
+  user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (
@@ -38,40 +31,118 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Configure axios to include credentials
-axios.defaults.withCredentials = true;
-
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Check if user is already logged in on component mount
+  api.defaults.withCredentials = true;
+
+  // Helper to set auth header + persist token
+  const setAccessToken = (token: string | null) => {
+    if (token) {
+      localStorage.setItem(TOKEN_KEY, token);
+      api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    } else {
+      localStorage.removeItem(TOKEN_KEY);
+      delete api.defaults.headers.common.Authorization;
+    }
+  };
+
+  // Attempt refresh if needed and ensure /auth/me populates user
   useEffect(() => {
-    const checkUserLoggedIn = async () => {
+    const init = async () => {
+      setLoading(true);
       try {
-        const response = await api.get(`/auth/me`);
-        if (response.data.success) {
-          setUser(response.data.data);
+        const stored = localStorage.getItem(TOKEN_KEY);
+        if (stored) {
+          api.defaults.headers.common.Authorization = `Bearer ${stored}`;
+          try {
+            const me = await api.get(`/auth/me`);
+            if (me.data?.success) {
+              setUser(me.data.data);
+              return;
+            }
+          } catch {
+            // fall through to refresh
+          }
         }
-      } catch (error) {
-        console.error("Error checking user login:", error);
-        setUser(null);
+
+        // No token or token invalid: try refresh using httpOnly cookie
+        try {
+          const res = await api.post(`/auth/refresh`);
+          const { accessToken, user: refreshedUser } = res.data || {};
+          if (accessToken) setAccessToken(accessToken);
+          if (refreshedUser) {
+            setUser(refreshedUser);
+            return;
+          }
+
+          // If refresh didn’t include user, fetch /me
+          const me = await api.get(`/auth/me`);
+          if (me.data?.success) {
+            setUser(me.data.data);
+            return;
+          }
+        } catch {
+          // refresh failed; clear auth
+          setAccessToken(null);
+          setUser(null);
+        }
       } finally {
         setLoading(false);
       }
     };
-    checkUserLoggedIn();
+    init();
+  }, []);
+
+  // Axios interceptor: refresh once on 401 and retry
+  useEffect(() => {
+    const interceptor = api.interceptors.response.use(
+      (r) => r,
+      async (error: AxiosError) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const original = error.config as any;
+        if (
+          error.response?.status === 401 &&
+          !original?._retry &&
+          !original?.url?.includes("/auth/login") &&
+          !original?.url?.includes("/auth/refresh")
+        ) {
+          original._retry = true;
+          try {
+            const res = await api.post(`/auth/refresh`);
+            const { accessToken, user: refreshedUser } =
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (res as any).data || {};
+            if (accessToken) {
+              setAccessToken(accessToken);
+              original.headers = original.headers || {};
+              original.headers.Authorization = `Bearer ${accessToken}`;
+            }
+            if (refreshedUser) setUser(refreshedUser);
+            return api(original);
+          } catch {
+            setAccessToken(null);
+            setUser(null);
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+    return () => api.interceptors.response.eject(interceptor);
   }, []);
 
   // Login function
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      const response = await api.post(`/auth/login`, {
-        email,
-        password,
-      });
-      const { user } = response.data;
+      const response = await api.post(`/auth/login`, { email, password });
+      const { user, accessToken } = response.data;
+
+      if (accessToken) {
+        localStorage.setItem(TOKEN_KEY, accessToken);
+        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      }
       setUser(user);
     } catch (error) {
       const message = getApiErrorMessage(error);
@@ -108,7 +179,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const verifyEmail = async (email: string, code: string) => {
     setLoading(true);
     try {
-      await api.post(`/auth/verify-email`, { email, code });
+      const res = await api.post(`/auth/verify-email`, { email, code });
+      const { accessToken, user: verifiedUser } = res.data || {};
+      if (accessToken) {
+        localStorage.setItem(TOKEN_KEY, accessToken);
+        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      }
+      if (verifiedUser) setUser(verifiedUser);
     } catch (error) {
       const message = getApiErrorMessage(error);
       throw new Error(message || "Verification failed. Try again.");
@@ -126,7 +203,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const setRole = async (role: string) => {
+  const setRole = async (role: "investor" | "startup") => {
     setLoading(true);
     try {
       const response = await api.put(`/auth/setRole`, { role });
@@ -163,17 +240,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const message = response.data?.message || "Failed to delete account";
         throw new Error(message);
       }
+      // Clear local auth state after deletion
+      localStorage.removeItem(TOKEN_KEY);
+      delete api.defaults.headers.common.Authorization;
+      setUser(null);
     } catch (error) {
       const message = getApiErrorMessage(error);
-      throw new Error(message || "Failed to update profile");
+      throw new Error(message || "Failed to delete account");
     }
   };
 
   const logout = async () => {
     setLoading(true);
     try {
-      // Call logout endpoint to clear cookie
       await api.get(`/auth/logout`);
+      localStorage.removeItem(TOKEN_KEY);
+      delete api.defaults.headers.common.Authorization;
       setUser(null);
     } catch (error) {
       const message = getApiErrorMessage(error);

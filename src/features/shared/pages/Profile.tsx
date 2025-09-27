@@ -27,7 +27,6 @@ import {
   XCircle,
 } from "lucide-react";
 import { useAuth } from "@/features/auth/contexts/AuthContext";
-import { useInvestor, type StatusResponse } from "@/features/investors/contexts/InvestorContext";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   AlertDialog,
@@ -55,21 +54,12 @@ const updateSchema = z.object({
 type UpdateFormValues = z.infer<typeof updateSchema>;
 
 
-
 export function ProfilePage() {
   const navigate = useNavigate();
   const { user, updateMe, deleteMe, logout } = useAuth();
-  const { verificationStatus } = useInvestor();
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [response, setResponse] = useState<StatusResponse>({
-    success: false,
-    data: {
-      status: "pending",
-      isVerified: false,
-    },
-  });
 
   const form = useForm<UpdateFormValues>({
     resolver: zodResolver(updateSchema),
@@ -87,18 +77,14 @@ export function ProfilePage() {
     form.reset({ name: user?.name || "", phone: user?.phone || "" });
   }, [user, form]);
 
-  useEffect(() => {
-    const fetchVerificationStatus = async () => {
-      try {
-        const response = await verificationStatus();
-        setResponse(response);
-      } catch (error) {
-        console.error("Failed to fetch verification status:", error);
-      }
-    };
 
-    fetchVerificationStatus();
-  }, [verificationStatus]);
+  // Derive verification status
+  const verificationStatus: "approved" | "pending" | "rejected" =
+    (user?.verification?.status as "approved" | "pending" | "rejected") ||
+    (user?.isVerified ? "approved" : "pending");
+
+  const reviewedAt = user?.verification?.reviewedAt;
+  const submittedAt = user?.verification?.submittedAt;
 
   const getInitials = () => {
     if (!user?.name) return "U";
@@ -158,20 +144,20 @@ export function ProfilePage() {
                 </p>
                 <Badge
                   variant={
-                    response.data.status === "approved"
+                    verificationStatus === "approved"
                       ? "default"
-                      : response.data.status === "pending"
+                      : verificationStatus === "pending"
                       ? "secondary"
                       : "outline"
                   }
                   className="mt-1 font-medium"
                 >
-                  {response.data.status === "approved" ? (
+                  {verificationStatus === "approved" ? (
                     <span className="flex items-center">
                       <ShieldCheck className="w-3.5 h-3.5 mr-1" /> Verified
                       Account
                     </span>
-                  ) : response.data.status === "pending" ? (
+                  ) : verificationStatus === "pending" ? (
                     <span className="flex items-center">
                       <Clock className="w-3.5 h-3.5 mr-1" /> Verification
                       Pending
@@ -437,7 +423,7 @@ export function ProfilePage() {
             <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
               <div className="p-6 border-b border-gray-100">
                 <h3 className="text-lg font-semibold text-gray-800">
-                  Verification data.status
+                  Verification status
                 </h3>
               </div>
 
@@ -445,14 +431,14 @@ export function ProfilePage() {
                 <div
                   className={cn(
                     "rounded-lg border p-5",
-                    response.data.status === "approved"
+                    verificationStatus === "approved"
                       ? "bg-green-50 border-green-100"
-                      : response.data.status === "pending"
+                      : verificationStatus === "pending"
                       ? "bg-yellow-50 border-yellow-100"
                       : "bg-gray-50 border-gray-100"
                   )}
                 >
-                  {response.data.status === "approved" ? (
+                  {verificationStatus === "approved" ? (
                     <div className="flex items-start gap-4">
                       <div className="rounded-full bg-green-100 p-2 mt-1">
                         <CheckCircle2 className="h-6 w-6 text-green-600" />
@@ -488,12 +474,12 @@ export function ProfilePage() {
                         <div className="mt-4 text-xs text-green-600">
                           Verified on:{" "}
                           {new Date(
-                            response?.data?.reviewedAt || Date.now()
+                            reviewedAt || Date.now()
                           ).toLocaleDateString()}
                         </div>
                       </div>
                     </div>
-                  ) : response.data.status === "pending" ? (
+                  ) : verificationStatus === "pending" && user?.verification?.submittedAt ? (
                     <div className="flex items-start gap-4">
                       <div className="rounded-full bg-yellow-100 p-2 mt-1">
                         <Clock className="h-6 w-6 text-yellow-600" />
@@ -523,7 +509,7 @@ export function ProfilePage() {
                         <div className="mt-4 text-xs text-yellow-600">
                           Submitted on:{" "}
                           {new Date(
-                            response?.data?.submittedAt || Date.now()
+                            submittedAt || Date.now()
                           ).toLocaleDateString()}
                         </div>
                       </div>
