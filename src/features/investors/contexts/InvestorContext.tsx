@@ -1,27 +1,31 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  type ReactNode,
-} from "react";
-import axios from "axios";
-import { API_URL } from "@/utils/constants";
-import { getApiErrorMessage } from "@/utils/api";
+import { createContext, useContext, useState, type ReactNode } from "react";
+import { api, getApiErrorMessage } from "@/lib/api";
+import type { FormValues } from "../schema";
 
-
-
+export type StatusResponse = {
+  success: boolean;
+  data: {
+    status: "approved" | "pending" | "rejected" | "";
+    isVerified: boolean;
+    rejectionReason?: string;
+    reviewedAt?: string;
+    submittedAt?: string;
+  };
+};
 interface InvestorContextType {
   loading: boolean;
-  submitVerification: (verificationData: any) => Promise<void>;
-  verificationStatus: () => Promise<any>;
+  submitVerification: (verificationData: FormValues) => Promise<void>;
+  verificationStatus: () => Promise<StatusResponse>;
 }
 
-const InvestorContext = createContext<InvestorContextType | undefined>(undefined);
+const InvestorContext = createContext<InvestorContextType | undefined>(
+  undefined
+);
 
 export function InvestorProvider({ children }: { children: ReactNode }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const submitVerification = async (verificationData: any) => {
+  const submitVerification = async (verificationData: FormValues) => {
     const {
       identificationDocument,
       passportPhoto,
@@ -29,33 +33,27 @@ export function InvestorProvider({ children }: { children: ReactNode }) {
       ...textFields
     } = verificationData;
 
-    const submitTextfields = async (textFields: Record<string, unknown>) => {
-      // Send only text fields here (JSON)
-      const response = await axios.post(`${API_URL}/verification`, textFields);
+    const submitTextfields = async (fields: Record<string, unknown>) => {
+      const response = await api.post(`/verification`, fields);
       return response.data;
     };
+
     const submitDocs = async (
       identificationDocument: File,
       passportPhoto: File,
       utilityBill: File
     ) => {
-      // 2. Submit files
       const formData = new FormData();
       formData.append("identificationDocument", identificationDocument);
       formData.append("passportPhoto", passportPhoto);
       formData.append("utilityBill", utilityBill);
 
-      // Use axios directly for file upload
-      const response = await axios.post(
-        `${API_URL}/verification/documents`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-
+      const response = await api.post(`/verification/documents`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       return response.data;
     };
+
     try {
       setLoading(true);
       await submitTextfields(textFields);
@@ -75,7 +73,7 @@ export function InvestorProvider({ children }: { children: ReactNode }) {
   const verificationStatus = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}/verification/status`);
+      const response = await api.get(`/verification/status`);
       return response.data;
     } catch (error) {
       const message = getApiErrorMessage(error);
@@ -84,13 +82,10 @@ export function InvestorProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }
   };
+
   return (
     <InvestorContext.Provider
-      value={{
-        submitVerification,
-        verificationStatus,
-        loading,
-      }}
+      value={{ submitVerification, verificationStatus, loading }}
     >
       {children}
     </InvestorContext.Provider>

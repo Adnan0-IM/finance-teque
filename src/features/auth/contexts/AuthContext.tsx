@@ -6,15 +6,15 @@ import {
   type ReactNode,
 } from "react";
 import axios from "axios";
-import { API_URL } from "@/utils/constants";
-import { getApiErrorMessage } from "@/utils/api";
+import {api, getApiErrorMessage} from "@/lib/api";
+
 
 type User = {
   id: string;
   email: string;
   name: string;
   isVerified: boolean;
-  role?: "investor" | "startup" | "admin" | "none";
+  role: "investor" | "startup" | "admin" | "none";
   phone?: string;
 } | null;
 
@@ -29,10 +29,6 @@ interface AuthContextType {
     phone: string
   ) => Promise<void>;
   logout: () => Promise<void>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  submitVerification: (verificationData: any) => Promise<void>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  verificationStatus: () => Promise<any>;
   verifyEmail: (email: string, code: string) => Promise<void>;
   resendCode: (email: string) => Promise<void>;
   updateMe: (data: { name?: string; phone?: string }) => Promise<void>;
@@ -45,8 +41,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Configure axios to include credentials
 axios.defaults.withCredentials = true;
 
-
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>(null);
   const [loading, setLoading] = useState(true);
@@ -55,21 +49,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const checkUserLoggedIn = async () => {
       try {
-        // Fetch current user using cookie-based auth
-        const response = await axios.get(`${API_URL}/auth/me`);
-
+        const response = await api.get(`/auth/me`);
         if (response.data.success) {
           setUser(response.data.data);
         }
       } catch (error) {
-        console.error("Failed to restore authentication state:", error);
-        // ensure logged-out state
+        console.error("Error checking user login:", error);
         setUser(null);
       } finally {
         setLoading(false);
       }
     };
-
     checkUserLoggedIn();
   }, []);
 
@@ -77,16 +67,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/auth/login`, {
+      const response = await api.post(`/auth/login`, {
         email,
         password,
       });
-
       const { user } = response.data;
       setUser(user);
     } catch (error) {
       const message = getApiErrorMessage(error);
-      console.error("Login failed:", error);
       throw new Error(message || "Invalid email or password");
     } finally {
       setLoading(false);
@@ -101,19 +89,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   ) => {
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/auth/register`, {
+      const response = await api.post(`/auth/register`, {
         name,
         email,
         password,
         phone,
       });
-
       const { user } = response.data;
-
       setUser(user);
     } catch (error) {
       const message = getApiErrorMessage(error);
-      console.error("Registration failed:", error);
       throw new Error(message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
@@ -123,7 +108,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const verifyEmail = async (email: string, code: string) => {
     setLoading(true);
     try {
-      await axios.post(`${API_URL}/auth/verify-email`, { email, code });
+      await api.post(`/auth/verify-email`, { email, code });
     } catch (error) {
       const message = getApiErrorMessage(error);
       throw new Error(message || "Verification failed. Try again.");
@@ -134,7 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const resendCode = async (email: string) => {
     try {
-      await axios.post(`${API_URL}/auth/resend-code`, { email });
+      await api.post(`/auth/resend-code`, { email });
     } catch (error) {
       const message = getApiErrorMessage(error);
       throw new Error(message || "Failed to resend code. Try again.");
@@ -144,7 +129,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const setRole = async (role: string) => {
     setLoading(true);
     try {
-      const response = await axios.put(`${API_URL}/auth/setRole`, { role });
+      const response = await api.put(`/auth/setRole`, { role });
       if (response.data?.success && response.data?.data) {
         setUser(response.data.data);
       }
@@ -159,7 +144,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const updateMe = async (data: { name?: string; phone?: string }) => {
     setLoading(true);
     try {
-      const response = await axios.put(`${API_URL}/auth/updateMe`, data);
+      const response = await api.put(`/auth/updateMe`, data);
       if (response.data?.success && response.data?.data) {
         setUser(response.data.data);
       }
@@ -173,7 +158,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const deleteMe = async () => {
     try {
-      const response = await axios.delete(`${API_URL}/auth/deleteMe`);
+      const response = await api.delete(`/auth/deleteMe`);
       if (!response.data?.success) {
         const message = response.data?.message || "Failed to delete account";
         throw new Error(message);
@@ -188,7 +173,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       // Call logout endpoint to clear cookie
-      await axios.get(`${API_URL}/auth/logout`);
+      await api.get(`/auth/logout`);
       setUser(null);
     } catch (error) {
       const message = getApiErrorMessage(error);
@@ -197,64 +182,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }
   };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const submitVerification = async (verificationData: any) => {
-    const {
-      identificationDocument,
-      passportPhoto,
-      utilityBill,
-      ...textFields
-    } = verificationData;
 
-    const submitTextfields = async (textFields: Record<string, unknown>) => {
-      // Send only text fields here (JSON)
-      const response = await axios.post(`${API_URL}/verification`, textFields);
-      return response.data;
-    };
-    const submitDocs = async (
-      identificationDocument: File,
-      passportPhoto: File,
-      utilityBill: File
-    ) => {
-      // 2. Submit files
-      const formData = new FormData();
-      formData.append("identificationDocument", identificationDocument);
-      formData.append("passportPhoto", passportPhoto);
-      formData.append("utilityBill", utilityBill);
-
-      // Use axios directly for file upload
-      const response = await axios.post(
-        `${API_URL}/verification/documents`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-
-      return response.data;
-    };
-    try {
-      await submitTextfields(textFields);
-      await submitDocs(
-        identificationDocument as File,
-        passportPhoto as File,
-        utilityBill as File
-      );
-    } catch (error) {
-      const message = getApiErrorMessage(error);
-      throw new Error(message || "Failed to submit verification data");
-    }
-  };
-
-  const verificationStatus = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/verification/status`);
-      return response.data;
-    } catch (error) {
-      const message = getApiErrorMessage(error);
-      throw new Error(message || "Failed to fetch verification status");
-    }
-  };
   return (
     <AuthContext.Provider
       value={{
@@ -263,8 +191,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         register,
         logout,
-        submitVerification,
-        verificationStatus,
         verifyEmail,
         resendCode,
         updateMe,

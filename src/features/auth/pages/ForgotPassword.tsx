@@ -17,9 +17,9 @@ import { Input } from "@/components/ui/input";
 import { MotionButton } from "@/components/animations/MotionizedButton";
 import { ArrowRight } from "lucide-react";
 import axios from "axios";
-import { API_URL } from "@/utils/constants";
 import { FadeIn } from "@/components/animations/FadeIn";
 import PageTransition from "@/components/animations/PageTransition";
+import { API_URL } from "@/lib/api";
 
 const schema = z.object({
   email: z.string().email("Please enter a valid email address"),

@@ -16,10 +16,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { MotionButton } from "@/components/animations/MotionizedButton";
 import { ArrowRight, EyeIcon, EyeOff } from "lucide-react";
-import { API_URL } from "@/utils/constants";
 import axios from "axios";
 import { FadeIn } from "@/components/animations/FadeIn";
 import PageTransition from "@/components/animations/PageTransition";
+import { API_URL } from "@/lib/api";
 
 const resetSchema = z
   .object({
