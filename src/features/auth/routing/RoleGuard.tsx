@@ -1,37 +1,30 @@
-import { Navigate } from "react-router";
-import { useAuth } from "@/features/auth/contexts/AuthContext";
-import type { ReactNode } from "react";
+import { Navigate, useLocation } from "react-router";
+import type{ PropsWithChildren } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 type Role = "investor" | "startup" | "admin" | "none";
-
-const toRole = (r: unknown): Role => {
-  const v = String(r ?? "")
-    .trim()
-    .toLowerCase();
-  if (v === "admin") return "admin";
-  if (v === "investor") return "investor";
-  if (v === "startup" || v === "founder") return "startup";
-  return "none";
-};
-
 export default function RoleGuard({
   allow,
   children,
-}: {
-  allow: Role[];
-  children: ReactNode;
-}) {
+}: PropsWithChildren<{ allow: Role[] }>) {
   const { user, loading } = useAuth();
+  const location = useLocation();
 
-  // Wait for auth to resolve
   if (loading) return null;
 
+  if (!user) return <Navigate to="/login" replace state={{ from: location }} />;
 
-  const role = toRole(user?.role);
-
-  if (!allow.includes(role)) {
-    if (role === "none") return <Navigate to="/choose-profile" replace />;
-    return <Navigate to="/" replace />;
+  if (!allow.includes(user.role as Role)) {
+    if (user.role === "admin") {
+      // Admins go to admin dashboard
+      return <Navigate to="/admin" replace />;
+    }
+    // If no role chosen, push to chooser
+    if (!user.role || user.role === "none") {
+      return <Navigate to="/choose-profile" replace />;
+    }
+    // Otherwise block
+    return <Navigate to="/dashboard" replace />;
   }
 
   return <>{children}</>;

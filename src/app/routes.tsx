@@ -1,5 +1,6 @@
 import ProtectedRoute from "@/features/auth/routing/ProtectedRoute";
 import RoleGuard from "@/features/auth/routing/RoleGuard";
+import OnboardingGuard from "@/features/auth/routing/OnboardingGuard";
 import { Route, Routes } from "react-router";
 import Loader from "../components/feedback/Loader";
 import { AnimatePresence, motion } from "framer-motion";
@@ -7,7 +8,7 @@ import { Suspense, lazy } from "react";
 import { Toaster } from "sonner";
 import StartupApplicationPage from "../features/startup/pages/StartupApplication";
 import ProfileChoicePage from "../features/shared/pages/ChooseProfile-Role";
-import AdminDashboard from "../features/admin/AdminDashboard";
+import AdminDashboard from "../features/admin/pages/AdminDashboard";
 import NotFoundPage from "@/components/feedback/NotFound";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
@@ -184,23 +185,15 @@ export default function AppRoutes() {
               </Suspense>
             }
           />
-          <Route
-            path="/verification-success"
-            element={
-              <ProtectedRoute>
-                <Suspense fallback={<Loader />}>
-                  <VerificationSuccessPage />
-                </Suspense>
-              </ProtectedRoute>
-            }
-          />
 
           {/* Protected Routes  */}
           <Route
             path="/choose-profile"
             element={
               <ProtectedRoute>
-                <ProfileChoicePage />
+                <OnboardingGuard>
+                  <ProfileChoicePage />
+                </OnboardingGuard>
               </ProtectedRoute>
             }
           />
@@ -210,9 +203,26 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute>
                 <RoleGuard allow={["investor"]}>
-                  <Suspense fallback={<Loader />}>
-                    <InvestorVerificationPage />
-                  </Suspense>
+                  <OnboardingGuard>
+                    <Suspense fallback={<Loader />}>
+                      <InvestorVerificationPage />
+                    </Suspense>
+                  </OnboardingGuard>
+                </RoleGuard>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/verification-success"
+            element={
+              <ProtectedRoute>
+                <RoleGuard allow={["investor"]}>
+                  <OnboardingGuard>
+                    <Suspense fallback={<Loader />}>
+                      <VerificationSuccessPage />
+                    </Suspense>
+                  </OnboardingGuard>
                 </RoleGuard>
               </ProtectedRoute>
             }
@@ -223,21 +233,24 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute>
                 <RoleGuard allow={["startup"]}>
-                  <StartupApplicationPage />
+                  <OnboardingGuard>
+                    <StartupApplicationPage />
+                  </OnboardingGuard>
                 </RoleGuard>
               </ProtectedRoute>
             }
           />
 
-          {/* Both investor and business users */}
           <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
                 <RoleGuard allow={["investor", "startup"]}>
-                  <Suspense fallback={<Loader />}>
-                    <DashboardPage />
-                  </Suspense>
+                  <OnboardingGuard>
+                    <Suspense fallback={<Loader />}>
+                      <DashboardPage />
+                    </Suspense>
+                  </OnboardingGuard>
                 </RoleGuard>
               </ProtectedRoute>
             }
@@ -247,7 +260,7 @@ export default function AppRoutes() {
             path="/profile"
             element={
               <ProtectedRoute>
-                <RoleGuard allow={["investor", "startup", "none"]}>
+                <RoleGuard allow={["investor", "startup", "admin"]}>
                   <Suspense fallback={<Loader />}>
                     <UpdateProfilePage />
                   </Suspense>
