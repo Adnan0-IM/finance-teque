@@ -1,29 +1,31 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { api, getApiErrorMessage } from "@/lib/api";
 import type { FormValues } from "../schema";
+import type { verificationStatusResponse } from "@/types/verification";
 
-export type StatusResponse = {
-  success: boolean;
-  data: {
-    status: "approved" | "pending" | "rejected" | "";
-    isVerified: boolean;
-    rejectionReason?: string;
-    reviewedAt?: string;
-    submittedAt?: string;
-  };
-};
 interface InvestorContextType {
   loading: boolean;
   submitVerification: (verificationData: FormValues) => Promise<void>;
-  verificationStatus: () => Promise<StatusResponse>;
+  verificationStatus: () => Promise<verificationStatusResponse>;
+  verificationSubmitted: boolean
+  verStatus: verStatus | null
 }
 
 const InvestorContext = createContext<InvestorContextType | undefined>(
   undefined
 );
+type verStatus = {
+    status: "approved" | "pending" | "rejected" | "";
+    isVerified: boolean;
+    rejectionReason?: string;
+    reviewedAt?: string;
+    submittedAt?: string;
+};
 
 export function InvestorProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
+  const [verStatus, setVerStatus] = useState<verStatus | null>(null);
+  const [verificationSubmitted, setVerificationSubmitted] = useState(false)
 
   const submitVerification = async (verificationData: FormValues) => {
     const {
@@ -62,6 +64,7 @@ export function InvestorProvider({ children }: { children: ReactNode }) {
         passportPhoto as File,
         utilityBill as File
       );
+      setVerificationSubmitted(true)
     } catch (error) {
       const message = getApiErrorMessage(error);
       throw new Error(message || "Failed to submit verification data");
@@ -74,6 +77,7 @@ export function InvestorProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       const response = await api.get(`/verification/status`);
+      setVerStatus(response.data.status)
       return response.data;
     } catch (error) {
       const message = getApiErrorMessage(error);
@@ -85,7 +89,7 @@ export function InvestorProvider({ children }: { children: ReactNode }) {
 
   return (
     <InvestorContext.Provider
-      value={{ submitVerification, verificationStatus, loading }}
+      value={{ submitVerification, verificationStatus, loading, verificationSubmitted, verStatus }}
     >
       {children}
     </InvestorContext.Provider>

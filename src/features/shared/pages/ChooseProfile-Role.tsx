@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router";
 import {
   ArrowRight,
@@ -21,17 +21,7 @@ export default function ProfileChoicePage() {
   const { user, setRole } = useAuth();
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/login", { replace: true });
-      return;
-    }
-    if (user.role === "investor") {
-      navigate("/investor-verification", { replace: true });
-    } else if (user.role === "startup") {
-      navigate("/apply-for-funding", { replace: true });
-    }
-  }, [user, navigate]);
+  
 
   // Avoid flicker while checking auth/role
   if (!user) return null;

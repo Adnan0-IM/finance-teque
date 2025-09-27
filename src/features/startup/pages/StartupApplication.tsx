@@ -1,17 +1,11 @@
 import { FadeIn } from "@/components/animations/FadeIn";
 import PageTransition from "@/components/animations/PageTransition";
 import OnboardingLayout from "@/components/layout/OnboardingLayout";
-import { useAuth } from "@/features/auth/contexts/AuthContext";
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
+;
 
 export default function StartupApplicationPage() {
-  const { user } = useAuth();
 
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (user?.isVerified) navigate("/dashboard");
-  }, [user, navigate]);
+
 
   return (
     <OnboardingLayout
