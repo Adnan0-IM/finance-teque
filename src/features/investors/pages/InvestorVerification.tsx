@@ -33,8 +33,6 @@ export function InvestorVerificationPage() {
   const {submitVerification } = useInvestor();
   const [isSaving, setIsSaving] = useState(false);
 
-
-
   const [savedFormData, setSavedFormData] = useLocalStorage<
     Partial<FormValues>
   >("investor-verification-form", null);
