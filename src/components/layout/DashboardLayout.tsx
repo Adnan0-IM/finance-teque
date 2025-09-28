@@ -12,6 +12,9 @@ import {
   LogOut,
   Bell,
   Wallet,
+  User2,
+  Verified
+  
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -32,6 +35,15 @@ const DashboardNavigation = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const navLinksAdmin = [
+    
+    { title: "Dashboard", path: "/admin", icon: Home },
+    { title: "Verification", path: "/admin/verification", icon: Verified },
+    { title: "Manage Users", path: "/admin/users", icon: User2 },
+    { title: "Documents", path: "/admin/documents", icon: FileText },
+    { title: "Settings", path: "/admin/settings", icon: Settings },
+  ]
+
   const navLinksInvestor = [
     { title: "Dashboard", path: "/dashboard", icon: Home },
     { title: "Investments", path: "/dashboard/investments", icon: BarChart3 },
@@ -46,10 +58,10 @@ const DashboardNavigation = ({ children }: { children: ReactNode }) => {
     { title: "Documents", path: "/dashboard/documents", icon: FileText },
     { title: "Settings", path: "/dashboard/settings", icon: Settings },
   ];
-  let navLinks = navLinksInvestor;
+  let navLinks = navLinksAdmin;
   if (user?.role === "startup") {
     navLinks = navLinksFundRaiser;
-  } else {
+  } else if (user?.role === "investor"){
     navLinks = navLinksInvestor;
   }
 
@@ -102,11 +114,11 @@ const DashboardNavigation = ({ children }: { children: ReactNode }) => {
                 <NavLink
                   key={item.title}
                   to={item.path}
-                  className={({ isActive }) =>
+                  className={()=>
                     `group flex items-center px-3 py-3 text-base font-medium rounded-md ${
-                      isActive
+                     location.pathname === item.path
                         ? "bg-primary text-white"
-                        : "text-gray-700 hover:bg-gray-100"
+                        : "text-gray-700 hover:bg-brand-light"
                     }`
                   }
                 >
@@ -271,14 +283,14 @@ const DashboardNavigation = ({ children }: { children: ReactNode }) => {
                     onClick={() => navigate("/profile")}
                     className="cursor-pointer"
                   >
-                    <User className="mr-2 size-5" />
+                    <User className="mr-2 size-5 hover:text-white" />
                     <span className="text-base">Profile</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => navigate("/dashboard/settings")}
                     className="cursor-pointer"
                   >
-                    <Settings className="mr-2 size-5" />
+                    <Settings className="mr-2 size-5 hover:text-white" />
                     <span className="text-base">Settings</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -286,7 +298,7 @@ const DashboardNavigation = ({ children }: { children: ReactNode }) => {
                     onClick={handleLogout}
                     className="text-red-600 cursor-pointer"
                   >
-                    <LogOut className="mr-2 size-5" />
+                    <LogOut className="mr-2 size-5 hover:text-white" />
                     <span className="text-base">Log out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
