@@ -12,14 +12,12 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
   const kycStatus = useMemo<"approved" | "pending" | "rejected" | null>(() => {
     if (!user) return null;
     return (
-      (user.verification?.status as "approved" | "pending" | "rejected") ??
-      (user.isVerified ? "approved" : "pending")
+      (user.verification?.status as "approved" | "pending" | "rejected") 
     );
   }, [user]);
 
   const submitted =
-    !!user?.verification?.submittedAt ||
-    user?.verification?.status === "pending";
+    !!user?.verification?.submittedAt 
 
   if (loading) return null;
 
