@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -18,13 +18,19 @@ import { ArrowRight } from "lucide-react";
 import { MotionButton } from "@/components/animations/MotionizedButton";
 import { FadeIn } from "@/components/animations/FadeIn";
 import PageTransition from "@/components/animations/PageTransition";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 const verifySchema = z.object({
   code: z
     .string()
     .min(6, "Enter the 6-digit code")
     .max(6, "Enter the 6-digit code")
-    .regex(/^\d{6}$/g, "Code must be 6 digits"),
+    .regex(/^\d{6}$/, "Code must be 6 digits"), // removed the global 'g' flag
 });
 
 type VerifyFormValues = z.infer<typeof verifySchema>;
@@ -84,150 +90,6 @@ export default function VerifyEmailPage() {
     }
   };
 
-  // A small segmented OTP input component
-  function OTPCodeInput({
-    value,
-    onChange,
-    disabled,
-    length = 6,
-    hasError,
-  }: {
-    value: string;
-    onChange: (val: string) => void;
-    disabled?: boolean;
-    length?: number;
-    hasError?: boolean;
-  }) {
-    const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
-    const [digits, setDigits] = useState<string[]>(
-      Array.from({ length }, (_, i) => value[i] ?? "")
-    );
-
-    useEffect(() => {
-      // keep local state in sync with RHF field value (e.g. on reset)
-      setDigits(Array.from({ length }, (_, i) => value[i] ?? ""));
-    }, [value, length]);
-
-    const focusIndex = (i: number) => {
-      const el = inputsRef.current[i];
-      if (el) el.focus();
-    };
-
-    const commit = (next: string[]) => {
-      setDigits(next);
-      onChange(next.join(""));
-    };
-
-    const handleChange = (i: number, raw: string) => {
-      const onlyDigits = raw.replace(/\D+/g, "");
-      if (!onlyDigits) {
-        // clear current
-        const next = [...digits];
-        next[i] = "";
-        commit(next);
-        return;
-      }
-
-      // If pasted multiple digits, spread them across cells
-      const next = [...digits];
-      let idx = i;
-      for (const ch of onlyDigits) {
-        if (idx >= length) break;
-        next[idx] = ch;
-        idx++;
-      }
-      commit(next);
-
-      // Move focus to next empty cell (or last filled)
-      const nextIdx =
-        i + onlyDigits.length < length ? i + onlyDigits.length : length - 1;
-      focusIndex(nextIdx);
-    };
-
-    const handleKeyDown = (
-      i: number,
-      e: React.KeyboardEvent<HTMLInputElement>
-    ) => {
-      if (e.key === "Backspace") {
-        e.preventDefault();
-        const next = [...digits];
-        if (next[i]) {
-          next[i] = "";
-          commit(next);
-        } else if (i > 0) {
-          next[i - 1] = "";
-          commit(next);
-          focusIndex(i - 1);
-        }
-      } else if (e.key === "ArrowLeft" && i > 0) {
-        e.preventDefault();
-        focusIndex(i - 1);
-      } else if (e.key === "ArrowRight" && i < length - 1) {
-        e.preventDefault();
-        focusIndex(i + 1);
-      } else if (e.key === "Home") {
-        e.preventDefault();
-        focusIndex(0);
-      } else if (e.key === "End") {
-        e.preventDefault();
-        focusIndex(length - 1);
-      }
-    };
-
-    const handlePaste = (
-      i: number,
-      e: React.ClipboardEvent<HTMLInputElement>
-    ) => {
-      e.preventDefault();
-      const text = e.clipboardData.getData("text").replace(/\D+/g, "");
-      if (!text) return;
-      const next = [...digits];
-      let idx = i;
-      for (const ch of text) {
-        if (idx >= length) break;
-        next[idx] = ch;
-        idx++;
-      }
-      commit(next);
-      focusIndex(Math.min(idx, length - 1));
-    };
-
-    const base =
-      "h-12 w-12 text-center text-2xl font-mono rounded-md border bg-white shadow-sm " +
-      "transition-all focus:outline-none tracking-widest placeholder:opacity-60 " +
-      "disabled:opacity-60 disabled:cursor-not-allowed";
-    const ring = hasError
-      ? "border-red-400 focus:ring-2 focus:ring-red-200 focus:border-red-500"
-      : "border-gray-300 focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary";
-
-    return (
-      <div className="grid grid-cols-6 gap-2 justify-center">
-        {Array.from({ length }).map((_, i) => (
-          <input
-            key={i}
-            ref={(el) => {
-              inputsRef.current[i] = el;
-            }}
-            type="text"
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            pattern="\d*"
-            aria-label={`Digit ${i + 1} of ${length}`}
-            aria-invalid={hasError || undefined}
-            className={`${base} ${ring}`}
-            value={digits[i] ?? ""}
-            onChange={(e) => handleChange(i, e.target.value)}
-            onKeyDown={(e) => handleKeyDown(i, e)}
-            onPaste={(e) => handlePaste(i, e)}
-            onFocus={(e) => e.currentTarget.select()}
-            disabled={disabled}
-            maxLength={1}
-          />
-        ))}
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <PageTransition>
@@ -248,8 +110,6 @@ export default function VerifyEmailPage() {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-4"
                 >
-                  {/* Email is derived from context or URL params; not editable here */}
-
                   <FormField
                     control={form.control}
                     name="code"
@@ -259,29 +119,103 @@ export default function VerifyEmailPage() {
                           6-digit code
                         </FormLabel>
                         <FormControl>
-                          {/* Segmented OTP input with auto-advance + paste */}
-                          <OTPCodeInput
-                            value={field.value}
-                            onChange={field.onChange}
-                            disabled={isLoading || !email}
-                            hasError={!!form.formState.errors.code}
-                          />
+                          <div className="flex justify-center">
+                            <InputOTP
+                              maxLength={6}
+                              value={field.value}
+                              onChange={field.onChange}
+                              disabled={isLoading || !email}
+                              onComplete={() => form.handleSubmit(onSubmit)()}
+                              inputMode="numeric" // mobile keypad
+                              pattern="\d*" // numeric only
+                              autoFocus // focus first slot
+                              aria-label="Verification code"
+                            >
+                              <InputOTPGroup className="gap-2">
+                                <InputOTPSlot
+                                  index={0}
+                                  className={`w-12 h-14 text-xl font-semibold rounded-lg border-2 transition-all focus-visible:ring-2 ${
+                                    form.formState.errors.code
+                                      ? "border-red-500 focus-visible:ring-red-500/50"
+                                      : "border-gray-300 focus-visible:border-brand-primary focus-visible:ring-brand-primary/20"
+                                  }`}
+                                />
+                                <InputOTPSlot
+                                  index={1}
+                                  className={`w-12 h-14 text-xl font-semibold rounded-lg border-2 transition-all focus-visible:ring-2 ${
+                                    form.formState.errors.code
+                                      ? "border-red-500 focus-visible:ring-red-500/50"
+                                      : "border-gray-300 focus-visible:border-brand-primary focus-visible:ring-brand-primary/20"
+                                  }`}
+                                />
+                                <InputOTPSlot
+                                  index={2}
+                                  className={`w-12 h-14 text-xl font-semibold rounded-lg border-2 transition-all focus-visible:ring-2 ${
+                                    form.formState.errors.code
+                                      ? "border-red-500 focus-visible:ring-red-500/50"
+                                      : "border-gray-300 focus-visible:border-brand-primary focus-visible:ring-brand-primary/20"
+                                  }`}
+                                />
+                              </InputOTPGroup>
+
+                              <InputOTPSeparator className="w-4 sm:w-6 sm:mx-2 flex justify-center">
+                                <div className="w-2 h-0.5 bg-gray-400 rounded-full"></div>
+                              </InputOTPSeparator>
+
+                              <InputOTPGroup className="gap-2">
+                                <InputOTPSlot
+                                  index={3}
+                                  className={`w-12 h-14 text-xl font-semibold rounded-lg border-2 transition-all focus-visible:ring-2 ${
+                                    form.formState.errors.code
+                                      ? "border-red-500 focus-visible:ring-red-500/50"
+                                      : "border-gray-300 focus-visible:border-brand-primary focus-visible:ring-brand-primary/20"
+                                  }`}
+                                />
+                                <InputOTPSlot
+                                  index={4}
+                                  className={`w-12 h-14 text-xl font-semibold rounded-lg border-2 transition-all focus-visible:ring-2 ${
+                                    form.formState.errors.code
+                                      ? "border-red-500 focus-visible:ring-red-500/50"
+                                      : "border-gray-300 focus-visible:border-brand-primary focus-visible:ring-brand-primary/20"
+                                  }`}
+                                />
+                                <InputOTPSlot
+                                  index={5}
+                                  className={`w-12 h-14 text-xl font-semibold rounded-lg border-2 transition-all focus-visible:ring-2 ${
+                                    form.formState.errors.code
+                                      ? "border-red-500 focus-visible:ring-red-500/50"
+                                      : "border-gray-300 focus-visible:border-brand-primary focus-visible:ring-brand-primary/20"
+                                  }`}
+                                />
+                              </InputOTPGroup>
+                            </InputOTP>
+                          </div>
                         </FormControl>
-                        <FormMessage className="text-xs text-destructive" />
+                        <FormMessage className="text-xs md:text-sm text-destructive text-center" />
                       </FormItem>
                     )}
                   />
 
                   <MotionButton
-                    whileHover={{ scale: 1.05, y: -1 }}
-                    whileTap={{ scale: 0.98, y: 0 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="w-full h-11 py-5 text-base bg-brand-primary hover:bg-brand-primary-dark focus:ring-2 focus:ring-brand-primary/50 transition-all duration-200"
-                    disabled={isLoading || !email}
+                    className="w-full h-11 text-base bg-brand-primary hover:bg-brand-primary-dark disabled:opacity-50 transition-all duration-200"
+                    disabled={
+                      isLoading || !email || form.watch("code").length < 6
+                    }
                   >
-                    {isLoading ? "Verifying..." : "Verify email"}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    {isLoading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                        Verifying...
+                      </>
+                    ) : (
+                      <>
+                        Verify Code
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </>
+                    )}
                   </MotionButton>
                 </form>
               </Form>
