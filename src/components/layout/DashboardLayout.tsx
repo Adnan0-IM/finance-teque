@@ -13,8 +13,7 @@ import {
   Bell,
   Wallet,
   User2,
-  Verified
-  
+  Verified,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -36,13 +35,10 @@ const DashboardNavigation = ({ children }: { children: ReactNode }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinksAdmin = [
-    
     { title: "Dashboard", path: "/admin", icon: Home },
     { title: "Verification", path: "/admin/verification", icon: Verified },
     { title: "Manage Users", path: "/admin/users", icon: User2 },
-    { title: "Documents", path: "/admin/documents", icon: FileText },
-    { title: "Settings", path: "/admin/settings", icon: Settings },
-  ]
+  ];
 
   const navLinksInvestor = [
     { title: "Dashboard", path: "/dashboard", icon: Home },
@@ -61,7 +57,7 @@ const DashboardNavigation = ({ children }: { children: ReactNode }) => {
   let navLinks = navLinksAdmin;
   if (user?.role === "startup") {
     navLinks = navLinksFundRaiser;
-  } else if (user?.role === "investor"){
+  } else if (user?.role === "investor") {
     navLinks = navLinksInvestor;
   }
 
@@ -114,9 +110,9 @@ const DashboardNavigation = ({ children }: { children: ReactNode }) => {
                 <NavLink
                   key={item.title}
                   to={item.path}
-                  className={()=>
+                  className={() =>
                     `group flex items-center px-3 py-3 text-base font-medium rounded-md ${
-                     location.pathname === item.path
+                      location.pathname === item.path
                         ? "bg-primary text-white"
                         : "text-gray-700 hover:bg-brand-light"
                     }`
@@ -179,9 +175,9 @@ const DashboardNavigation = ({ children }: { children: ReactNode }) => {
                       key={item.title}
                       to={item.path}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={({ isActive }) =>
+                      className={() =>
                         `group flex items-center px-3 py-3 text-lg font-medium rounded-md ${
-                          isActive
+                          location.pathname === item.path
                             ? "bg-primary text-white"
                             : "text-gray-700 hover:bg-gray-100"
                         }`
