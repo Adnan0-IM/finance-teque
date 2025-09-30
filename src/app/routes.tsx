@@ -10,6 +10,9 @@ import StartupApplicationPage from "../features/startup/pages/StartupApplication
 import ProfileChoicePage from "../features/shared/pages/ChooseProfile-Role";
 import AdminDashboard from "../features/admin/pages/AdminDashboard";
 import NotFoundPage from "@/components/feedback/NotFound";
+import Users from "@/features/admin/pages/Users";
+import Verification from "@/features/admin/pages/Verification";
+import UserVerificationDetails from "@/features/admin/pages/UserVerificationDetails";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const AboutPage = lazy(() =>
@@ -275,6 +278,32 @@ export default function AppRoutes() {
               <ProtectedRoute>
                 <RoleGuard allow={["admin"]}>
                   <AdminDashboard />
+                </RoleGuard>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/verification"
+            element={
+              <ProtectedRoute>
+                <RoleGuard allow={["admin"]}>
+                  <Verification />
+                </RoleGuard>
+              </ProtectedRoute>
+            }
+          />
+              <Route path="/admin/verification/:userId" element={  <ProtectedRoute>
+                <RoleGuard allow={["admin"]}>
+                  <UserVerificationDetails />
+                </RoleGuard>
+              </ProtectedRoute>} />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute>
+                <RoleGuard allow={["admin"]}>
+                  <Users />
                 </RoleGuard>
               </ProtectedRoute>
             }
