@@ -29,6 +29,7 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
 
     if (user.role === "investor") {
       if (kycStatus === "approved" || user.isVerified) return "/dashboard";
+      if (kycStatus === "rejected") return "/investor-verification";
       if (submitted) return "/verification-success";
       return "/investor-verification";
     }
@@ -64,11 +65,19 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
       return <>{children}</>;
     }
 
-    // Not approved: direct to appropriate step
+    // Rejected -> force back to verification form
+    if (kycStatus === "rejected") {
+      if (!onVerify) return <Navigate to="/investor-verification" replace />;
+      return <>{children}</>;
+    }
+
+    // Pending/submitted -> success holding page
     if (submitted) {
       if (!onSuccess) return <Navigate to="/verification-success" replace />;
       return <>{children}</>;
     }
+
+    // No submission yet -> verification form
     if (!onVerify) return <Navigate to="/investor-verification" replace />;
     return <>{children}</>;
   }

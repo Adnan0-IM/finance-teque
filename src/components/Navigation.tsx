@@ -46,6 +46,13 @@ const Navigation = () => {
       if (kycStatus === "approved" || user.isVerified) {
         return { to: "/dashboard", label: "Dashboard", arrow: true };
       }
+      if (hasSubmitted && kycStatus === "rejected") {
+        return {
+          to: "/investor-verification",
+          label: "Submit Your Verification",
+          arrow: false,
+        };
+      }
       if (hasSubmitted) {
         return {
           to: "/verification-success",
