@@ -1,17 +1,19 @@
 import { ArrowRight, Menu, X } from "lucide-react";
 
 import logo from "../assets/logo.png";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { NavLink } from "react-router";
 import InvestorRegistrationButton from "./InvestorRegistrationButton";
 import { useAuth } from "@/features/auth/contexts/AuthContext";
 import MobileMenuMotion from "./animations/MobileMenuMotion";
 import { MotionButton } from "./animations/MotionizedButton";
 import { useInvestor } from "@/features/investors/contexts/InvestorContext";
+
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useAuth();
   const { verificationSubmitted } = useInvestor();
+
   const navLinks = [
     { title: "About", path: "/about" },
     { title: "Business Investment", path: "/asset-financing" },
@@ -19,6 +21,58 @@ const Navigation = () => {
     { title: "Team", path: "/team" },
     { title: "Contact", path: "/contact" },
   ];
+
+  // Build a single CTA for both desktop and mobile
+  const cta = useMemo(() => {
+    if (!user) return null;
+
+    const hasSubmitted =
+      verificationSubmitted || Boolean(user?.verification?.submittedAt);
+    const kycStatus = user?.verification?.status as
+      | "approved"
+      | "pending"
+      | "rejected"
+      | undefined;
+
+    if (user.role === "admin") {
+      return { to: "/admin", label: "Admin Dashboard", arrow: true };
+    }
+
+    if (!user.role || user.role === "none") {
+      return { to: "/choose-profile", label: "Choose Profile", arrow: true };
+    }
+
+    if (user.role === "investor") {
+      if (kycStatus === "approved" || user.isVerified) {
+        return { to: "/dashboard", label: "Dashboard", arrow: true };
+      }
+      if (hasSubmitted) {
+        return {
+          to: "/verification-success",
+          label: "Verification is in review",
+          arrow: false,
+        };
+      }
+      return {
+        to: "/investor-verification",
+        label: "Start Investing",
+        arrow: true,
+      };
+    }
+
+    if (user.role === "startup") {
+      if (user.isVerified) {
+        return { to: "/dashboard", label: "Dashboard", arrow: true };
+      }
+      return {
+        to: "/apply-for-funding",
+        label: "Apply for funding",
+        arrow: true,
+      };
+    }
+
+    return { to: "/dashboard", label: "Dashboard", arrow: true };
+  }, [user, verificationSubmitted]);
 
   return (
     <>
@@ -64,19 +118,12 @@ const Navigation = () => {
                 </NavLink>
               ))}
             </div>
-            {user ? (
-              <NavLink to="/dashboard">
-                <MotionButton
-                  
-                  className="hidden lg:inline-flex items-center text-white bg-brand-primary hover:bg-brand-primary-dark px-4 py-2 rounded-md text-lg"
-                >
-                  {!verificationSubmitted && !user.isVerified && user.role !== "admin"
-                    ? "Start Investing"
-                    : user.role !== "admin" && "Your verification is in review"}
-                  {!verificationSubmitted && !user.isVerified && user.role !== "admin" && <ArrowRight />}
-                  {user.isVerified && "Dashboard"}
 
-                  {user.isVerified && <ArrowRight />}
+            {user ? (
+              <NavLink to={cta?.to ?? "/dashboard"}>
+                <MotionButton className="hidden lg:inline-flex items-center text-white bg-brand-primary hover:bg-brand-primary-dark px-4 py-2 rounded-md text-lg">
+                  {cta?.label}
+                  {cta?.arrow && <ArrowRight />}
                 </MotionButton>
               </NavLink>
             ) : (
@@ -165,23 +212,15 @@ const Navigation = () => {
                 </div>
 
                 {/* Mobile Get Started Button */}
-
                 <div className="p-6 border-t border-border">
                   {user ? (
                     <NavLink
-                      to="/dashboard"
+                      to={cta?.to ?? "/dashboard"}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      <MotionButton className="w-full  text-center text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white rounded-md">
-                        {!verificationSubmitted && !user.isVerified && user.role !== "admin"
-                          ? "Start Investing"
-                          : user.role !== "admin" && "Your verification is in review"}
-                        {!verificationSubmitted && !user.isVerified && user.role !== "admin" && (
-                          <ArrowRight />
-                        )}
-
-                        {user.isVerified && "Dashboard"}
-                        {user.isVerified && <ArrowRight />}
+                      <MotionButton className="w-full text-center text-lg py-6 cursor-pointer bg-brand-primary hover:bg-brand-primary-dark text-white rounded-md">
+                        {cta?.label}
+                        {cta?.arrow && <ArrowRight />}
                       </MotionButton>
                     </NavLink>
                   ) : (
