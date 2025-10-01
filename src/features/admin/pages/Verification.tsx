@@ -6,7 +6,7 @@ import VerificationToolbar from "../components/verification/Toolbar";
 import VerificationTable from "../components/verification/Table";
 import Pagination from "../components/verification/Pagination";
 import RejectDialog from "../components/verification/RejectDialog";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate,  } from "react-router";
 import type { User } from "@/types/users";
 
 
@@ -25,6 +25,11 @@ const Verification = () => {
 
   const navigate = useNavigate();
 
+const location = useLocation()
+const value = location.search.replace("?", "").replace("role=", "")
+useEffect(() => {
+  setRole(value as User["role"])
+},[value])
   // Debounce search -> q
   useEffect(() => {
     const id = setTimeout(() => {
@@ -48,8 +53,9 @@ const Verification = () => {
   const users = data?.users ?? [];
   const pagination = data?.pagination;
 
-  const filteredUsers = users.filter(user => user.role !== "admin")
-  const filtered = filteredUsers.filter(user => user.role === role)
+  const filteredUsersWithoutAdmin = users.filter(users => users.role !== "admin")
+  const filteredUsersByRole = filteredUsersWithoutAdmin.filter(users => users.role === role)
+  const filteredSubmittedVerificationUsers = filteredUsersByRole.filter(users => users.verification?.submittedAt)
   // Handlers
   const onApprove = useCallback(
     (userId: string) => {
@@ -104,7 +110,7 @@ const Verification = () => {
 
       {/* Table */}
       <VerificationTable
-        users={filtered}
+        users={filteredSubmittedVerificationUsers}
         error={error as Error | null}
         isError={isError}
         isFetching={isFetching}

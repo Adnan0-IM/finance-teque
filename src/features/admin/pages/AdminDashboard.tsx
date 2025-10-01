@@ -170,7 +170,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Total Users */}
           <Card className="bg-brand-primary shadow-sm hover:shadow-md text-white overflow-hidden relative">
             <CardContent className="p-6">
@@ -263,7 +263,7 @@ const AdminDashboard = () => {
 
         {/* Recent Users Table */}
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-lg font-semibold text-brand-dark">
@@ -287,7 +287,7 @@ const AdminDashboard = () => {
                 Failed to load users
               </div>
             ) : (
-              <div className="my-6 w-full overflow-y-auto">
+              <div className="my-4 w-full overflow-y-auto">
                 <Table>
                   <TableCaption>
                     {isPending

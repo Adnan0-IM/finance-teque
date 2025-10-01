@@ -1,9 +1,9 @@
-import { useCallback,  useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useUser, useVerifyUser } from "../api/adminQueries";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import RejectDialog from "../components/verification/RejectDialog";
 import DashboardNavigation from "@/components/layout/DashboardLayout";
@@ -227,17 +227,23 @@ const UserVerificationDetails = () => {
 
   return (
     <DashboardNavigation>
-      <div className="p-6 space-y-6 max-w-6xl mx-auto">
+      <div className=" space-y-6 max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between bg-card border rounded-lg p-6">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
-            </Button>
+        <div className="">
+          <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back
+          </Button>
+        </div>
+        
+
+        <div className="flex items-center justify-between bg-card shadow-sm border border-brand-accent/20 gap-2 rounded-lg p-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold">User Verification</h1>
+                <h1 className=" text-lg sm:text-2xl font-bold">
+                  User Verification
+                </h1>
                 {getStatusIcon()}
               </div>
               <p className="text-muted-foreground">
@@ -259,7 +265,7 @@ const UserVerificationDetails = () => {
           </div>
 
           {status === "pending" && (
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Button
                 disabled={verifying}
                 onClick={onApprove}
@@ -286,7 +292,7 @@ const UserVerificationDetails = () => {
         >
           {/* Profile */}
           <AccordionItem value="profile" className="border rounded-lg">
-            <AccordionTrigger className="px-6 py-4 hover:no-underline">
+            <AccordionTrigger className="px-5 py-4 hover:no-underline">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center">
                   <User className="h-5 w-5 text-blue-600" />
@@ -299,7 +305,7 @@ const UserVerificationDetails = () => {
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-6 pb-6">
+            <AccordionContent className="px-5 pb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <InfoField label="Full Name" value={user?.name} />
                 <InfoField label="Email Address" value={user?.email} />
@@ -323,7 +329,7 @@ const UserVerificationDetails = () => {
 
           {/* Personal Info */}
           <AccordionItem value="personal" className="border rounded-lg">
-            <AccordionTrigger className="px-6 py-4 hover:no-underline">
+            <AccordionTrigger className="px-5 py-4 hover:no-underline">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-green-100 flex items-center justify-center">
                   <User className="h-5 w-5 text-green-600" />
@@ -336,7 +342,7 @@ const UserVerificationDetails = () => {
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-6 pb-6">
+            <AccordionContent className="px-5 pb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <InfoField label="First Name" value={personal?.firstName} />
                 <InfoField label="Surname" value={personal?.surname} />
@@ -373,7 +379,7 @@ const UserVerificationDetails = () => {
 
           {/* Next of kin */}
           <AccordionItem value="kin" className="border rounded-lg">
-            <AccordionTrigger className="px-6 py-4 hover:no-underline">
+            <AccordionTrigger className="px-5 py-4 hover:no-underline">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-purple-100 flex items-center justify-center">
                   <Users className="h-5 w-5 text-purple-600" />
@@ -386,7 +392,7 @@ const UserVerificationDetails = () => {
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-6 pb-6">
+            <AccordionContent className="px-5 pb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <InfoField label="Full Name" value={nextOfKin?.fullName} />
                 <InfoField
@@ -410,7 +416,7 @@ const UserVerificationDetails = () => {
 
           {/* Bank details */}
           <AccordionItem value="bank" className="border rounded-lg">
-            <AccordionTrigger className="px-6 py-4 hover:no-underline">
+            <AccordionTrigger className="px-5 py-4 hover:no-underline">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-orange-100 flex items-center justify-center">
                   <CreditCard className="h-5 w-5 text-orange-600" />
@@ -423,7 +429,7 @@ const UserVerificationDetails = () => {
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-6 pb-6">
+            <AccordionContent className="px-5 pb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <InfoField label="Account Name" value={bank?.accountName} />
                 <InfoField label="Bank Name" value={bank?.bankName} />
@@ -452,7 +458,7 @@ const UserVerificationDetails = () => {
 
           {/* Documents */}
           <AccordionItem value="documents" className="border rounded-lg">
-            <AccordionTrigger className="px-6 py-4 hover:no-underline">
+            <AccordionTrigger className="px-5 py-4 mb-4 hover:no-underline">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-red-100 flex items-center justify-center">
                   <FileText className="h-5 w-5 text-red-600" />
@@ -465,7 +471,7 @@ const UserVerificationDetails = () => {
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-6 pb-6">
+            <AccordionContent className="px-5 pb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {docSources.map((doc) => (
                   <DocumentCard
@@ -481,7 +487,7 @@ const UserVerificationDetails = () => {
 
           {/* Activity / verification meta */}
           <AccordionItem value="verification" className="border rounded-lg">
-            <AccordionTrigger className="px-6 py-4 hover:no-underline">
+            <AccordionTrigger className="px-5 py-4 hover:no-underline">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
                   <Activity className="h-5 w-5 text-gray-600" />
@@ -494,7 +500,7 @@ const UserVerificationDetails = () => {
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-6 pb-6">
+            <AccordionContent className="px-5 pb-6">
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <InfoField
@@ -680,13 +686,13 @@ function DocumentCard({
           </div>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <Button
             size="sm"
             variant="outline"
             onClick={onView}
             disabled={!url}
-            className="flex-1"
+            className="flex-1 py-1"
           >
             <Eye className="h-4 w-4 mr-1" />
             View
@@ -696,7 +702,7 @@ function DocumentCard({
             variant="outline"
             disabled={!url}
             asChild={!!url}
-            className="flex-1"
+            className="flex-1 py-1 "
           >
             {url ? (
               <a href={url} target="_blank" rel="noopener noreferrer" download>

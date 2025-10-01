@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 import type { optionsType } from "@/types/admin";
 import type { User } from "@/types/users";
+import { Search } from "lucide-react";
 import type { SetStateAction } from "react";
 
 type ToolbarProps = {
@@ -66,13 +67,17 @@ const VerificationToolbar = ({
 
       <div className="grid gap-1.5">
         <Label htmlFor="search">Search</Label>
-        <Input
-          id="search"
-          className="w-72"
-          placeholder="Name, email, phone..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className="relative">
+          <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+
+          <Input
+            id="search"
+            className="pl-10 w-72 "
+            placeholder="Name, email, phone..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
       </div>
     </div>
   );
