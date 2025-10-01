@@ -50,7 +50,7 @@ export type User = {
   name?: string;
   email: string;
   phone?: string;
-  role: "admin" | "investor" | "startup";
+  role: "admin" | "investor" | "startup" | "none";
   isVerified: boolean;
   createdAt?: string;
   verification?: VerificationData;

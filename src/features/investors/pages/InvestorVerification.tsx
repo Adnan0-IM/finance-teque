@@ -176,8 +176,8 @@ export function InvestorVerificationPage() {
     >
       <PageTransition>
         <FadeIn>
-          <div className="max-w-4xl mx-auto px-4">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
+          <div className="max-w-4xl mx-auto ">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-8">
               <div className="mb-6 sm:mb-8">
                 <div className="block sm:hidden text-center mb-4">
                   <p className="text-sm font-medium">
