@@ -44,13 +44,69 @@ export function LoginPage() {
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     try {
-      await login(data.email, data.password);
+      // Assume login returns the authenticated user; if not, adjust your auth to do so.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const u: any = await login(data.email, data.password);
+
       toast.success("Logged in successfully!");
-      if(data.email.includes("financetequecv.com")){
-        navigate("/admin");
+
+      // Compute post-login destination
+      const role = u?.role;
+      const kycStatus = u?.verification?.status as
+        | "approved"
+        | "pending"
+        | "rejected"
+        | undefined;
+      const submitted = Boolean(u?.verification?.submittedAt);
+      const from = (location.state)?.from?.pathname as
+        | string
+        | undefined;
+
+      // Admin first
+      if (role === "admin" || data.email.includes("financetequecv.com")) {
+        navigate("/admin", { replace: true });
         return;
       }
-      navigate("/choose-profile");
+
+      // If there's a saved "from" path and it's not an onboarding page, prefer it
+      const onboardingPages = new Set([
+        "/choose-profile",
+        "/investor-verification",
+        "/verification-success",
+        "/apply-for-funding",
+      ]);
+
+      const safeFrom = from && !onboardingPages.has(from) ? from : undefined;
+
+      if (!role || role === "none") {
+        navigate("/choose-profile", { replace: true });
+        return;
+      }
+
+      if (role === "investor") {
+        if (kycStatus === "approved" || u?.isVerified) {
+          navigate(safeFrom ?? "/dashboard", { replace: true });
+          return;
+        }
+        if (submitted) {
+          navigate("/verification-success", { replace: true });
+          return;
+        }
+        navigate("/investor-verification", { replace: true });
+        return;
+      }
+
+      if (role === "startup") {
+        if (u?.isVerified) {
+          navigate(safeFrom ?? "/dashboard", { replace: true });
+          return;
+        }
+        navigate("/apply-for-funding", { replace: true });
+        return;
+      }
+
+      // Fallback
+      navigate(safeFrom ?? "/dashboard", { replace: true });
     } catch (error) {
       toast.error(
         <p className="text-base text-red-500">{(error as Error).message}</p>

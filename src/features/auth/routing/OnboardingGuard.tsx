@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router";
-import {type PropsWithChildren, useMemo } from "react";
+import { type PropsWithChildren, useMemo } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
 // Central gate for role picking + KYC/verification flow
@@ -11,13 +11,10 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
 
   const kycStatus = useMemo<"approved" | "pending" | "rejected" | null>(() => {
     if (!user) return null;
-    return (
-      (user.verification?.status as "approved" | "pending" | "rejected") 
-    );
+    return user.verification?.status as "approved" | "pending" | "rejected";
   }, [user]);
 
-  const submitted =
-    !!user?.verification?.submittedAt 
+  const submitted = Boolean(user?.verification?.submittedAt);
 
   if (loading) return null;
 
@@ -25,12 +22,33 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  // Must pick a role
-  if (!user.role || user.role === "none") {
-    if (path !== "/choose-profile") {
-      return <Navigate to="/choose-profile" replace />;
+  // Helper: next step based on current user state
+  const getNextStep = () => {
+    if (!user.role || user.role === "none") return "/choose-profile";
+    if (user.role === "admin") return "/admin";
+
+    if (user.role === "investor") {
+      if (kycStatus === "approved" || user.isVerified) return "/dashboard";
+      if (submitted) return "/verification-success";
+      return "/investor-verification";
     }
-    return <>{children}</>;
+
+    if (user.role === "startup") {
+      if (user.isVerified) return "/dashboard";
+      return "/apply-for-funding";
+    }
+
+    return "/dashboard";
+  };
+
+  // Once a role is chosen, never allow /choose-profile again
+  if (user.role && path === "/choose-profile") {
+    return <Navigate to={getNextStep()} replace />;
+  }
+
+  // Admins stay off user onboarding pages
+  if (user.role === "admin" && path !== "/admin" && path !== "/profile") {
+    return <Navigate to="/admin" replace />;
   }
 
   // Investor flow gating
@@ -38,31 +56,35 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
     const onVerify = path === "/investor-verification";
     const onSuccess = path === "/verification-success";
 
-    if (kycStatus !== "approved") {
-      // If submitted -> success/awaiting page
-      if (submitted) {
-        if (!onSuccess) return <Navigate to="/verification-success" replace />;
-        return <>{children}</>;
+    // If approved/verified, keep away from onboarding pages
+    if (kycStatus === "approved" || user.isVerified) {
+      if (onVerify || onSuccess || path === "/choose-profile") {
+        return <Navigate to="/dashboard" replace />;
       }
-      // Not submitted -> verification form
-      if (!onVerify) return <Navigate to="/investor-verification" replace />;
       return <>{children}</>;
     }
 
-    // Approved; keep user away from onboarding pages
-    if (onVerify || onSuccess) {
-      return <Navigate to="/dashboard" replace />;
+    // Not approved: direct to appropriate step
+    if (submitted) {
+      if (!onSuccess) return <Navigate to="/verification-success" replace />;
+      return <>{children}</>;
     }
+    if (!onVerify) return <Navigate to="/investor-verification" replace />;
+    return <>{children}</>;
   }
 
   // Startup flow gating
   if (user.role === "startup") {
     const onApply = path === "/apply-for-funding";
+
     if (!user.isVerified) {
       if (!onApply) return <Navigate to="/apply-for-funding" replace />;
       return <>{children}</>;
     }
-    if (onApply) return <Navigate to="/dashboard" replace />;
+
+    // Verified startup: keep away from onboarding pages
+    if (onApply || path === "/choose-profile")
+      return <Navigate to="/dashboard" replace />;
   }
 
   return <>{children}</>;
