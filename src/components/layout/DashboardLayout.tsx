@@ -13,6 +13,7 @@ import {
   Bell,
   Wallet,
   User2,
+  RectangleHorizontal,
   Verified,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,7 @@ const DashboardNavigation = ({ children }: { children: ReactNode }) => {
     { title: "Dashboard", path: "/admin", icon: Home },
     { title: "Verification", path: "/admin/verification", icon: Verified },
     { title: "Manage Users", path: "/admin/users", icon: User2 },
+    { title: "Manage Carousel", path: "/admin/carousel", icon: RectangleHorizontal },
   ];
 
   const navLinksInvestor = [
