@@ -98,8 +98,8 @@ const Carousel: React.FC<Props> = ({
       </CarouselContent>
 
       {/* Improve arrow styles and hide on mobile */}
-      <CarouselPrevious className="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full " />
-      <CarouselNext className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full " />
+      <CarouselPrevious className="hidden group-hover:sm:flex absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full " />
+      <CarouselNext className="hidden group-hover:sm:flex absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full " />
     </ShadCarousel>
   );
 };

@@ -51,6 +51,16 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import DashboardNavigation from "@/components/layout/DashboardLayout";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 // Accept http(s) URLs or site-relative paths starting with "/"
 const webPathSchema = z
@@ -97,6 +107,11 @@ const ManageCarouselPage = () => {
   const deleteMut = useDeleteCarouselItem();
   const uploadCreateMut = useUploadCarouselImage();
   const uploadEditMut = useUploadCarouselImage();
+
+  // Delete dialog state
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [toDelete, setToDelete] = useState<Item | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Dialog state
   const [createOpen, setCreateOpen] = useState(false);
@@ -174,16 +189,33 @@ const ManageCarouselPage = () => {
     }
   };
 
-  const onDelete = async (it: Item) => {
-    const ok = window.confirm(`Delete "${it.title || "Untitled"}"?`);
-    if (!ok) return;
+
+  // Open delete dialog for a specific item
+  const openDeleteDialog = (it: Item) => {
+    setToDelete(it);
+    setDeleteOpen(true);
+  };
+
+  // Confirm deletion
+  const handleConfirmDelete = async () => {
+    if (!toDelete?._id) return;
+    setIsDeleting(true);
     try {
-      await deleteMut.mutateAsync({ id: it._id });
+      await deleteMut.mutateAsync({ id: toDelete._id });
       toast.success("Item deleted");
     } catch (error) {
       console.log(error);
       toast.error("Error deleting item");
+    } finally {
+      setIsDeleting(false);
+      setDeleteOpen(false);
+      setToDelete(null);
     }
+  };
+
+  const handleDeleteDialogChange = (open: boolean) => {
+    setDeleteOpen(open);
+    if (!open) setToDelete(null);
   };
 
   const openEdit = (it: Item) => {
@@ -305,9 +337,7 @@ const ManageCarouselPage = () => {
                       </div>
                     </TableCell>
                     <TableCell className="align-top">
-                      <div className="font-medium">
-                        {it.title || "—"}
-                      </div>
+                      <div className="font-medium">{it.title || "—"}</div>
                     </TableCell>
                     <TableCell className="align-top">
                       <div className="line-clamp-2 text-sm text-muted-foreground">
@@ -341,9 +371,10 @@ const ManageCarouselPage = () => {
                         <Button
                           variant="destructive"
                           size="icon"
-                          onClick={() => onDelete(it)}
+                          onClick={() => openDeleteDialog(it)}
                           disabled={deleteMut.isPending}
                           className="h-8 w-8"
+                          aria-label="Delete item"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -444,23 +475,29 @@ const ManageCarouselPage = () => {
                                 className="block w-full truncate text-xs text-muted-foreground"
                                 title={field.value}
                               >
-                                Using: {field.value.length > 40 ? field.value.slice(0,35) : field.value.slice(0,42)}{ field.value.length >= 40 &&"..."}
+                                Using:{" "}
+                                {field.value.length > 40
+                                  ? field.value.slice(0, 35)
+                                  : field.value.slice(0, 42)}
+                                {field.value.length >= 40 && "..."}
                               </span>
                             ) : null}
                           </div>
 
                           {/* Optional copy button */}
-                        {field.value.length > 35 &&  <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 absolute right-0.5"
-                            onClick={() => copyToClipboard(field.value)}
-                            disabled={!field.value}
-                            title="Copy image URL"
-                          >
-                            <Copy className="h-4 w-4" />
-                          </Button>}
+                          {field.value.length > 35 && (
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 absolute right-0.5"
+                              onClick={() => copyToClipboard(field.value)}
+                              disabled={!field.value}
+                              title="Copy image URL"
+                            >
+                              <Copy className="h-4 w-4" />
+                            </Button>
+                          )}
                         </div>
 
                         {field.value ? (
@@ -596,24 +633,28 @@ const ManageCarouselPage = () => {
                                   className="block w-full truncate text-xs text-muted-foreground"
                                   title={field.value}
                                 >
-                             
-                                Using: {field.value.length > 35 ? field.value.slice(0,35) : field.value.slice(0,42)}{ field.value.length >= 40 &&"..."}
-
+                                  Using:{" "}
+                                  {field.value.length > 35
+                                    ? field.value.slice(0, 35)
+                                    : field.value.slice(0, 42)}
+                                  {field.value.length >= 40 && "..."}
                                 </span>
                               ) : null}
                             </div>
 
-                       { field.value.length > 35 &&    <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8"
-                              onClick={() => copyToClipboard(field.value)}
-                              disabled={!field.value}
-                              title="Copy image URL"
-                            >
-                              <Copy className="h-4 w-4" />
-                            </Button>}
+                            {field.value.length > 35 && (
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                                onClick={() => copyToClipboard(field.value)}
+                                disabled={!field.value}
+                                title="Copy image URL"
+                              >
+                                <Copy className="h-4 w-4" />
+                              </Button>
+                            )}
                           </div>
 
                           {field.value ? (
@@ -667,6 +708,34 @@ const ManageCarouselPage = () => {
             )}
           </DialogContent>
         </Dialog>
+
+        {/* Delete Confirmation Dialog (single, controlled) */}
+        <AlertDialog open={deleteOpen} onOpenChange={handleDeleteDialogChange}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete item?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. It will permanently delete{" "}
+                <span className="font-medium">
+                  {toDelete?.title || "this carousel item"}
+                </span>
+                .
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={isDeleting}>
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleConfirmDelete}
+                disabled={isDeleting}
+                className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
+              >
+                {isDeleting ? "Deleting..." : "Yes, delete"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </DashboardNavigation>
   );
