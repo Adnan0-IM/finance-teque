@@ -20,6 +20,7 @@ import PageTransition from "@/components/animations/PageTransition";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { motion } from "framer-motion";
 import { cardVariantLeft, sectionVariant } from "@/utils/motionVariants";
+import BusinessModelCanvas from "@/components/BusinessModelCanvas";
 
 export function AboutPage() {
   const handleDownload = () => {
@@ -176,6 +177,16 @@ export function AboutPage() {
               </div>
             </div>
           </section>
+          <FadeIn>
+            <section className="py-20 bg-gray-50">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 className="text-3xl md:text-4xl text-center font-bold mb-8 text-brand-dark">
+                  Our Business Model Canvas
+                </h2>
+                <BusinessModelCanvas />
+              </div>
+            </section>
+          </FadeIn>
           {/* Investment Philosophy Section */}
           <FadeIn>
             <section className="py-20 bg-gray-50">
@@ -474,9 +485,8 @@ export function AboutPage() {
                             Global Expansion
                           </h4>
                           <p className="text-muted-foreground">
-                            Expanded operations, offering our
-                            ethical investment solutions to a global client
-                            base.
+                            Expanded operations, offering our ethical investment
+                            solutions to a global client base.
                           </p>
                         </div>
                       </div>
@@ -542,7 +552,6 @@ export function AboutPage() {
             </section>
           </FadeIn>
         </PageTransition>
-       
       </div>
     </>
   );
