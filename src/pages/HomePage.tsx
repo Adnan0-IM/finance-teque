@@ -30,6 +30,7 @@ import PageTransition from "@/components/animations/PageTransition";
 import { FadeIn } from "../components/animations/FadeIn";
 import { sectionVariant } from "@/utils/motionVariants";
 import CardMotion from "@/components/animations/CardMotion";
+import HomeCarousel from "@/components/HomeCarousel";
 
 const HomePage = () => {
   const [emailSubscription, setEmailSubscription] = useState("");
@@ -198,8 +199,8 @@ const HomePage = () => {
                       equities and as such seeks to provide superior long-term
                       protection against inflation to investors with a high-risk
                       appetite. The high risk of equities is lowered by also
-                      investing in business financing investment, which provide a
-                      fairly predictable income stream and easy access to your
+                      investing in business financing investment, which provide
+                      a fairly predictable income stream and easy access to your
                       money.
                     </p>
                     <Link to={"/contact"}>
@@ -221,6 +222,13 @@ const HomePage = () => {
                 </div>
               </div>
             </section>
+          </FadeIn>
+
+          {/* Carousel  */}
+          <FadeIn>
+            <div className="py-12">
+              <HomeCarousel />
+            </div>
           </FadeIn>
           {/* Portfolio Section */}
           <section id="portfolio" className="py-20 bg-white">

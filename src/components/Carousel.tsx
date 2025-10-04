@@ -39,10 +39,11 @@ const Carousel: React.FC<Props> = ({
         }),
       ]}
     >
-      <CarouselContent >
+      <CarouselContent className="-ml-2 sm:-ml-3 md:-ml-4">
         {items.map((item, idx) => {
-          const ImgAndCaption = (
-            <Card className="group overflow-hidden h-full rounded-lg shadow-md hover:shadow-lg transition-shadow">
+          // Inside your map for each slide, ensure the card has a stronger style and gradient caption
+          const Slide = (
+            <Card className="group overflow-hidden h-full rounded-xl shadow-lg hover:shadow-xl transition-shadow">
               <div className="relative w-full aspect-[16/9] bg-muted overflow-hidden">
                 <img
                   src={item.image}
@@ -68,35 +69,37 @@ const Carousel: React.FC<Props> = ({
             </Card>
           );
 
-          const Slide = item.link ? (
-            <a
-              href={item.link}
-              target={item.link.startsWith("http") ? "_blank" : undefined}
-              rel={
-                item.link.startsWith("http") ? "noopener noreferrer" : undefined
-              }
-              className="block focus:outline-none focus:ring-2 focus:ring-brand-primary rounded-xl"
-              aria-label={item.title ?? "Open slide link"}
-            >
-              {ImgAndCaption}
-            </a>
-          ) : (
-            ImgAndCaption
-          );
-
+          // Make slides responsive and spaced
           return (
             <CarouselItem
               key={idx}
-              className="pl-2 sm:pl-3 md:pl-4 basis-full sm:basis-5/6 md:basis-2/3 lg:basis-1/2 xl:basis-2/5"
+              className="pl-2 sm:pl-3 md:pl-4 min-w-0 shrink-0 grow-0 basis-full sm:basis-1/2 lg:basis-1/3"
             >
-              {Slide}
+              {item.link ? (
+                <a
+                  href={item.link}
+                  target={item.link.startsWith("http") ? "_blank" : undefined}
+                  rel={
+                    item.link.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
+                  className="block focus:outline-none focus:ring-2 focus:ring-brand-primary rounded-xl"
+                  aria-label={item.title ?? "Open slide link"}
+                >
+                  {Slide}
+                </a>
+              ) : (
+                Slide
+              )}
             </CarouselItem>
           );
         })}
       </CarouselContent>
 
-      <CarouselPrevious className="hidden group-hover:sm:flex absolute top-1/2 left-3 " />
-      <CarouselNext className="hidden group-hover:sm:flex  absolute top-1/2 right-3  " />
+      {/* Improve arrow styles and hide on mobile */}
+      <CarouselPrevious className="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full " />
+      <CarouselNext className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full " />
     </ShadCarousel>
   );
 };

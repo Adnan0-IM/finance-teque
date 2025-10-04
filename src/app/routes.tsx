@@ -13,6 +13,7 @@ import NotFoundPage from "@/components/feedback/NotFound";
 import Users from "@/features/admin/pages/Users";
 import Verification from "@/features/admin/pages/Verification";
 import UserVerificationDetails from "@/features/admin/pages/UserVerificationDetails";
+import ManageCarouselPage from "@/features/admin/carousel/pages/ManageCarouselPage";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const AboutPage = lazy(() =>
@@ -304,6 +305,16 @@ export default function AppRoutes() {
               <ProtectedRoute>
                 <RoleGuard allow={["admin"]}>
                   <Users />
+                </RoleGuard>
+              </ProtectedRoute>
+            }
+          />
+ <Route
+            path="/admin/carousel"
+            element={
+              <ProtectedRoute>
+                <RoleGuard allow={["admin"]}>
+                  <ManageCarouselPage/>
                 </RoleGuard>
               </ProtectedRoute>
             }
