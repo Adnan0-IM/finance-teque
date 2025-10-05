@@ -43,7 +43,8 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
   };
 
   // Once a role is chosen, never allow /choose-profile again
-  if (user.role && path === "/choose-profile") {
+  const hasChosenRole = !!user?.role && user.role !== "none";
+  if (hasChosenRole && path === "/choose-profile") {
     return <Navigate to={getNextStep()} replace />;
   }
 

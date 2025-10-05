@@ -14,13 +14,12 @@ import { MotionButton } from "@/components/animations/MotionizedButton";
 import OnboardingLayout from "@/components/layout/OnboardingLayout";
 import ConsultationModal from "@/components/modals/ConsultationModal";
 
-export type roleType = "investor" | "startup";
+export type roleType = "investor" | "startup"| "none";
 
 export default function ProfileChoicePage() {
   const navigate = useNavigate();
   const { user, setRole } = useAuth();
   const [showModal, setShowModal] = useState(false);
-
   
 
   // Avoid flicker while checking auth/role
@@ -123,7 +122,6 @@ export default function ProfileChoicePage() {
                 </ul>
 
                 <MotionButton
-                disabled={true}
                   whileHover={{ scale: 1.05, y: -1 }}
                   whileTap={{ scale: 0.98, y: 0 }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}

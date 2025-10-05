@@ -6,7 +6,7 @@ import Loader from "../components/feedback/Loader";
 import { AnimatePresence, motion } from "framer-motion";
 import { Suspense, lazy } from "react";
 import { Toaster } from "sonner";
-import StartupApplicationPage from "../features/startup/pages/StartupApplication";
+import StartupApplicationPage from "../features/startup/pages/StartupVerification";
 import ProfileChoicePage from "../features/shared/pages/ChooseProfile-Role";
 import AdminDashboard from "../features/admin/pages/AdminDashboard";
 import NotFoundPage from "@/components/feedback/NotFound";
@@ -65,14 +65,18 @@ const ForgotPasswordPage = lazy(() =>
   }))
 );
 const InvestorVerificationPage = lazy(() =>
-  import("../features/investors/pages/InvestorVerification").then((module) => ({
-    default: module.InvestorVerificationPage,
-  }))
+  import("../features/investors/personal/pages/InvestorVerification").then(
+    (module) => ({
+      default: module.InvestorVerificationPage,
+    })
+  )
 );
 const VerificationSuccessPage = lazy(() =>
-  import("../features/investors/pages/VerificationSuccess").then((module) => ({
-    default: module.VerificationSuccessPage,
-  }))
+  import("../features/shared/pages/VerificationSuccess").then(
+    (module) => ({
+      default: module.VerificationSuccessPage,
+    })
+  )
 );
 const DashboardPage = lazy(() =>
   import("../features/shared/pages/Dashboard").then((module) => ({
@@ -294,11 +298,16 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
-              <Route path="/admin/verification/:userId" element={  <ProtectedRoute>
+          <Route
+            path="/admin/verification/:userId"
+            element={
+              <ProtectedRoute>
                 <RoleGuard allow={["admin"]}>
                   <UserVerificationDetails />
                 </RoleGuard>
-              </ProtectedRoute>} />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/users"
             element={
@@ -309,12 +318,12 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
- <Route
+          <Route
             path="/admin/carousel"
             element={
               <ProtectedRoute>
                 <RoleGuard allow={["admin"]}>
-                  <ManageCarouselPage/>
+                  <ManageCarouselPage />
                 </RoleGuard>
               </ProtectedRoute>
             }
