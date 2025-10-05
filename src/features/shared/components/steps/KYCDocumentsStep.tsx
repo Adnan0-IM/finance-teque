@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type { UseFormReturn } from "react-hook-form";
 import type { FormValues } from "../../schema";
-import { StableFormField } from "@/features/investors/components/forms/StableFormField";
+import { StableFormField } from "@/features/shared/components/forms/StableFormField";
 
 type Props = { form: UseFormReturn<FormValues> };
 

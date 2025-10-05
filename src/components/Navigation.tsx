@@ -7,7 +7,7 @@ import InvestorRegistrationButton from "./InvestorRegistrationButton";
 import { useAuth } from "@/features/auth/contexts/AuthContext";
 import MobileMenuMotion from "./animations/MobileMenuMotion";
 import { MotionButton } from "./animations/MotionizedButton";
-import { useInvestor } from "@/features/investors/contexts/InvestorContext";
+import { useInvestor } from "@/features/shared/contexts/Investor-startupContext";
 
 const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

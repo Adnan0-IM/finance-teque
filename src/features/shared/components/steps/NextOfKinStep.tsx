@@ -15,7 +15,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { StableFormField } from "@/features/investors/components/forms/StableFormField";
+import { StableFormField } from "@/features/shared/components/forms/StableFormField";
 
 type Props = { form: UseFormReturn<FormValues> };
 

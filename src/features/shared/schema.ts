@@ -37,25 +37,10 @@ export const formSchema = z
         message: "Phone number must contain only digits",
       }),
     email: z.string().email("Valid email is required"),
+    ageBracket: z.enum(["adult", "minor"], "Please select an option"),
     dateOfBirth: z
       .string()
-      .min(1, "Date of birth is required")
-      .refine(
-        (v) => {
-          const dob = new Date(v);
-          if (Number.isNaN(dob.getTime())) return false;
-          const today = new Date();
-          const age =
-            today.getFullYear() -
-            dob.getFullYear() -
-            (today <
-            new Date(today.getFullYear(), dob.getMonth(), dob.getDate())
-              ? 1
-              : 0);
-          return age >= 18 && dob <= today;
-        },
-        { message: "You must be at least 18 years old" }
-      ),
+      .min(1, "Date of birth is required"),
     localGovernment: z
       .string()
       .min(2, "Local government must be atleast 2 characters"),
@@ -179,6 +164,7 @@ export const steps: StepDef[] = [
       "residentialAddress",
       "ninNumber",
       "stateOfResidence",
+      "ageBracket"
     ],
   },
   {

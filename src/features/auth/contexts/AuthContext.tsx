@@ -25,7 +25,7 @@ interface AuthContextType {
   verifyEmail: (email: string, code: string) => Promise<void>;
   resendCode: (email: string) => Promise<void>;
   updateMe: (data: { name?: string; phone?: string }) => Promise<void>;
-  setRole: (role: "investor" | "startup") => Promise<void>;
+  setRole: (role: "investor" | "startup" | "none") => Promise<void>;
   deleteMe: () => Promise<void>;
 }
 
@@ -203,7 +203,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const setRole = async (role: "investor" | "startup") => {
+  const setRole = async (role: "investor" | "startup" | "none") => {
     setLoading(true);
     try {
       const response = await api.put(`/auth/setRole`, { role });
