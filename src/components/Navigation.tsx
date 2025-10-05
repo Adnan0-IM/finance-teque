@@ -68,14 +68,29 @@ const Navigation = () => {
     }
 
     if (user.role === "startup") {
-      if (user.isVerified) {
+      if (kycStatus === "approved" || user.isVerified) {
         return { to: "/dashboard", label: "Dashboard", arrow: true };
+      }
+      if (hasSubmitted && kycStatus === "rejected") {
+        return {
+          to: "/apply-for-funding",
+          label: "Submit Your Verification",
+          arrow: false,
+        };
+      }
+      if (hasSubmitted) {
+        return {
+          to: "/verification-success",
+          label: "Verification is in review",
+          arrow: false,
+        };
       }
       return {
         to: "/apply-for-funding",
-        label: "Apply for funding",
+        label: "Start Investing",
         arrow: true,
       };
+
     }
 
     return { to: "/dashboard", label: "Dashboard", arrow: true };

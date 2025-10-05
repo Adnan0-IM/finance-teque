@@ -29,7 +29,7 @@ export default function ProfileChoicePage() {
     try {
       await setRole(type);
       navigate(
-        type === "investor" ? "/investor-verification" : "/apply-for-funding",
+        type === "investor" ? "/investor-type" : "/apply-for-funding",
         {
           replace: true,
         }

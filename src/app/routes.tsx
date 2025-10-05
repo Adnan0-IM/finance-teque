@@ -14,6 +14,8 @@ import Users from "@/features/admin/pages/Users";
 import Verification from "@/features/admin/pages/Verification";
 import UserVerificationDetails from "@/features/admin/pages/UserVerificationDetails";
 import ManageCarouselPage from "@/features/admin/carousel/pages/ManageCarouselPage";
+import InvestorTypePage from "@/features/investors/pages/InvestorTypePage";
+import CorporateVerification from "@/features/investors/corporate/pages/corporateVerification";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const AboutPage = lazy(() =>
@@ -72,11 +74,9 @@ const InvestorVerificationPage = lazy(() =>
   )
 );
 const VerificationSuccessPage = lazy(() =>
-  import("../features/shared/pages/VerificationSuccess").then(
-    (module) => ({
-      default: module.VerificationSuccessPage,
-    })
-  )
+  import("../features/shared/pages/VerificationSuccess").then((module) => ({
+    default: module.VerificationSuccessPage,
+  }))
 );
 const DashboardPage = lazy(() =>
   import("../features/shared/pages/Dashboard").then((module) => ({
@@ -205,17 +205,36 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path="/investor-type"
+            element={
+              <ProtectedRoute>
+                {/* <OnboardingGuard> */}
+                  <InvestorTypePage />
+                {/* </OnboardingGuard> */}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/corporate-verification"
+            element={
+              <ProtectedRoute>
+                {/* <OnboardingGuard> */}
+                  <CorporateVerification />
+                {/* </OnboardingGuard> */}
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/investor-verification"
             element={
               <ProtectedRoute>
                 <RoleGuard allow={["investor"]}>
-                  <OnboardingGuard>
+                  {/* <OnboardingGuard> */}
                     <Suspense fallback={<Loader />}>
                       <InvestorVerificationPage />
                     </Suspense>
-                  </OnboardingGuard>
+                  {/* </OnboardingGuard> */}
                 </RoleGuard>
               </ProtectedRoute>
             }
@@ -225,7 +244,7 @@ export default function AppRoutes() {
             path="/verification-success"
             element={
               <ProtectedRoute>
-                <RoleGuard allow={["investor"]}>
+                <RoleGuard allow={["investor", "startup"]}>
                   <OnboardingGuard>
                     <Suspense fallback={<Loader />}>
                       <VerificationSuccessPage />

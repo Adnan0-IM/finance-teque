@@ -11,6 +11,7 @@ import type { User } from "@/types/users";
 
 const TOKEN_KEY = "accessToken";
 
+
 interface AuthContextType {
   user: User | null;
   loading: boolean;
@@ -25,7 +26,8 @@ interface AuthContextType {
   verifyEmail: (email: string, code: string) => Promise<void>;
   resendCode: (email: string) => Promise<void>;
   updateMe: (data: { name?: string; phone?: string }) => Promise<void>;
-  setRole: (role: "investor" | "startup" | "none") => Promise<void>;
+  setRole: (role: string) => Promise<void>;
+  setInvestorType: (type: string) => Promise<void>;
   deleteMe: () => Promise<void>;
 }
 
@@ -203,7 +205,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const setRole = async (role: "investor" | "startup" | "none") => {
+  const setRole = async (role: string) => {
     setLoading(true);
     try {
       const response = await api.put(`/auth/setRole`, { role });
@@ -215,6 +217,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error(message || "Failed to set user role");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const setInvestorType = async (type: string) => {
+    if (!user) {
+      throw new Error("No user logged in");
+    }
+
+    try {
+      // Update the user document in Firestore
+      await api.put(`/auth/setInvestorType`, { type });
+
+      // Update local user state
+      setUser((prev) => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          investorType: type as "personal" | "corporate" | "none",
+        };
+      });
+    } catch (error) {
+      console.error("Error setting investor type:", error);
+      throw error;
     }
   };
 
@@ -277,6 +302,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         resendCode,
         updateMe,
         setRole,
+        setInvestorType,
         deleteMe,
       }}
     >

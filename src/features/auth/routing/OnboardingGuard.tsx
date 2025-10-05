@@ -15,6 +15,7 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
   }, [user]);
 
   const submitted = Boolean(user?.verification?.submittedAt);
+  const investorType = user?.investorType || "none"; // Get investor type from user
 
   if (loading) return null;
 
@@ -28,14 +29,26 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
     if (user.role === "admin") return "/admin";
 
     if (user.role === "investor") {
+      // If investor hasn't chosen type yet, send to type selection
+      if (!investorType || investorType === "none") return "/investor-type";
+
       if (kycStatus === "approved" || user.isVerified) return "/dashboard";
-      if (kycStatus === "rejected") return "/investor-verification";
+      if (kycStatus === "rejected") {
+        return investorType === "personal"
+          ? "/investor-verification"
+          : "/corporate-verification";
+      }
       if (submitted) return "/verification-success";
-      return "/investor-verification";
+
+      return investorType === "personal"
+        ? "/investor-verification"
+        : "/corporate-verification";
     }
 
     if (user.role === "startup") {
-      if (user.isVerified) return "/dashboard";
+      if (kycStatus === "approved" || user.isVerified) return "/dashboard";
+      if (kycStatus === "rejected") return "/apply-for-funding";
+      if (submitted) return "/verification-success";
       return "/apply-for-funding";
     }
 
@@ -48,6 +61,14 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
     return <Navigate to={getNextStep()} replace />;
   }
 
+  // Once investor type is chosen, don't allow going back to type selection
+  const hasChosenInvestorType =
+    user?.role === "investor" && !!investorType && investorType !== "none";
+
+  if (hasChosenInvestorType && path === "/investor-type") {
+    return <Navigate to={getNextStep()} replace />;
+  }
+
   // Admins stay off user onboarding pages
   if (user.role === "admin" && path !== "/admin" && path !== "/profile") {
     return <Navigate to="/admin" replace />;
@@ -55,7 +76,60 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
 
   // Investor flow gating
   if (user.role === "investor") {
-    const onVerify = path === "/investor-verification";
+    // If investor hasn't chosen type yet, force them to type selection
+    if (!investorType || investorType === "none") {
+      if (path !== "/investor-type") {
+        return <Navigate to="/investor-type" replace />;
+      }
+      return <>{children}</>;
+    }
+
+    const isPersonal = investorType === "personal";
+    const onPersonalVerify = path === "/investor-verification";
+    const onCorporateVerify = path === "/corporate-verification";
+    const onCorrectVerify = isPersonal ? onPersonalVerify : onCorporateVerify;
+    const onWrongVerify = isPersonal ? onCorporateVerify : onPersonalVerify;
+
+    const onSuccess = path === "/verification-success";
+
+    // Redirect from wrong verification form to correct one
+    if (onWrongVerify) {
+      return <Navigate to={getNextStep()} replace />;
+    }
+
+    // If approved/verified, keep away from onboarding pages
+    if (kycStatus === "approved" || user.isVerified) {
+      if (
+        onCorrectVerify ||
+        onSuccess ||
+        path === "/choose-profile" ||
+        path === "/investor-type"
+      ) {
+        return <Navigate to="/dashboard" replace />;
+      }
+      return <>{children}</>;
+    }
+
+    // Rejected -> force back to verification form
+    if (kycStatus === "rejected") {
+      if (!onCorrectVerify) return <Navigate to={getNextStep()} replace />;
+      return <>{children}</>;
+    }
+
+    // Pending/submitted -> success holding page
+    if (submitted) {
+      if (!onSuccess) return <Navigate to="/verification-success" replace />;
+      return <>{children}</>;
+    }
+
+    // No submission yet -> verification form
+    if (!onCorrectVerify) return <Navigate to={getNextStep()} replace />;
+    return <>{children}</>;
+  }
+
+  // Startup flow gating
+  if (user.role === "startup") {
+    const onVerify = path === "/apply-for-funding";
     const onSuccess = path === "/verification-success";
 
     // If approved/verified, keep away from onboarding pages
@@ -68,7 +142,7 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
 
     // Rejected -> force back to verification form
     if (kycStatus === "rejected") {
-      if (!onVerify) return <Navigate to="/investor-verification" replace />;
+      if (!onVerify) return <Navigate to="/apply-for-funding" replace />;
       return <>{children}</>;
     }
 
@@ -79,22 +153,8 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
     }
 
     // No submission yet -> verification form
-    if (!onVerify) return <Navigate to="/investor-verification" replace />;
+    if (!onVerify) return <Navigate to="/apply-for-funding" replace />;
     return <>{children}</>;
-  }
-
-  // Startup flow gating
-  if (user.role === "startup") {
-    const onApply = path === "/apply-for-funding";
-
-    if (!user.isVerified) {
-      if (!onApply) return <Navigate to="/apply-for-funding" replace />;
-      return <>{children}</>;
-    }
-
-    // Verified startup: keep away from onboarding pages
-    if (onApply || path === "/choose-profile")
-      return <Navigate to="/dashboard" replace />;
   }
 
   return <>{children}</>;

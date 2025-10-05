@@ -52,6 +52,7 @@ export type User = {
   email: string;
   phone?: string;
   role: "admin" | "investor" | "startup" | "none";
+  investorType?: "personal" | "corporate" | "none";
   isVerified: boolean;
   createdAt?: string;
   verification?: VerificationData;
