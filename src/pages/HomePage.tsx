@@ -9,13 +9,10 @@ import {
   Mail,
   Facebook,
   Instagram,
-  Send,
   Youtube,
   Linkedin,
 } from "lucide-react";
-import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import dubaiCityscape from "../assets/business-banner@2x.jpg";
 import dubaiCityscapeRed from "../assets/lookingforsupportimage.jpg";
 import agricultureImage from "../assets/agric.jpg";
@@ -31,16 +28,9 @@ import { FadeIn } from "../components/animations/FadeIn";
 import { sectionVariant } from "@/utils/motionVariants";
 import CardMotion from "@/components/animations/CardMotion";
 import HomeCarousel from "@/components/HomeCarousel";
+import Newsletter from "@/components/Newsletter";
 
 const HomePage = () => {
-  const [emailSubscription, setEmailSubscription] = useState("");
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle newsletter subscription
-    console.log("Newsletter subscription:", emailSubscription);
-    setEmailSubscription("");
-  };
-
   const navigate = useNavigate();
 
   return (
@@ -526,48 +516,7 @@ const HomePage = () => {
           <FadeIn>
             <footer className="bg-gray-900 text-white">
               {/* Newsletter Section */}
-              <div className="bg-brand-primary py-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="flex flex-col md:flex-row items-center justify-between">
-                    <div className="text-center md:text-left mb-6 md:mb-0">
-                      <h3 className="text-2xl font-bold text-white mb-2">
-                        Stay Updated
-                      </h3>
-                      <p className="text-white/90">
-                        Get the latest investment insights and market updates
-                        delivered to your inbox.
-                      </p>
-                    </div>
-                    <form
-                      onSubmit={handleNewsletterSubmit}
-                      className="flex flex-col md:flex-row gap-3 w-full md:w-auto"
-                    >
-                      <Input
-                        type="email"
-                        placeholder="Enter your email address"
-                        value={emailSubscription}
-                        onChange={(e) => setEmailSubscription(e.target.value)}
-                        className="bg-white/10 border-white/20 text-white text-[17px] py-[21px] placeholder:text-white/60 min-w-80"
-                        required
-                      />
-                      <MotionButton
-                        type="submit"
-                        className="cursor-pointer bg-white text-brand-primary text-[17px] py-[21px] hover:bg-gray-100 flex-shrink-0"
-                        whileHover={{ scale: 1.02, y: -1 }}
-                        whileTap={{ scale: 0.98, y: 0 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 500,
-                          damping: 30,
-                        }}
-                      >
-                        <Send className="size-5 mr-2" />
-                        Subscribe
-                      </MotionButton>
-                    </form>
-                  </div>
-                </div>
-              </div>
+              <Newsletter />
 
               {/* Main Footer Content */}
               <div className="py-16">
