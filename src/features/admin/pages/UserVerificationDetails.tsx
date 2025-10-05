@@ -235,7 +235,6 @@ const UserVerificationDetails = () => {
             Back
           </Button>
         </div>
-        
 
         <div className="flex items-center justify-between bg-card shadow-sm border border-brand-accent/20 gap-2 rounded-lg p-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -346,6 +345,10 @@ const UserVerificationDetails = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <InfoField label="First Name" value={personal?.firstName} />
                 <InfoField label="Surname" value={personal?.surname} />
+                <InfoField
+                  label="minor or adult"
+                  value={personal?.ageBracket}
+                />
                 <InfoField
                   label="Date of Birth"
                   value={personal?.dateOfBirth}

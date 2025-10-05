@@ -1,6 +1,7 @@
 export type VerificationPersonal = {
   firstName: string;
   surname: string;
+  ageBracket: string;
   dateOfBirth: string;
   localGovernment: string;
   stateOfResidence: string;
