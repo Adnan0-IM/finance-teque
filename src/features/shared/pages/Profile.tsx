@@ -408,11 +408,25 @@ export function ProfilePage() {
                         {user?.phone || "Not set"}
                       </p>
                     </div>
-                    <div className="p-4 sm:p-6">
+                    <div className="p-4 sm:p-6 flex gap-16">
+                      <div>
+
                       <p className="text-sm font-medium text-gray-500">Role</p>
                       <p className="mt-1 text-gray-900 capitalize">
                         {user?.role || "User"}
                       </p>
+                      </div>
+                      {
+                       user?.role === "investor" && user?.investorType !== "none" && 
+
+                      <div>
+                      <p className="text-sm font-medium text-gray-500">Type</p>
+                      <p className="mt-1 text-gray-900 capitalize">
+                        {user?.investorType || "User"}
+                      </p>
+
+                      </div>
+                      }
                     </div>
                   </div>
                 </div>

@@ -1,22 +1,37 @@
-import { useNavigate } from "react-router";
-import { ArrowRight, User, Building2 } from "lucide-react";
+import { useNavigate } from "react-router"; // Fix import path
+import {
+  ArrowRight,
+  User,
+  Building2,
+  BadgeDollarSign,
+  ShieldCheck,
+  FileSignature,
+} from "lucide-react";
 import { FadeIn } from "@/components/animations/FadeIn";
 import PageTransition from "@/components/animations/PageTransition";
 import { MotionButton } from "@/components/animations/MotionizedButton";
 import OnboardingLayout from "@/components/layout/OnboardingLayout";
 import { useAuth } from "@/features/auth/contexts/AuthContext";
+import { useEffect } from "react";
 
 export type InvestorType = "personal" | "corporate" | "none";
 
 export default function InvestorTypePage() {
   const navigate = useNavigate();
-  const { user, setInvestorType } = useAuth(); // Add this to your AuthContext
+  const { user, setInvestorType } = useAuth();
 
+  useEffect(() => {
+    if (user?.investorType === "corporate") {
+      navigate("/corporate-verification");
+    } else if (user?.investorType === "personal") {
+      navigate("/investor-verification");
+    }
+  }, [user?.investorType, navigate]);
   if (!user) return null;
-
   const chooseInvestorType = async (type: InvestorType) => {
     try {
-      await setInvestorType(type); // Store this in user profile
+      console.log(type);
+      await setInvestorType(type);
       navigate(
         type === "personal"
           ? "/investor-verification"
@@ -35,10 +50,10 @@ export default function InvestorTypePage() {
     >
       <PageTransition>
         <FadeIn>
-          <div className="w-full max-w-4xl mx-auto bg-white border rounded-2xl shadow-md p-8 sm:p-10">
-            <div className="grid gap-6 sm:grid-cols-2">
+          <div className="w-full max-w-4xl mx-auto bg-white border rounded-2xl shadow-md p-6 sm:p-10">
+            <div className="grid gap-5 sm:gap-6 sm:grid-cols-2">
               {/* Personal Investor Card */}
-              <div className="border border-brand-light rounded-xl p-6 hover:shadow-md transition-all group hover:border-brand-primary">
+              <div className="border border-brand-light rounded-xl p-4 sm:p-6 hover:shadow-md transition-all group hover:border-brand-primary">
                 <div className="flex items-start mb-6">
                   <div className="w-14 h-14 rounded-full bg-brand-light text-brand-primary flex items-center justify-center">
                     <User className="h-7 w-7" />
@@ -55,12 +70,15 @@ export default function InvestorTypePage() {
 
                 <ul className="space-y-2 mb-6">
                   <li className="flex items-center">
+                    <BadgeDollarSign className="h-4 w-4 text-green-500 mr-2" />
                     <span>Invest with your personal funds</span>
                   </li>
                   <li className="flex items-center">
+                    <ShieldCheck className="h-4 w-4 text-green-500 mr-2" />
                     <span>Suitable for individual investors</span>
                   </li>
                   <li className="flex items-center">
+                    <FileSignature className="h-4 w-4 text-green-500 mr-2" />
                     <span>Streamlined verification process</span>
                   </li>
                 </ul>
@@ -69,8 +87,10 @@ export default function InvestorTypePage() {
                   whileHover={{ scale: 1.05, y: -1 }}
                   whileTap={{ scale: 0.98, y: 0 }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  className="w-full py-5 group-hover:bg-brand-primary transition-colors"
-                  onClick={() =>{ chooseInvestorType("personal"); navigate("/investor-verification")}}
+                  className="w-full text-base py-5 group-hover:bg-brand-primary transition-colors"
+                  onClick={() => {
+                    chooseInvestorType("personal");
+                  }}
                 >
                   Continue as Personal Investor{" "}
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -78,7 +98,7 @@ export default function InvestorTypePage() {
               </div>
 
               {/* Corporate Investor Card */}
-              <div className="border border-brand-light rounded-xl p-6 hover:shadow-md transition-all group hover:border-brand-primary">
+              <div className="border border-brand-light rounded-xl p-4 sm:p-6 hover:shadow-md transition-all group hover:border-brand-primary">
                 <div className="flex items-start mb-6">
                   <div className="w-14 h-14 rounded-full bg-brand-light text-brand-primary flex items-center justify-center">
                     <Building2 className="h-7 w-7" />
@@ -95,12 +115,15 @@ export default function InvestorTypePage() {
 
                 <ul className="space-y-2 mb-6">
                   <li className="flex items-center">
+                    <BadgeDollarSign className="h-4 w-4 text-brand-primary mr-2" />
                     <span>Invest on behalf of your company</span>
                   </li>
                   <li className="flex items-center">
+                    <FileSignature className="h-4 w-4 text-brand-primary mr-2" />
                     <span>Additional business documentation required</span>
                   </li>
                   <li className="flex items-center">
+                    <ShieldCheck className="h-4 w-4 text-brand-primary mr-2" />
                     <span>Access corporate-level investment opportunities</span>
                   </li>
                 </ul>
@@ -109,8 +132,10 @@ export default function InvestorTypePage() {
                   whileHover={{ scale: 1.05, y: -1 }}
                   whileTap={{ scale: 0.98, y: 0 }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  className="w-full py-5 group-hover:bg-brand-primary transition-colors"
-                  onClick={() => {chooseInvestorType("corporate"); navigate("/corporate-verification")}}
+                  className="w-full text-base py-5 group-hover:bg-brand-primary transition-colors"
+                  onClick={() => {
+                    chooseInvestorType("corporate");
+                  }}
                 >
                   Continue as Corporate Investor{" "}
                   <ArrowRight className="ml-2 h-4 w-4" />

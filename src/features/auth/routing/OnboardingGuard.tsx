@@ -84,6 +84,11 @@ export default function OnboardingGuard({ children }: PropsWithChildren) {
       return <>{children}</>;
     }
 
+    // Add this check to ensure investor can't revisit /investor-type
+    if (path === "/investor-type") {
+      return <Navigate to={getNextStep()} replace />;
+    }
+
     const isPersonal = investorType === "personal";
     const onPersonalVerify = path === "/investor-verification";
     const onCorporateVerify = path === "/corporate-verification";

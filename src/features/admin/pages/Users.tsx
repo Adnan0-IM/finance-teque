@@ -51,7 +51,7 @@ useEffect(() => {
                 EMAIL ADDRESS
               </TableHead>
               <TableHead className="border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right">
-                ROLE
+                ROLE/TYPE
               </TableHead>
               <TableHead className="border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right">
                 STATUS
@@ -88,7 +88,7 @@ useEffect(() => {
                     {u.email}
                   </TableCell>
                   <TableCell className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right">
-                    {u.role}
+                    {u.role === "investor" && u.investorType} {u.role === "investor" && u.investorType && "-"} {u.role}
                   </TableCell>
                   <TableCell className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right">
                     {u.verification?.status || "pending"}
