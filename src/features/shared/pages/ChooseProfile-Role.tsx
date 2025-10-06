@@ -46,10 +46,10 @@ export default function ProfileChoicePage() {
     >
       <PageTransition>
         <FadeIn>
-          <div className="w-full max-w-4xl mx-auto bg-white border rounded-2xl shadow-md p-8 sm:p-10">
-            <div className="grid gap-6 sm:grid-cols-2">
+          <div className="w-full max-w-4xl mx-auto bg-white border rounded-2xl shadow-md p-6 sm:p-10">
+            <div className="grid gap-5 sm:gap-6 sm:grid-cols-2">
               {/* Investor Card */}
-              <div className="border border-brand-light rounded-xl p-6 hover:shadow-md transition-all group hover:border-brand-primary">
+              <div className="border border-brand-light rounded-xl p-4 sm:p-6 hover:shadow-md transition-all group hover:border-brand-primary">
                 <div className="flex items-start mb-6">
                   <div className="w-14 h-14 rounded-full bg-brand-light text-brand-primary flex items-center justify-center">
                     <Coins className="h-7 w-7" />
@@ -83,7 +83,7 @@ export default function ProfileChoicePage() {
                   whileHover={{ scale: 1.05, y: -1 }}
                   whileTap={{ scale: 0.98, y: 0 }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  className="w-full py-5 group-hover:bg-brand-primary transition-colors"
+                  className="w-full text-base py-5 group-hover:bg-brand-primary transition-colors"
                   onClick={() => choose("investor")}
                 >
                   Become an Investor <ArrowRight className="ml-2 h-4 w-4" />
@@ -91,7 +91,7 @@ export default function ProfileChoicePage() {
               </div>
 
               {/* Startup Card */}
-              <div className="border border-brand-light rounded-xl p-6 hover:shadow-md transition-all group hover:border-brand-primary">
+              <div className="border border-brand-light rounded-xl p-4 sm:p-6 hover:shadow-md transition-all group hover:border-brand-primary">
                 <div className="flex items-start mb-6">
                   <div className="w-14 h-14 rounded-full bg-brand-light text-brand-primary flex items-center justify-center">
                     <Building className="h-7 w-7" />

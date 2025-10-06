@@ -94,7 +94,7 @@ export function BioDataStep({
                   <RadioGroup
                     onValueChange={field.onChange}
                     value={field.value ?? ""} // keep controlled
-                    className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                    className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-3"
                   >
                     <Label
                       htmlFor="age-adult"

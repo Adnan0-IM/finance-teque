@@ -151,7 +151,10 @@ export function StableFormField<
 
                   {hasFile && (
                     <div className="mt-3 flex items-center justify-between rounded-md border bg-white px-3 py-2">
-                      <div className="min-w-0">
+                      <div className="min-w-0 flex gap-1 sm:gap-4 items-center">
+                        <p className=" sm:hidden text-sm font-medium text-gray-900">
+                          {fileLike.name && fileLike.name?.length > 20 ? fileLike.name?.slice(0,20) : ""}
+                        </p>
                         <p className="hidden sm:block text-sm font-medium text-gray-900">
                           {fileLike.name}
                         </p>
