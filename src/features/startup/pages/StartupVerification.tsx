@@ -238,6 +238,7 @@ const [currentStep, setCurrentStep] = useState(0);
                       selectedState={selectedState}
                       selectedLga={selectedLga}
                       currentLGAs={currentLGAs}
+                      startup={true}
                     />
                   )}
 

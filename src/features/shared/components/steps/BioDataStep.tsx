@@ -27,6 +27,7 @@ type Props = {
   selectedState?: string;
   selectedLga?: string;
   currentLGAs: string[];
+  startup?: boolean;
 };
 
 export function BioDataStep({
@@ -35,6 +36,7 @@ export function BioDataStep({
   selectedState,
   selectedLga,
   currentLGAs,
+  startup,
 }: Props) {
   return (
     <AnimatePresence mode="wait">
@@ -81,78 +83,81 @@ export function BioDataStep({
             placeholder="name@example.com"
             type="email"
           />
-          <FormField
-            control={form.control}
-            name="ageBracket"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm leading-0 mb-2  sm:text-base">
-                  Are you 18 or older?{" "}
-                  <span className="text-destructive">*</span>
-                </FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    value={field.value ?? ""} // keep controlled
-                    className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-3"
-                  >
-                    <Label
-                      htmlFor="age-adult"
-                      className={cn(
-                        "flex cursor-pointer border items-center gap-2 py-3 max-h-12 px-4 rounded-lg",
-                        field.value === "adult"
-                          ? "bg-brand-primary/20 border-brand-primary"
-                          : "border-gray-300 bg-gray-100"
-                      )}
-                    >
-                      <RadioGroupItem
-                        id="age-adult"
-                        value="adult"
-                        className="sr-only"
-                      />
-                      <span className="text-sm sm:text-base flex gap-2 items-center">
-                        <SquareCheck
-                          size={20}
-                          className={cn(
-                            "text-gray-400",
-                            field.value === "adult" && "text-accent"
-                          )}
-                        />
-                        Yes, 18 or older
-                      </span>
-                    </Label>
 
-                    <Label
-                      htmlFor="age-minor"
-                      className={cn(
-                        "flex cursor-pointer border items-center gap-2 py-3 max-h-12 px-4 rounded-lg",
-                        field.value === "minor"
-                          ? "bg-brand-primary/20 border-brand-primary"
-                          : "border-gray-300 bg-gray-100"
-                      )}
+          {!startup && (
+            <FormField
+              control={form.control}
+              name="ageBracket"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm leading-0 mb-2  sm:text-base">
+                    Are you 18 or older?{" "}
+                    <span className="text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      value={field.value ?? ""} // keep controlled
+                      className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-3"
                     >
-                      <RadioGroupItem
-                        id="age-minor"
-                        value="minor"
-                        className="sr-only"
-                      />
-                      <span className="text-sm sm:text-base flex gap-2 items-center">
-                        <SquareCheck
-                          size={20}
-                          className={cn(
-                            "text-gray-400",
-                            field.value === "minor" && "text-accent"
-                          )}
+                      <Label
+                        htmlFor="age-adult"
+                        className={cn(
+                          "flex cursor-pointer border items-center gap-2 py-3 max-h-12 px-4 rounded-lg",
+                          field.value === "adult"
+                            ? "bg-brand-primary/20 border-brand-primary"
+                            : "border-gray-300 bg-gray-100"
+                        )}
+                      >
+                        <RadioGroupItem
+                          id="age-adult"
+                          value="adult"
+                          className="sr-only"
                         />
-                        No, under 18
-                      </span>
-                    </Label>
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage className="text-xs sm:text-sm" />
-              </FormItem>
-            )}
-          />
+                        <span className="text-sm sm:text-base flex gap-2 items-center">
+                          <SquareCheck
+                            size={20}
+                            className={cn(
+                              "text-gray-400",
+                              field.value === "adult" && "text-accent"
+                            )}
+                          />
+                          Yes, 18 or older
+                        </span>
+                      </Label>
+
+                      <Label
+                        htmlFor="age-minor"
+                        className={cn(
+                          "flex cursor-pointer border items-center gap-2 py-3 max-h-12 px-4 rounded-lg",
+                          field.value === "minor"
+                            ? "bg-brand-primary/20 border-brand-primary"
+                            : "border-gray-300 bg-gray-100"
+                        )}
+                      >
+                        <RadioGroupItem
+                          id="age-minor"
+                          value="minor"
+                          className="sr-only"
+                        />
+                        <span className="text-sm sm:text-base flex gap-2 items-center">
+                          <SquareCheck
+                            size={20}
+                            className={cn(
+                              "text-gray-400",
+                              field.value === "minor" && "text-accent"
+                            )}
+                          />
+                          No, under 18
+                        </span>
+                      </Label>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage className="text-xs sm:text-sm" />
+                </FormItem>
+              )}
+            />
+          )}
           <StableFormField
             label="Date of Birth"
             name="dateOfBirth"
