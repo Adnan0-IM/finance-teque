@@ -15,7 +15,7 @@ import Verification from "@/features/admin/pages/Verification";
 import UserVerificationDetails from "@/features/admin/pages/UserVerificationDetails";
 import ManageCarouselPage from "@/features/admin/carousel/pages/ManageCarouselPage";
 import InvestorTypePage from "@/features/investors/pages/InvestorTypePage";
-import CorporateVerification from "@/features/investors/corporate/pages/corporateVerification";
+import CorporateVerification from "@/features/investors/corporate/pages/CorporateVerification";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const AboutPage = lazy(() =>
@@ -209,9 +209,9 @@ export default function AppRoutes() {
             path="/investor-type"
             element={
               <ProtectedRoute>
-                {/* <OnboardingGuard> */}
+                <OnboardingGuard>
                   <InvestorTypePage />
-                {/* </OnboardingGuard> */}
+                </OnboardingGuard>
               </ProtectedRoute>
             }
           />
@@ -219,9 +219,9 @@ export default function AppRoutes() {
             path="/corporate-verification"
             element={
               <ProtectedRoute>
-                {/* <OnboardingGuard> */}
+                <OnboardingGuard>
                   <CorporateVerification />
-                {/* </OnboardingGuard> */}
+                </OnboardingGuard>
               </ProtectedRoute>
             }
           />
@@ -230,11 +230,11 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute>
                 <RoleGuard allow={["investor"]}>
-                  {/* <OnboardingGuard> */}
+                  <OnboardingGuard>
                     <Suspense fallback={<Loader />}>
                       <InvestorVerificationPage />
                     </Suspense>
-                  {/* </OnboardingGuard> */}
+                  </OnboardingGuard>
                 </RoleGuard>
               </ProtectedRoute>
             }
