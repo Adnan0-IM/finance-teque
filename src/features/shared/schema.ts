@@ -8,14 +8,14 @@ const allowedImageTypes = ["image/jpeg", "image/png"];
 const allowedDocTypes = ["application/pdf", ...allowedImageTypes];
 const maxFileSize = 5 * 1024 * 1024; // 5MB
 
-const fileDocSchema = z
+export const fileDocSchema = z
   .instanceof(File, { message: "File is required" })
   .refine((f) => f.size <= maxFileSize, { message: "Max file size is 5MB" })
   .refine((f) => allowedDocTypes.includes(f.type), {
     message: "Allowed types: PDF, JPG, PNG",
   });
 
-const fileImageSchema = z
+export const fileImageSchema = z
   .instanceof(File, { message: "File is required" })
   .refine((f) => f.size <= maxFileSize, { message: "Max file size is 5MB" })
   .refine((f) => allowedImageTypes.includes(f.type), {
@@ -38,9 +38,7 @@ export const formSchema = z
       }),
     email: z.string().email("Valid email is required"),
     ageBracket: z.enum(["adult", "minor"], "Please select an option"),
-    dateOfBirth: z
-      .string()
-      .min(1, "Date of birth is required"),
+    dateOfBirth: z.string().min(1, "Date of birth is required"),
     localGovernment: z
       .string()
       .min(2, "Local government must be atleast 2 characters"),
@@ -164,7 +162,7 @@ export const steps: StepDef[] = [
       "residentialAddress",
       "ninNumber",
       "stateOfResidence",
-      "ageBracket"
+      "ageBracket",
     ],
   },
   {

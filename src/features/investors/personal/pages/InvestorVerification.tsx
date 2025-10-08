@@ -13,14 +13,13 @@ import PageTransition from "@/components/animations/PageTransition";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { LoaderCircle } from "lucide-react";
 import { stateAndLga } from "@/utils/stateAndLga";
+import { nigerianBanks } from "@/utils/banks";
 import { omitKeys } from "@/utils/omitKeys";
 import { formSchema, steps, type FormValues } from "../../../shared/schema";
-
 import OnboardingLayout from "@/components/layout/OnboardingLayout";
 import { BioDataStep } from "../../../shared/components/steps/BioDataStep";
 import { NextOfKinStep } from "../../../shared/components/steps/NextOfKinStep";
 import { AccountDetailsStep } from "../../../shared/components/steps/AccountDetailsStep";
-import { nigerianBanks } from "@/utils/banks";
 import { KYCDocumentsStep } from "../../../shared/components/steps/KYCDocumentsStep";
 
 export function InvestorVerificationPage() {
