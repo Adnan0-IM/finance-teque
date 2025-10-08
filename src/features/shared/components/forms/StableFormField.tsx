@@ -21,6 +21,7 @@ type BaseProps<
   type?: string;
   required?: boolean;
   className?: string;
+  formItemClassName?: string;
   description?: string;
   accept?: string;
   isFileInput?: boolean;
@@ -40,6 +41,7 @@ export function StableFormField<
   type = "text",
   required = true,
   className = "",
+  formItemClassName = "",
   description,
   accept,
   isFileInput = false,
@@ -66,7 +68,7 @@ export function StableFormField<
           : "";
 
         return (
-          <FormItem className="min-h-[80px]">
+          <FormItem className={`min-h-[80px] ${formItemClassName}`}>
             {isFileInput ? (
               <FormLabel htmlFor={inputId} className="text-sm sm:text-base">
                 {label}{" "}
@@ -87,6 +89,7 @@ export function StableFormField<
 
             <FormControl>
               {isFileInput ? (
+               
                 <div className="mt-2">
                   <input
                     id={inputId}
@@ -104,6 +107,7 @@ export function StableFormField<
                   <div
                     role="button"
                     tabIndex={0}
+                    aria-label={`Upload ${label}`}
                     onClick={() => document.getElementById(inputId)?.click()}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
@@ -123,61 +127,57 @@ export function StableFormField<
                       if (file) onChange(file);
                     }}
                     className={[
-                      "flex flex-col items-center justify-center w-full",
-                      "rounded-lg border-2 border-dashed transition",
+                      "flex w-full flex-col items-center justify-center",
+                      "rounded-xl border-2 border-dashed transition",
                       dragOver
                         ? "border-brand-primary bg-brand-primary/5"
                         : "border-gray-300 bg-gray-50 hover:bg-white",
-                      "px-4 py-4  cursor-pointer",
+                      "px-3 py-6 sm:px-4 sm:py-6 cursor-pointer",
+                      "min-h-[92px]",
                     ].join(" ")}
                   >
                     <Upload
-                      className={`mb-2 ${
-                        dragOver ? "text-brand-primary" : "text-gray-500"
-                      }`}
-                      size={22}
+                      className={`mb-2 ${dragOver ? "text-brand-primary" : "text-gray-500"} h-6 w-6 sm:h-5 sm:w-5`}
                     />
-                    <p className="text-xs sm:text-sm text-gray-700 text-center">
-                      <span className="font-medium">Click to upload</span> or
-                      drag and drop
+                    <p className="text-sm sm:text-base text-gray-700 text-center">
+                      <span className="font-medium sm:hidden">Tap to upload</span>
+                      <span className="hidden sm:inline font-medium">Click to upload</span>
+                      <span className="hidden sm:inline"> or drag and drop</span>
                     </p>
                     {accept && (
-                      <p className="text-[11px] sm:text-xs text-muted-foreground mt-1">
-                        Allowed: {accept.replaceAll(".", "").toUpperCase()} •
-                        Max 5MB
+                      <p className="text-[11px] sm:text-xs text-muted-foreground mt-1 text-center">
+                        Allowed: {accept.replaceAll(".", "").toUpperCase()} • Max 5MB
                       </p>
                     )}
                   </div>
 
                   {hasFile && (
-                    <div className="mt-3 flex items-center justify-between rounded-md border bg-white px-3 py-2">
-                      <div className="min-w-0 flex gap-1 sm:gap-4 items-center">
-                        <p className=" sm:hidden text-sm font-medium text-gray-900">
-                          {fileLike.name && fileLike.name?.length > 20 ? fileLike.name?.slice(0,20) : ""}
-                        </p>
-                        <p className="hidden sm:block text-sm font-medium text-gray-900">
+                    <div className="mt-3 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 rounded-md border bg-white px-3 py-2">
+                      <div className="min-w-0 max-w-full sm:max-w-[60%]">
+                        <p className="text-sm font-medium text-gray-900 truncate">
                           {fileLike.name}
                         </p>
-                        <p className="text-xs text-muted-foreground">
-                          {prettySize}
-                        </p>
+                        <p className="text-xs text-muted-foreground">{prettySize}</p>
                       </div>
+                      <div className="flex-1" />
                       <button
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
                           onChange(null);
                         }}
-                        className="ml-3 inline-flex items-center rounded-md border px-2 py-1 text-xs text-gray-600 hover:text-red-500 hover:bg-red-50"
+                        className="w-full sm:w-auto inline-flex items-center justify-center rounded-md border px-3 py-1.5 text-sm text-gray-700 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition"
                         aria-label="Remove file"
                         title="Remove file"
                       >
-                        <X size={14} className="mr-1" />
+                        <X className="mr-1 h-4 w-4" />
                         Remove
                       </button>
                     </div>
                   )}
                 </div>
+
+
               ) : isPhone ? (
                 <Input
                   placeholder={placeholder}
