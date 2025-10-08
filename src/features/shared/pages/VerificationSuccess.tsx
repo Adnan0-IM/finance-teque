@@ -5,18 +5,29 @@ import { useAuth } from "@/features/auth/contexts/AuthContext";
 import PageTransition from "@/components/animations/PageTransition";
 import { FadeIn } from "@/components/animations/FadeIn";
 import OnboardingLayout from "@/components/layout/OnboardingLayout";
+import { useEffect } from "react";
 
 export function VerificationSuccessPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
+  useEffect(() => {
+    if (user?.verification?.rejectionReason) {
+      if (user.investorType === "personal") {
+        navigate("/investor-verification");
+      } else if (user.investorType === "corporate") {
+        navigate("/corporate-verification");
+      }
+    }
+  }, [user?.investorType, user?.verification?.rejectionReason, navigate]);
   return (
     <OnboardingLayout
       pageTitle="Verification Submitted"
       pageDescription="Thanks for submitting your details. We’ll review and get back to you shortly."
     >
       <PageTransition>
-        <FadeIn>\
+        <FadeIn>
+          \
           <div className="max-w-2xl mx-auto px-4">
             <div className="bg-white rounded-md md:rounded-xl shadow-sm border border-brand-accent/20 p-8 text-center">
               <div className="flex justify-center mb-4">
@@ -33,7 +44,7 @@ export function VerificationSuccessPage() {
 
               <div className="flex gap-3 justify-center">
                 <Button
-                disabled={!user?.isVerified}
+                  disabled={!user?.isVerified}
                   onClick={() => navigate("/dashboard")}
                   className="bg-brand-primary hover:bg-brand-primary-dark"
                 >
@@ -46,7 +57,10 @@ export function VerificationSuccessPage() {
 
               <p className="text-xs text-gray-500 mt-6">
                 Need help? Contact{" "}
-                <a className="hover:text-brand-primary transition-colors" href="mailto:support@financetequecv.com">
+                <a
+                  className="hover:text-brand-primary transition-colors"
+                  href="mailto:support@financetequecv.com"
+                >
                   support@financetequecv.com
                 </a>
               </p>
