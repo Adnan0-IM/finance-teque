@@ -41,7 +41,7 @@ export type CorporateCompany = {
   industry: string;
   address: string;
   state: string;
-  localGovernmet: string;
+  localGovernment: string;
   phone: string;
   email: string;
   logo?: string;
@@ -68,7 +68,7 @@ export type CorporateSignatory = {
   phoneNumber: string;
   bvnNumber?: string;
   email: string;
-  signatoryId: string;
+  idDocument: string;
 };
 
 export type CorporateReferral = { officerName?: string; contact?: string };
@@ -77,7 +77,7 @@ export type CorporateVerification = {
   company: CorporateCompany;
   bankDetails: CorporateBankDetails;
   documents: CorporateDocuments;
-  signatories: CorporateSignatory;
+  signatories: CorporateSignatory[];
   referral?: CorporateReferral;
 };
 

@@ -82,13 +82,25 @@ const UserVerificationDetails = () => {
 
   const openPreview = useCallback((title: string, url?: string) => {
     if (!url) return;
-    const lower = url.split("?")[0].toLowerCase();
+
+    // Convert relative URLs to absolute
+    let fullUrl = url;
+    if (url && !url.startsWith("http") && !url.startsWith("data:")) {
+      // If it's not absolute and not a data URL, prepend the server origin
+      fullUrl = `${process.env.VITE_API_URL || "http://localhost:3000"}${
+        url.startsWith("/") ? "" : "/"
+      }${url}`;
+    }
+
+    console.log("Preview URL:", fullUrl); // For debugging
+
+    const lower = fullUrl.split("?")[0].toLowerCase();
     const kind: "image" | "pdf" | "other" = lower.endsWith(".pdf")
       ? "pdf"
       : /\.(png|jpe?g|gif|webp|bmp|svg)$/.test(lower)
       ? "image"
       : "other";
-    setPreview({ url, kind, title });
+    setPreview({ url: fullUrl, kind, title });
   }, []);
 
   const personal = verification?.personal;
@@ -136,6 +148,35 @@ const UserVerificationDetails = () => {
       },
     ],
     [docs]
+  );
+
+  // Corporate-derived values
+  const corporate = verification?.corporate;
+  console.log(corporate);
+  const company = corporate?.company;
+  const corpBank = corporate?.bankDetails;
+  const corpDocs = corporate?.documents;
+  const signatory = corporate?.signatories;
+  // Corporate document sources
+  const corpDocSources = useMemo(
+    () => [
+      {
+        key: "certificateOfIncorporation",
+        label: "Certificate of Incorporation",
+        url: corpDocs?.certificateOfIncorporation,
+      },
+      {
+        key: "utilityBill",
+        label: "Utility Bill",
+        url: corpDocs?.utilityBill,
+      },
+      {
+        key: "tinCertificate",
+        label: "TIN Certificate",
+        url: corpDocs?.tinCertificate,
+      },
+    ],
+    [corpDocs]
   );
 
   if (!userId) {
@@ -224,7 +265,411 @@ const UserVerificationDetails = () => {
         return <Clock className="h-5 w-5 text-yellow-600" />;
     }
   };
+  if (user.investorType === "corporate")
+    return (
+      <DashboardNavigation>
+        <div className="space-y-6 max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="">
+            <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+          </div>
 
+          <div className="flex items-center justify-between bg-card shadow-sm border border-brand-accent/20 gap-2 rounded-lg p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <h1 className="text-lg sm:text-2xl font-bold">
+                    User Verification
+                  </h1>
+                  {getStatusIcon()}
+                </div>
+                <p className="text-muted-foreground capitalize">
+                  {user?.name || user?.email} • {user.investorType} •{" "}
+                  {user?.role}
+                </p>
+              </div>
+              <Badge
+                variant={
+                  status === "approved"
+                    ? "default"
+                    : status === "rejected"
+                    ? "destructive"
+                    : "secondary"
+                }
+                className="text-sm px-3 py-1"
+              >
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+              </Badge>
+            </div>
+
+            {status === "pending" && (
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button
+                  disabled={verifying}
+                  onClick={onApprove}
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  {verifying ? "Processing..." : "Approve"}
+                </Button>
+                <Button
+                  variant="destructive"
+                  disabled={verifying}
+                  onClick={() => setRejectOpen(true)}
+                >
+                  Reject
+                </Button>
+              </div>
+            )}
+          </div>
+
+          {/* Accordion sections */}
+          <Accordion
+            type="multiple"
+            className="space-y-4"
+            defaultValue={[
+              "profile",
+              "company",
+              "bank",
+              "documents",
+              "signatory",
+              "verification",
+            ]}
+          >
+            {/* Profile */}
+            <AccordionItem value="profile" className="border rounded-lg">
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                    <User className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="font-semibold">Profile Information</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Basic account details
+                    </p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <InfoField label="Full Name" value={user?.name} />
+                  <InfoField label="Email Address" value={user?.email} />
+                  <InfoField label="Phone Number" value={user?.phone} />
+                  <InfoField label="Role" value={user?.role} />
+                  <InfoField
+                    label="Account Created"
+                    value={
+                      user?.createdAt
+                        ? new Date(user.createdAt).toLocaleDateString()
+                        : undefined
+                    }
+                  />
+                  <InfoField
+                    label="Verified Status"
+                    value={user?.isVerified ? "Yes" : "No"}
+                  />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Company Info */}
+            <AccordionItem value="company" className="border rounded-lg">
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-lg bg-green-100 flex items-center justify-center">
+                    <User className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="font-semibold">Company Information</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Registration and contact details
+                    </p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <InfoField label="Company Name" value={company?.name} />
+                  <InfoField
+                    label="Incorporation Number"
+                    value={company?.incorporationNumber}
+                  />
+                  <InfoField
+                    label="Date of Incorporation"
+                    value={company?.dateOfIncorporation}
+                  />
+                  <InfoField label="State" value={company?.state} />
+                  <InfoField
+                    label="Local Government"
+                    value={company?.localGovernment}
+                  />
+                  <InfoField label="Phone" value={company?.phone} />
+                  <InfoField label="Email" value={company?.email} />
+                  <div className="lg:col-span-2">
+                    <InfoField label="Address" value={company?.address} />
+                  </div>
+                  {company?.logo && (
+                    <div className="md:col-span-2 lg:col-span-3">
+                      <DocumentCard
+                        label="Company Logo"
+                        url={company?.logo}
+                        onView={() =>
+                          openPreview("Company Logo", company?.logo)
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Bank details */}
+            <AccordionItem value="bank" className="border rounded-lg">
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-lg bg-orange-100 flex items-center justify-center">
+                    <CreditCard className="h-5 w-5 text-orange-600" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="font-semibold">Bank Details</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Corporate financial account
+                    </p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <InfoField
+                    label="Account Name"
+                    value={corpBank?.accountName}
+                  />
+                  <InfoField label="Bank Name" value={corpBank?.bankName} />
+                  <InfoField
+                    label="Account Type"
+                    value={corpBank?.accountType}
+                  />
+                  <SensitiveField
+                    label="Account Number"
+                    value={corpBank?.accountNumber}
+                    shown={showAcct}
+                    allowToggle={true}
+                    onToggle={() => setShowAcct((s) => !s)}
+                    onCopy={copyToClipboard}
+                    maskFn={masked}
+                  />
+                  <SensitiveField
+                    label="BVN Number"
+                    value={corpBank?.bvnNumber}
+                    shown={showBvn}
+                    allowToggle={true}
+                    onToggle={() => setShowBvn((s) => !s)}
+                    onCopy={copyToClipboard}
+                    maskFn={masked}
+                  />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Signatory */}
+            <AccordionItem value="signatory" className="border rounded-lg">
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-lg bg-purple-100 flex items-center justify-center">
+                    <Users className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="font-semibold">Authorized Signatory</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Officer authorized to operate the account
+                    </p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              {Array.isArray(signatory) && signatory.length > 0 ? (
+                signatory.map((sig, index) => (
+                  <AccordionContent className="px-5 pb-6" key={index}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      <InfoField label="Full Name" value={sig?.fullName} />
+                      <InfoField label="Position" value={sig?.position} />
+                      <InfoField
+                        label="Phone Number"
+                        value={sig?.phoneNumber}
+                      />
+                      <InfoField label="Email" value={sig?.email} />
+                      <SensitiveField
+                        label="BVN Number"
+                        value={sig?.bvnNumber}
+                        shown={false}
+                        allowToggle={true}
+                        onToggle={() => {}}
+                        onCopy={copyToClipboard}
+                        maskFn={masked}
+                      />
+                      <div className="md:col-span-2 lg:col-span-3">
+                        <DocumentCard
+                          label="Signatory ID"
+                          url={sig?.idDocument}
+                          onView={() =>
+                            openPreview("Signatory ID", sig?.idDocument)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </AccordionContent>
+                ))
+              ) : (
+                <AccordionContent className="px-5 pb-6">
+                  <p className="text-muted-foreground">
+                    No signatory information provided
+                  </p>
+                </AccordionContent>
+              )}
+            </AccordionItem>
+
+            {/* Documents */}
+            <AccordionItem value="documents" className="border rounded-lg">
+              <AccordionTrigger className="px-5 py-4 mb-4 hover:no-underline">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-lg bg-red-100 flex items-center justify-center">
+                    <FileText className="h-5 w-5 text-red-600" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="font-semibold">Documents</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Corporate verification documents
+                    </p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {corpDocSources.map(
+                    (doc) =>
+                      doc.url && (
+                        <DocumentCard
+                          key={doc.key}
+                          label={doc.label}
+                          url={doc.url}
+                          onView={() => openPreview(doc.label, doc.url)}
+                        />
+                      )
+                  )}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Activity / verification meta */}
+            <AccordionItem value="verification" className="border rounded-lg">
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
+                    <Activity className="h-5 w-5 text-gray-600" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="font-semibold">Verification Activity</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Review history and timeline
+                    </p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-6">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <InfoField
+                      label="Submitted At"
+                      value={
+                        submittedAt
+                          ? new Date(submittedAt).toLocaleString()
+                          : undefined
+                      }
+                    />
+                    <InfoField
+                      label="Reviewed At"
+                      value={
+                        reviewedAt
+                          ? new Date(reviewedAt).toLocaleString()
+                          : undefined
+                      }
+                    />
+                    <InfoField label="Reviewed By" value={reviewedBy} />
+                  </div>
+
+                  {status === "rejected" && rejectionReason && (
+                    <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                      <h4 className="font-medium text-red-900 mb-2">
+                        Rejection Reason
+                      </h4>
+                      <p className="text-red-700">{rejectionReason}</p>
+                    </div>
+                  )}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+          {/* Reject dialog */}
+          <RejectDialog
+            open={rejectOpen}
+            onOpenChange={setRejectOpen}
+            onConfirm={onConfirmReject}
+            loading={verifying}
+          />
+        </div>
+
+        {/* Preview dialog */}
+        <Dialog open={!!preview} onOpenChange={(o) => !o && setPreview(null)}>
+          <DialogContent className="max-w-4xl max-h-[90vh]">
+            <DialogHeader>
+              <DialogTitle>{preview?.title || "Document"}</DialogTitle>
+            </DialogHeader>
+            {preview && (
+              <div className="w-full h-[70vh]">
+                {preview?.kind === "image" ? (
+                  <img
+                    src={preview.url}
+                    alt={preview.title}
+                    className="max-h-[70vh] w-full object-contain rounded-lg"
+                  />
+                ) : preview?.kind === "pdf" ? (
+                  <iframe
+                    src={preview.url}
+                    title={preview.title}
+                    className="w-full h-[70vh] rounded-lg border"
+                  />
+                ) : preview ? (
+                  <div className="text-center py-12 space-y-4">
+                    <FileText className="h-16 w-16 text-muted-foreground mx-auto" />
+                    <div>
+                      <h3 className="font-medium">Preview not available</h3>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        This file type cannot be previewed. Download to view the
+                        content.
+                      </p>
+                    </div>
+                    <Button asChild>
+                      <a
+                        href={preview.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download
+                      >
+                        <Download className="h-4 w-4 mr-2" />
+                        Download File
+                      </a>
+                    </Button>
+                  </div>
+                ) : null}
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+      </DashboardNavigation>
+    );
   return (
     <DashboardNavigation>
       <div className=" space-y-6 max-w-6xl mx-auto">
