@@ -6,9 +6,8 @@ import VerificationToolbar from "../components/verification/Toolbar";
 import VerificationTable from "../components/verification/Table";
 import Pagination from "../components/verification/Pagination";
 import RejectDialog from "../components/verification/RejectDialog";
-import { useLocation, useNavigate,  } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import type { User } from "@/types/users";
-
 
 const Verification = () => {
   // Filters and pagination
@@ -17,7 +16,9 @@ const Verification = () => {
   const [limit, setLimit] = useState(20);
   const [search, setSearch] = useState("");
   const [q, setQ] = useState<string | undefined>(undefined);
-  const [role, setRole] = useState<User["role"] >("investor")
+  // Define a new type that includes "all" as a valid option
+  type RoleFilter = User["role"] | "all";
+  const [role, setRole] = useState<RoleFilter>("investor");
 
   // Rejection dialog state
   const [rejectOpen, setRejectOpen] = useState(false);
@@ -25,11 +26,16 @@ const Verification = () => {
 
   const navigate = useNavigate();
 
-const location = useLocation()
-const value = location.search.replace("?", "").replace("role=", "")
-useEffect(() => {
-  setRole(value as User["role"])
-},[value])
+  const location = useLocation();
+  const value = location.search.replace("?", "").replace("role=", "");
+  useEffect(() => {
+    if (
+      value &&
+      (value === "investor" || value === "startup" || value === "all")
+    ) {
+      setRole(value as RoleFilter);
+    }
+  }, [value]);
   // Debounce search -> q
   useEffect(() => {
     const id = setTimeout(() => {
@@ -41,10 +47,30 @@ useEffect(() => {
   }, [search]);
 
   // Build query options
-  const options = useMemo(
-    () => ({ page, limit, status, q }),
-    [page, limit, status, q]
-  );
+  const options = useMemo(() => {
+    // Create the base options object
+    const opts: {
+      page: number;
+      limit: number;
+      q?: string;
+      status?: optionsType["status"];
+    } = {
+      page,
+      limit,
+    };
+
+    // Only add status to query if it's defined
+    if (status) {
+      opts.status = status;
+    }
+
+    // Add search query if defined
+    if (q) {
+      opts.q = q;
+    }
+
+    return opts;
+  }, [page, limit, status, q]);
 
   // Data + actions
   const { data, isPending, isFetching, isError, error } = useUsers(options);
@@ -53,9 +79,23 @@ useEffect(() => {
   const users = data?.users ?? [];
   const pagination = data?.pagination;
 
-  const filteredUsersWithoutAdmin = users.filter(users => users.role !== "admin")
-  const filteredUsersByRole = filteredUsersWithoutAdmin.filter(users => users.role === role)
-  const filteredSubmittedVerificationUsers = filteredUsersByRole.filter(users => users.verification?.submittedAt)
+  // First filter out admin users
+  const filteredUsersWithoutAdmin = users.filter(
+    (user) => user.role !== "admin"
+  );
+
+  // Then filter by role - handle "all" as a special case
+  const filteredUsersByRole =
+    role === "all"
+      ? filteredUsersWithoutAdmin.filter(
+          (user) => user.role === "investor" || user.role === "startup"
+        )
+      : filteredUsersWithoutAdmin.filter((user) => user.role === role);
+
+  // Finally, filter by verification submission
+  const filteredSubmittedVerificationUsers = filteredUsersByRole.filter(
+    (user) => user.verification?.submittedAt
+  );
   // Handlers
   const onApprove = useCallback(
     (userId: string) => {
@@ -63,7 +103,7 @@ useEffect(() => {
     },
     [verifyUser]
   );
- 
+
   const onReject = useCallback((userId: string) => {
     setRejectUserId(userId);
     setRejectOpen(true);

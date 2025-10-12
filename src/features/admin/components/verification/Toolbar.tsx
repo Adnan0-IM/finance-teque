@@ -12,13 +12,16 @@ import type { User } from "@/types/users";
 import { Search } from "lucide-react";
 import type { SetStateAction } from "react";
 
+// Define a type that includes "all" for role filtering
+type RoleFilter = User["role"] | "all";
+
 type ToolbarProps = {
   search: string;
   setSearch: (v: string) => void;
   status: optionsType["status"];
   setStatus: (v: optionsType["status"]) => void;
-  role?: User["role"];
-  setRole?: React.Dispatch<SetStateAction<User["role"]>>;
+  role?: RoleFilter;
+  setRole?: React.Dispatch<SetStateAction<RoleFilter>>;
 };
 
 const VerificationToolbar = ({
@@ -34,13 +37,19 @@ const VerificationToolbar = ({
       <div className="grid gap-1.5">
         <Label htmlFor="status">Status</Label>
         <Select
-          value={status ?? ""}
-          onValueChange={(v) => setStatus((v as optionsType["status"]) || "")}
+          value={status || "all"}
+          onValueChange={(v) => {
+            // If "all" is selected, pass undefined to setStatus
+            const value =
+              v === "all" ? undefined : (v as optionsType["status"]);
+            setStatus(value);
+          }}
         >
           <SelectTrigger id="status" className="w-44">
             <SelectValue placeholder="Filter status" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="all">All</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="rejected">Rejected</SelectItem>
@@ -49,17 +58,25 @@ const VerificationToolbar = ({
       </div>
 
       <div className="grid gap-1.5">
-        <Label htmlFor="role">Sort By</Label>
+        <Label htmlFor="role">Filter By</Label>
         <Select
-          value={role}
-          onValueChange={(v) => setRole?.(v as User["role"])}
+          value={role || "all"}
+          onValueChange={(v) => {
+            if (v === "all") {
+              // Signal to parent component that we want to see all roles
+              setRole?.("all" as RoleFilter);
+            } else if (v === "investor" || v === "startup") {
+              setRole?.(v as User["role"]);
+            }
+          }}
         >
           <SelectTrigger id="role" className="w-36">
             <SelectValue placeholder="Filter role" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="investor">investor</SelectItem>
-            <SelectItem value="startup">startup</SelectItem>
+            <SelectItem value="all">All Roles</SelectItem>
+            <SelectItem value="investor">Investor</SelectItem>
+            <SelectItem value="startup">Startup</SelectItem>
           </SelectContent>
         </Select>
       </div>
